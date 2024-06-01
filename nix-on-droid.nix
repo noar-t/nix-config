@@ -25,6 +25,7 @@
     htop
     man
     #neovim
+    openssh
     tmux
     unzip
     vim
