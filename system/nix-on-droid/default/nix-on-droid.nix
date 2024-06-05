@@ -27,6 +27,7 @@
     #neovim
     openssh
     tmux
+	tree
     unzip
     vim
     zip

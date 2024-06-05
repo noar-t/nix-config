@@ -19,7 +19,7 @@
   outputs = { self, nixpkgs, nix-on-droid, home-manager }: {
 
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-      modules = [ ./nix-on-droid.nix ];
+      modules = [ ./system/nix-on-droid/default/nix-on-droid.nix ];
     };
 
   };
