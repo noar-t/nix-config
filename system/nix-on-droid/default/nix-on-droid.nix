@@ -17,6 +17,7 @@
     xz
 
     # User added
+
     elmPackages.elm
     eza
     fish
@@ -26,10 +27,13 @@
     man
     #neovim
     openssh
+	ps
+	python3
     tmux
 	tree
     unzip
     vim
+	which
     zip
   ];
 
