@@ -18,14 +18,24 @@
 
   outputs = { self, nixpkgs, nix-on-droid, home-manager }: {
     nixosConfigurations = {
+      # Home server
       rinsler = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./system/nixos/rinsler/configuration.nix
         ];
       };
+
+      # Gaming desktop
+      raiden = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./system/nixos/raiden/configuration.nix
+        ];
+      };
     };
 
+    # Galaxy Tab S8+
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
       modules = [ ./system/nix-on-droid/default/nix-on-droid.nix ];
     };
