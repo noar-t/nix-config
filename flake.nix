@@ -1,5 +1,5 @@
 {
-  description = "Basic example of Nix-on-Droid system config.";
+  description = "flake for nix-on-droid and nix-os devices/hosts";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
@@ -17,10 +17,17 @@
   };
 
   outputs = { self, nixpkgs, nix-on-droid, home-manager }: {
+    nixosConfigurations = {
+      rinsler = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./system/nixos/rinsler/configuration.nix
+        ];
+      };
+    };
 
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
       modules = [ ./system/nix-on-droid/default/nix-on-droid.nix ];
     };
-
   };
 }
