@@ -22,7 +22,7 @@
       rinsler = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./system/nixos/rinsler/configuration.nix
+          ./host/nixos/rinsler/configuration.nix
         ];
       };
 
@@ -30,14 +30,14 @@
       raiden = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./system/nixos/raiden/configuration.nix
+          ./host/nixos/raiden/configuration.nix
         ];
       };
     };
 
     # Galaxy Tab S8+
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-      modules = [ ./system/nix-on-droid/default/nix-on-droid.nix ];
+      modules = [ ./host/nix-on-droid/default/nix-on-droid.nix ];
     };
   };
 }
