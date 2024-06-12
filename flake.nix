@@ -1,5 +1,5 @@
 {
-  description = "flake for nix-on-droid and nix-os devices/hosts";
+  description = "flake for nix-on-droid and nix-os devices/hostss";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
@@ -22,7 +22,14 @@
       rinsler = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./host/nixos/rinsler/configuration.nix
+          ./hosts/nixos/rinsler/configuration.nix
+          # TODO replace with common module
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useUserPackages = true;
+            home-manager.useGlobalPkgs = true;
+            home-manager.users.noah = import ./common/home-manager/home.nix;
+          }
         ];
       };
 
@@ -30,14 +37,14 @@
       raiden = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./host/nixos/raiden/configuration.nix
+          ./hosts/nixos/raiden/configuration.nix
         ];
       };
     };
 
     # Galaxy Tab S8+
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-      modules = [ ./host/nix-on-droid/default/nix-on-droid.nix ];
+      modules = [ ./hosts/nix-on-droid/default/nix-on-droid.nix ];
     };
   };
 }
