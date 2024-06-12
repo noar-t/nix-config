@@ -36,11 +36,15 @@
 
 	taps = [
 	  "nikitabobko/tap"     # aerospace
-	  "felixkratz/formulae" # sketchybar
+	  "felixkratz/formulae" # sketchybar + borders
 	];
 
 	brews = [
 	  "sketchybar" # i3bar like alternative
+	  {
+	    name = "borders";
+		start_service = true;
+	  }
 	];
 
 	# TODO zap
@@ -60,5 +64,7 @@
 	  "visual-studio-code" # editor, do I even want this?
 	  "vlc"                # media player
 	];
+
+
   };
 }
