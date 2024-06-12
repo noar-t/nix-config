@@ -14,9 +14,14 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+	nix-darwin = {
+	  url = "github:LnL7/nix-darwin";
+	  inputs.nixpkgs.follows = "nixpkgs";
+	};
   };
 
-  outputs = { self, nixpkgs, nix-on-droid, home-manager }: {
+  outputs = { self, nixpkgs, nix-on-droid, home-manager, nix-darwin }: {
     nixosConfigurations = {
       # Home server
       rinsler = nixpkgs.lib.nixosSystem {
@@ -41,6 +46,16 @@
         ];
       };
     };
+
+	# Work MacBook
+	darwinConfigurations = {
+	  system = "aarch64-darwin";
+	  kodoma = nix-darwin.lib.darwinSystem {
+	    modules = [
+		  ./hosts/nix-darwin/configuration.nix
+		];
+	  };
+	};
 
     # Galaxy Tab S8+
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
