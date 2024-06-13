@@ -27,13 +27,13 @@
     man
     #neovim
     openssh
-	  ps
-	  python3
+    ps
+    python3
     tmux
-	  tree
+    tree
     unzip
     vim
-	  which
+    which
     zip
   ];
 

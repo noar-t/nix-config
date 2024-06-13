@@ -11,60 +11,58 @@
 
   environment.systemPackages = with pkgs; [
     eza     # ls with better defaults
-	fselect # query files with sql-like syntax
-	git     # version control
-	jq      # json query tool
-	neovim  # modern vim
-	tmux    # terminal multiplexer
-	# TODO replace with alias to `eza -T`
-	tree    # list directory tree
+    fselect # query files with sql-like syntax
+    git     # version control
+    jq      # json query tool
+    neovim  # modern vim
+    tmux    # terminal multiplexer
+    # TODO replace with alias to `eza -T`
+    tree    # list directory tree
   ];
 
   programs = {
-	fish.enable = true;
+    fish.enable = true;
     zsh.enable = true;
   };
 
   nix.extraOptions = ''
     auto-optimise-store = true
-	experimental-features = nix-command flakes
-	extra-platforms = x86_64-darwin aarch64-darwin
+    experimental-features = nix-command flakes
+    extra-platforms = x86_64-darwin aarch64-darwin
   '';
 
   homebrew = {
     enable = true;
 
-	taps = [
-	  "nikitabobko/tap"     # aerospace
-	  "felixkratz/formulae" # sketchybar + borders
-	];
+    taps = [
+      "nikitabobko/tap"     # aerospace
+        "felixkratz/formulae" # sketchybar + borders
+    ];
 
-	brews = [
-	  "sketchybar" # i3bar like alternative
-	  {
-	    name = "borders";
-		start_service = true;
-	  }
-	];
+    brews = [
+      "sketchybar" # i3bar like alternative
+      {
+        name = "borders";
+        start_service = true;
+      }
+    ];
 
-	# TODO zap
+    # TODO zap
 
     casks = [
-	  "aerospace"          # tiling wm
-	  "alacritty"          # gpu accelerated terminal
-	  "alfred"             # spotlight replacement, dmenu-ish
-	  "bettertouchtool"    # map gestures to handle workspaces
-	  "caffeine"           # prevent mac from sleeping on demand
-	  "cheatsheet"         # show all shorcuts for an app
-	  "flameshot"          # gui screenshot tool
-	  "monitorcontrol"     # control external monitor brightness
-	  "shortcat"           # click on things mouse-free
-	  "spotify"            # music player
-	  "stats"              # system bar resource monitor
-	  "visual-studio-code" # editor, do I even want this?
-	  "vlc"                # media player
-	];
-
-
+      "aerospace"          # tiling wm
+      "alacritty"          # gpu accelerated terminal
+      "alfred"             # spotlight replacement, dmenu-ish
+      "bettertouchtool"    # map gestures to handle workspaces
+      "caffeine"           # prevent mac from sleeping on demand
+      "cheatsheet"         # show all shorcuts for an app
+      "flameshot"          # gui screenshot tool
+      "monitorcontrol"     # control external monitor brightness
+      "shortcat"           # click on things mouse-free
+      "spotify"            # music player
+      "stats"              # system bar resource monitor
+      "visual-studio-code" # editor, do I even want this?
+      "vlc"                # media player
+    ];
   };
 }
