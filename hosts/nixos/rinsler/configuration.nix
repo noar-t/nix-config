@@ -68,7 +68,7 @@
     cargo
     docker
     docker-compose
-    elmPackages.elm
+    eza
     ffmpeg
     fish
     fzf

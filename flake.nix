@@ -34,6 +34,7 @@
             home-manager.useUserPackages = true;
             home-manager.useGlobalPkgs = true;
             home-manager.users.noah = import ./common/home-manager/home.nix;
+            home-manager.backupFileExtension = "bak";
           }
         ];
       };
