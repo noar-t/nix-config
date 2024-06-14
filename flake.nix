@@ -15,10 +15,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-	nix-darwin = {
-	  url = "github:LnL7/nix-darwin";
-	  inputs.nixpkgs.follows = "nixpkgs";
-	};
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nix-on-droid, home-manager, nix-darwin }: {
@@ -48,15 +48,15 @@
       };
     };
 
-	# Work MacBook
-	darwinConfigurations = {
-	  system = "aarch64-darwin";
-	  kodoma = nix-darwin.lib.darwinSystem {
-	    modules = [
-		  ./hosts/nix-darwin/configuration.nix
-		];
-	  };
-	};
+  # Work MacBook
+  darwinConfigurations = {
+      system = "aarch64-darwin";
+      kodoma = nix-darwin.lib.darwinSystem {
+        modules = [
+        ./hosts/nix-darwin/configuration.nix
+      ];
+    };
+  };
 
     # Galaxy Tab S8+
     nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {

@@ -2,6 +2,22 @@
 {
   programs.home-manager.enable = true;
 
+  # Improved cat
+  programs.bat.enable = true;
+
+  # Improved ls
+  programs.eza = {
+    enable = true;
+    enableFishIntegration = true;
+
+    # list git status if tracked
+    git = true;
+
+    # show icons next to items
+    icons = true;
+  };
+
+  # User-friendly shell
   programs.fish = {
     enable = true;
     plugins = [
@@ -16,6 +32,23 @@
     ";
   };
 
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = true;
+    # TODO tmux integration?
+  };
+
+  # TODO stuff to add later/explore
+  # borgmatic
+  # broot
+  # chromium/firefox w/ extensions
+  # fd
+  #
+  # MacOS
+  # aerospace config
+  # sketchybar config
+  # janky borders config
+  
 
 
   home.stateVersion = "24.05";
