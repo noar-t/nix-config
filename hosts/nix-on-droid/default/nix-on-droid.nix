@@ -37,7 +37,7 @@
     zip
   ];
 
-  #user.shell = pkgs.fish;
+  user.shell = "${pkgs.fish}/bin/fish";
 
   # Backup etc files instead of failing to activate generation if a file already exists in /etc (nix-on-droid)
   environment.etcBackupExtension = ".bak";
