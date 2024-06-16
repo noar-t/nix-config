@@ -1,5 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, specialArgs, ... }:
 {
+
+  home.stateVersion = "24.05";
   programs.home-manager.enable = true;
 
   # improved cat
@@ -40,16 +42,19 @@
   };
 
   # version control
-  programs.git = {
+  programs.git = let
+    inherit (specialArgs.profile) email;
+  in {
     enable = true;
 
     # improved difftool
     difftastic.enable = true;
 
+    userName = "Noah Thornton";
+    userEmail = email;
+
     # TODO gitignore
     # TODO git include to include options, but need to modularize for work
-    # TODO git username
-    # TODO git useremail
   };
 
   # cpu and memory monitor
@@ -134,6 +139,4 @@
   # gtk?
   #
   # home.file for all configs
-
-  home.stateVersion = "24.05";
 }

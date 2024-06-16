@@ -19,48 +19,79 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    # TODO nixvim
   };
 
-  outputs = { self, nixpkgs, nix-on-droid, home-manager, nix-darwin }: {
-    nixosConfigurations = {
-      # Home server
-      rinsler = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+  outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin }: 
+    let 
+      profiles = import ./common/profiles.nix;
+    in {
+      nixosConfigurations = let
+        profile = profiles.personal;
+      in {
+        # Home server
+        rinsler = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs profile; };
+          modules = [
+            ./hosts/nixos/rinsler/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = { inherit inputs profile; };
+              home-manager.useUserPackages = true;
+              home-manager.useGlobalPkgs = true;
+              home-manager.backupFileExtension = "bak";
+              home-manager.users.noah = import ./common/home-manager/home.nix;
+            }
+          ];
+        };
+
+        # Gaming desktop
+        raiden = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs profile; };
+          modules = [
+            ./hosts/nixos/raiden/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = { inherit inputs profile; };
+              home-manager.useUserPackages = true;
+              home-manager.useGlobalPkgs = true;
+              home-manager.backupFileExtension = "bak";
+              home-manager.users.noah = import ./common/home-manager/home.nix;
+            }
+          ];
+        };
+      };
+
+      # Work MacBook
+      darwinConfigurations = let
+        profile = profiles.work;
+      in {
+        system = "aarch64-darwin";
+        specialArgs = { inherit inputs profile; };
+        kodoma = nix-darwin.lib.darwinSystem {
+          modules = [
+            ./hosts/nix-darwin/configuration.nix
+          ];
+        };
+      };
+
+      # Galaxy Tab S8+
+      nixOnDroidConfigurations.default = let
+        profile = profiles.personal ;
+      in nix-on-droid.lib.nixOnDroidConfiguration {
+        extraSpecialArgs = { inherit inputs profile; };
         modules = [
-          ./hosts/nixos/rinsler/configuration.nix
-          # TODO replace with common module
-          home-manager.nixosModules.home-manager
+          ./hosts/nix-on-droid/default/nix-on-droid.nix
           {
-            home-manager.useUserPackages = true;
             home-manager.useGlobalPkgs = true;
-            home-manager.users.noah = import ./common/home-manager/home.nix;
             home-manager.backupFileExtension = "bak";
+            home-manager.extraSpecialArgs = { inherit inputs profile; };
+            home-manager.config = ./common/home-manager/home.nix;
           }
         ];
       };
-
-      # Gaming desktop
-      raiden = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/nixos/raiden/configuration.nix
-        ];
-      };
-    };
-
-  # Work MacBook
-  darwinConfigurations = {
-      system = "aarch64-darwin";
-      kodoma = nix-darwin.lib.darwinSystem {
-        modules = [
-        ./hosts/nix-darwin/configuration.nix
-      ];
-    };
-  };
-
-    # Galaxy Tab S8+
-    nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-      modules = [ ./hosts/nix-on-droid/default/nix-on-droid.nix ];
-    };
   };
 }

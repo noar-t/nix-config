@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nixvim, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   # Simply install just the packages
@@ -41,44 +41,6 @@
 
   # Backup etc files instead of failing to activate generation if a file already exists in /etc (nix-on-droid)
   environment.etcBackupExtension = ".bak";
-
-  # Backup home files instead of failing to activate generation if a file already exists in ~/ (home-manager)
-  home-manager.backupFileExtension = "bak";
-  home-manager.config =
-    { pkgs, nixvim, ... }:
-    {
-      #system.os = "Nix-on-Droid";
-      home.username = "nix-on-droid";
-      home.homeDirectory = "/data/data/com.termux.nix/files/home";
-      home.stateVersion = "23.11";
-
-      programs.git = {
-        enable = true;
-        userName = "Noah Thornton";
-        userEmail = "noahthornton15@gmail.com";
-        difftastic.enable = true;
-      };
-
-      programs.home-manager.enable = true;
-
-      #programs.fish.enable = true;
-
-      programs.neovim = {
-        enable = true;
-        defaultEditor = true;
-        viAlias = true;
-        vimAlias = true;
-        vimdiffAlias = true;
-        plugins = with pkgs.vimPlugins; [
-          #nvim-lspconfig
-          #nvim-treesitter.withAllGrammars
-          #plenary-nvim
-          gruvbox-material
-          #mini-nvim
-        ];
-      };
-    };
-
 
   # Read the changelog before changing this value
   system.stateVersion = "23.11";
