@@ -28,10 +28,21 @@
         src = pkgs.fishPlugins.foreign-env;
       }
     ];
-    shellInit = "
+
+    shellAliases = {
+      "cat" = "bat";
+      "tree" = "eza -T";
+    };
+
+    interactiveShellInit = ''
+      fish_vi_key_bindings
+    '';
+
+    # use fenv to source nix path correctly
+    shellInit = ''
       set -p fish_function_path ${pkgs.fishPlugins.foreign-env}/share/fish/vendor_functions.d\n
       fenv source ${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh > /dev/null
-    ";
+    '';
   };
 
   # fuzzy finder for shell history, files, etc
