@@ -22,10 +22,26 @@
   # user-friendly shell
   programs.fish = {
     enable = true;
-    plugins = [
+    plugins = with pkgs.fishPlugins; [
       {
         name = "fenv";
-        src = pkgs.fishPlugins.foreign-env;
+        src = foreign-env.src;
+      }
+      {
+        name = "fish-gruvbox";
+        src = gruvbox.src;
+      }
+      {
+        name = "autopair";
+        src = autopair.src;
+      }
+      {
+        name = "colored-man";
+        src = colored-man-pages.src;
+      }
+      {
+        name = "puffer";
+        src = puffer.src;
       }
     ];
 
@@ -35,14 +51,17 @@
     };
 
     interactiveShellInit = ''
+      set fish_greeting
       fish_vi_key_bindings
+      set -g fish_prompt_pwd_dir_length 3
+      set -g fish_prompt_pwd_full_dirs 3
     '';
 
     # use fenv to source nix path correctly
-    shellInit = ''
+    shellInit = "
       set -p fish_function_path ${pkgs.fishPlugins.foreign-env}/share/fish/vendor_functions.d\n
       fenv source ${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh > /dev/null
-    '';
+    ";
   };
 
   # fuzzy finder for shell history, files, etc
