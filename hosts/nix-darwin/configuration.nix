@@ -25,6 +25,9 @@
     zsh.enable = true;
   };
 
+  environment.shells = [ pkgs.bashInteractive pkgs.zsh pkgs.fish ];
+  system.keyboard.remapCapsLockTocontrol = true;
+
   nix.extraOptions = ''
     auto-optimise-store = true
     experimental-features = nix-command flakes
