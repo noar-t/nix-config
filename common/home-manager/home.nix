@@ -24,25 +24,35 @@
     enable = true;
     plugins = with pkgs.fishPlugins; [
       {
+        # Import bash env
         name = "fenv";
         src = foreign-env.src;
       }
       {
+        # Color theme
         name = "fish-gruvbox";
         src = gruvbox.src;
       }
       {
+        # Auto close (),"",''
         name = "autopair";
         src = autopair.src;
       }
       {
+        # Colorize man pages
         name = "colored-man";
         src = colored-man-pages.src;
       }
       {
+        # Text expansions
         name = "puffer";
         src = puffer.src;
       }
+      #{ TODO only in unstable
+      #  # Remove failed commands from history
+      #  name = "sponge";
+      #  src = sponge.src;
+      #}
     ];
 
     shellAliases = {
