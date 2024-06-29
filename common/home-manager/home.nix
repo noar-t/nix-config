@@ -1,11 +1,144 @@
-{ config, pkgs, specialArgs, ... }:
+{ config, pkgs, specialArgs, inputs, ... }:
 {
+
+  imports = [
+    inputs.nixvim.homeManagerModules.nixvim
+  ];
 
   home.stateVersion = "24.05";
   programs.home-manager.enable = true;
 
   # improved cat
   programs.bat.enable = true;
+
+  programs.nixvim = {
+    enable = true;
+    colorschemes.gruvbox.enable = true;
+
+    extraPlugins = with pkgs.vimPlugins; [
+      plenary-nvim  # hardtime dependency
+      nui-nvim      # hardtime dependency
+    ];
+    plugins = {
+      # Give advice abuot vim movement
+      hardtime.enable = true;
+
+      # Autodetect indent
+      sleuth.enable = true;
+
+      # Easily comment out code
+      comment.enable = true;
+
+      # Enable git status in the gutter
+      gitsigns.enable = true;
+
+      # Enable todo comment highlighting
+      todo-comments.enable = true;
+
+      # Later if needed
+      # fzf-lua
+    };
+
+    opts = {
+      # Show line numbers by default
+      number = true;
+
+      # TODO have_nerd_font?
+
+      # Show relative line numbers
+      relativenumber = true;
+
+      # Enable mouse mode
+      mouse = "a";
+
+      # TODO remove when adding status line
+      showmode = true;
+
+
+      # Always split right/down
+      splitright = true;
+      splitbelow = true;
+
+      # -- Search
+      # Ignore case until capital is included
+      ignorecase = true;
+      smartcase = true;
+
+      # Highlight on search, clear on <Esc>
+      hlsearch = true;
+
+      # Incrementally highlight while searching
+      incsearch = true;
+      # -- Search
+
+      # Decrease update time
+      updatetime = 250;
+
+      # Show line cursor is on
+      cursorline = true;
+
+      # Minimal lines +/- of the cursor
+      scrolloff = 10;
+
+      # Preview substitutions live as you type
+      inccommand = "split";
+
+      # When text wraps, indent to show wrapping
+      breakindent = true;
+
+      # Momentarily jump to the matching bracket/parenthesis
+      showmatch = true;
+
+      # Always show column for git gutter
+      signcolumn = "yes";
+
+      # Show visual queue instead of beeping terminal bell
+      visualbell = true;
+
+      # Note may be able to disable this with plugins
+      tabstop = 8;
+      shiftwidth = 2;
+      softtabstop = 2;
+      expandtab = true;
+
+      # Enable syntax highlighting
+      syntax = "on";
+
+      # Enable spell checking
+      spell = true;
+
+
+      list = true;
+      # listchars
+      # INVESTIGATION SECTION
+      # NOTE this enables shared OS clipboard
+      # clipboard = "unnamedplus"
+      # undofile = true?
+
+      # decrease mapped sequence wait time
+      # show which-key faster?
+      # timeoutlen = 300;
+      # Exit terminal shortcut?
+      # PLUGINS:
+      #   which-key -> describe shortcuts
+      #   nvim-lspconfig -> configure lsps
+      #     mason.nvim
+      #     mason-lspconfig.nvim
+      #     mason-tool-installer.nvim
+      #   conform.nvim -> autoformat
+      #   nvim-cmp -> autocomplete
+      #   todo-comments.nvim -> highlight todo
+      #   nvim-treesitter -> code highlighting
+
+      
+
+#filetype on
+#set spell
+#set smarttab
+#filetype plugin on
+#filetype indent on
+    };
+  };
 
   # improved ls
   programs.eza = {
@@ -113,12 +246,19 @@
   };
 
   # vim type editor
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    # TODO once vimrc is sorted ill enable this
-    # vimAlias = true;
-  };
+  #programs.neovim = {
+  #  enable = true;
+  #  defaultEditor = true;
+  #  # TODO once vimrc is sorted ill enable this
+  #  viAlias = true;
+  #  vimAlias = true;
+  #  vimdiffAlias = true;
+  #  plugins = with pkgs.vimPlugins; [
+  #    lens-vim
+  #    hardtime-nvim
+  #    which-key-nvim
+  #  ];
+  #};
 
   # its ssh...
   programs.ssh = {

@@ -20,10 +20,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
-    # TODO nixvim
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin }: 
+  outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin, nixvim }: 
     let 
       profiles = import ./common/profiles.nix;
     in {
