@@ -180,12 +180,6 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-    # Clean up generations older than 10 days
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 10d";
-    };
   };
 
   system.stateVersion = "24.05";
