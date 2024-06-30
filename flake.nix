@@ -39,6 +39,7 @@
           specialArgs = { inherit inputs profile; };
           modules = [
             ./hosts/nixos/rinsler/configuration.nix
+            ./common/nix-cleanup.nix # TODO move to nixOS common module
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = { inherit inputs profile; };
@@ -56,6 +57,7 @@
           specialArgs = { inherit inputs profile; };
           modules = [
             ./hosts/nixos/raiden/configuration.nix
+            ./common/nix-cleanup.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = { inherit inputs profile; };
