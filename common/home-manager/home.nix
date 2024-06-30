@@ -35,6 +35,30 @@
       # Enable todo comment highlighting
       todo-comments.enable = true;
 
+      # Autoclose brackets and parenthesis
+      autoclose.enable = true;
+
+      # Language server tooling
+      lsp-format.enable = true;
+      lsp-lines.enable = true;
+      lsp = {
+        enable = true;
+        servers = {
+          nil-ls.enable = true;
+          elmls.enable = true;
+          java-language-server.enable = true;
+          kotlin-language-server.enable = true;
+        };
+
+        keymaps = {
+          lspBuf = {
+            gd = {
+              action = "definition";
+              desc = "Goto Defintion";
+            };
+          };
+        };
+      };
       # Later if needed
       # fzf-lua
     };
@@ -109,10 +133,14 @@
 
 
       list = true;
-      # listchars
+      listchars = {
+        space = "·";
+        eol = "⏎";
+        tab = "␉·";
+        trail = "·";
+        nbsp = "⎵";
+      };
       # INVESTIGATION SECTION
-      # NOTE this enables shared OS clipboard
-      # clipboard = "unnamedplus"
       # undofile = true?
 
       # decrease mapped sequence wait time
@@ -129,14 +157,6 @@
       #   nvim-cmp -> autocomplete
       #   todo-comments.nvim -> highlight todo
       #   nvim-treesitter -> code highlighting
-
-      
-
-#filetype on
-#set spell
-#set smarttab
-#filetype plugin on
-#filetype indent on
     };
   };
 
