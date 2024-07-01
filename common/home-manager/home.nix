@@ -38,6 +38,9 @@
       # Autoclose brackets and parenthesis
       autoclose.enable = true;
 
+      # A popup that shows possible keybinds for commands typed
+      which-key.enable = true;
+
       # Language server tooling
       lsp-format.enable = true;
       lsp-lines.enable = true;
@@ -140,12 +143,16 @@
         trail = "·";
         nbsp = "⎵";
       };
+
+      # Time to wait for mapped sequence to complete, effects wait time for which-key
+      timeout = true;
+      timeoutlen = 300;
+
       # INVESTIGATION SECTION
       # undofile = true?
 
       # decrease mapped sequence wait time
       # show which-key faster?
-      # timeoutlen = 300;
       # Exit terminal shortcut?
       # PLUGINS:
       #   which-key -> describe shortcuts
