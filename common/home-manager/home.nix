@@ -66,6 +66,21 @@
       # fzf-lua
     };
 
+    keymaps = [
+      {
+        # Ctrl + d moves down and centers
+        action = "<C-d>zz";
+        key = "<C-d>";
+        mode = "n";
+      }
+      {
+        # Ctrl + u moves up and centers
+        action = "<C-u>zz";
+        key = "<C-u>";
+        mode = "n";
+      }
+    ];
+
     opts = {
       # Show line numbers by default
       number = true;
