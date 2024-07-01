@@ -1,6 +1,5 @@
 { config, pkgs, specialArgs, inputs, ... }:
 {
-
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
   ];
@@ -40,6 +39,25 @@
 
       # A popup that shows possible keybinds for commands typed
       which-key.enable = true;
+
+      # Auto-complete engine
+      cmp = {
+        enable = true;
+        settings = {
+          completion.autocomplete = [ "TextChanged" ];
+          sources = [
+            { name = "nvim_lsp"; }
+            { name = "path"; }
+            { name = "buffer"; }
+            { name = "nvim_lsp_signature_help"; }
+            { name = "emoji"; }
+          ];
+        };
+      };
+      cmp-nvim-lsp.enable = true;
+      cmp-buffer.enable = true;
+      cmp-path.enable = true;
+      cmp-emoji.enable = true;
 
       # Language server tooling
       lsp-format.enable = true;
