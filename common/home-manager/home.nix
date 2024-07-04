@@ -342,7 +342,26 @@
   programs.tmux = {
     enable = true;
     mouse = true;
-    # TODO plugins?
+    sensibleOnTop = true;
+    keyMode = "vi";
+    plugins = with pkgs.tmuxPlugins; [
+      # CPU/MEM/SWAP/IO usage in status bar
+      # TODO add to status bar
+      sysstat
+      # Gruvbox colors
+      gruvbox
+      # Highlight when using prefix key
+      # TODO add to status bar
+      prefix-highlight
+      # Fzf to manage tmux
+      tmux-fzf
+      # Fzf searching in buffer
+      fuzzback
+      # Pane navigation keybinds
+      pain-control
+      # Mouse configuration
+      better-mouse-mode
+    ];
   };
 
   # youtube downloader
