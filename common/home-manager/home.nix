@@ -154,6 +154,10 @@
     mouse = true;
     sensibleOnTop = true;
     keyMode = "vi";
+    extraConfig = ''
+      set -ag terminal-overrides ",xterm-256color:RGB"
+    '';
+
     plugins = with pkgs.tmuxPlugins; [
       # CPU/MEM/SWAP/IO usage in status bar
       # TODO add to status bar
