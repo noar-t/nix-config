@@ -13,6 +13,9 @@
       nui-nvim      # hardtime dependency
     ];
     plugins = {
+      # Syntactic aware editing and highlighting
+      treesitter.enable = true;
+
       # Give advice abuot vim movement
       hardtime.enable = true;
 
