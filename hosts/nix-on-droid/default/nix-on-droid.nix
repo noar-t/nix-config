@@ -21,6 +21,7 @@
     elmPackages.elm
     eza
     fish
+    gcc
     git
     gnugrep
     htop
