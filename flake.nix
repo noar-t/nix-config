@@ -24,15 +24,39 @@
       url = "github:nix-community/nixvim/nixos-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin, nixvim }: 
+  outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin, nixvim, nixos-wsl }: 
     let 
       profiles = import ./common/profiles.nix;
     in {
       nixosConfigurations = let
         profile = profiles.personal;
       in {
+        wsl = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs profile; };
+          modules = [
+	    nixos-wsl.nixosModules.default
+            ./hosts/nixos/wsl/configuration.nix
+            #./hosts/nixos/rinsler/configuration.nix
+            #./common/nix-cleanup.nix # TODO move to nixOS common module
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = { inherit inputs profile; };
+              home-manager.useUserPackages = true;
+              home-manager.useGlobalPkgs = true;
+              home-manager.backupFileExtension = "bak";
+              home-manager.users.noah = import ./common/home-manager/home.nix;
+            }
+          ];
+        };
+
         # Home server
         rinsler = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
