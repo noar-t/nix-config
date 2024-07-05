@@ -42,7 +42,7 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs profile; };
           modules = [
-	    nixos-wsl.nixosModules.default
+            nixos-wsl.nixosModules.default
             ./hosts/nixos/wsl/configuration.nix
             #./hosts/nixos/rinsler/configuration.nix
             #./common/nix-cleanup.nix # TODO move to nixOS common module
