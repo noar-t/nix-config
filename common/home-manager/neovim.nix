@@ -49,6 +49,18 @@
             { name = "nvim_lsp_signature_help"; }
             { name = "emoji"; }
           ];
+          mapping = {
+            # Use default C-n/C-d with cmp
+            "<C-n>" = "cmp.mapping.select_next_item()";
+            "<C-p>" = "cmp.mapping.select_prev_item()";
+            # Scroll
+            "<C-b>" = "cmp.mapping.scroll_docs(-4)";
+            "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            # Use C-space to trigger completion menu
+            "<C-Space>" = "cmp.mapping.complete()";
+            # Use C-y to accept completion
+            "<C-y>" = "cmp.mapping.confirm({ select = true })";
+          };
         };
       };
       cmp-nvim-lsp.enable = true;
@@ -62,10 +74,11 @@
       lsp = {
         enable = true;
         servers = {
-          nil-ls.enable = true;
           elmls.enable = true;
           java-language-server.enable = true;
           kotlin-language-server.enable = true;
+          nil-ls.enable = true;
+          pyright.enable = true;
         };
 
         keymaps = {
