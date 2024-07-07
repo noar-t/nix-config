@@ -33,6 +33,7 @@
     iotop-c
     neovim
     nodejs_20
+    python3
     stress
     tmux
     tree
