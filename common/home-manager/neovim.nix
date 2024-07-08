@@ -6,18 +6,21 @@
 
   programs.nixvim = {
     enable = true;
+
+    viAlias = true;
+    vimAlias = true;
+
     colorschemes.gruvbox.enable = true;
 
-    extraPlugins = with pkgs.vimPlugins; [
-      plenary-nvim  # hardtime dependency
-      nui-nvim      # hardtime dependency
-    ];
+    extraPlugins = with pkgs.vimPlugins; [];
+    # Some binaries are necessary for plugins
+    extraPackages = with pkgs; [];
     plugins = {
+      # Show status loading in bottom right
+      fidget.enable = true;
+
       # Syntactic aware editing and highlighting
       treesitter.enable = true;
-
-      # Give advice abuot vim movement
-      hardtime.enable = true;
 
       # Autodetect indent
       sleuth.enable = true;
@@ -35,7 +38,40 @@
       autoclose.enable = true;
 
       # A popup that shows possible keybinds for commands typed
-      which-key.enable = true;
+      which-key = {
+        enable = true;
+        operators = {
+          gc = "Comments";
+        };
+        triggersBlackList = {
+          i = [
+            "j"
+            "k"
+          ];
+          v = [
+            "j"
+            "k"
+          ];
+        };
+        triggersNoWait = [
+          "`"
+          "'"
+          "g`"
+          "g'"
+          "\""
+          "<C-r>"
+          "z="
+        ];
+        plugins.presets = {
+          g = true;
+          motions = true;
+          nav = true;
+          operators = true;
+          textObjects = true;
+          windows = true;     # <C-w>
+          z = true;           # folds
+        };
+      };
 
       # Auto-complete engine
       cmp = {
@@ -68,7 +104,7 @@
       cmp-path.enable = true;
       cmp-emoji.enable = true;
 
-      # Language server tooling
+      ## Language server tooling
       lsp-format.enable = true;
       lsp-lines.enable = true;
       lsp = {
@@ -113,7 +149,7 @@
       # Show line numbers by default
       number = true;
 
-      # TODO have_nerd_font?
+      have_nerd_font = true;
 
       # Show relative line numbers
       relativenumber = true;
@@ -194,19 +230,16 @@
       # INVESTIGATION SECTION
       # undofile = true?
 
-      # decrease mapped sequence wait time
-      # show which-key faster?
       # Exit terminal shortcut?
       # PLUGINS:
-      #   which-key -> describe shortcuts
-      #   nvim-lspconfig -> configure lsps
-      #     mason.nvim
-      #     mason-lspconfig.nvim
-      #     mason-tool-installer.nvim
-      #   conform.nvim -> autoformat
-      #   nvim-cmp -> autocomplete
-      #   todo-comments.nvim -> highlight todo
-      #   nvim-treesitter -> code highlighting
+      # nvim-navbuddy
+      # telescope.nvim
+      # toggleterm.nvim
+      # lspkind.nvim
+      # rainbow-delimiters?
+      # configure vim.diagnostics.config
+      # configure 
+      # lsp highlighting bindings from kickstart
     };
   };
 }
