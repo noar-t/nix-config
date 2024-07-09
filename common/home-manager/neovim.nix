@@ -149,8 +149,6 @@
       # Show line numbers by default
       number = true;
 
-      have_nerd_font = true;
-
       # Show relative line numbers
       relativenumber = true;
 
