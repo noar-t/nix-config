@@ -111,7 +111,20 @@
         enable = true;
         servers = {
           elmls.enable = true;
-          java-language-server.enable = true;
+          java-language-server = {
+            enable = true;
+            extraOptions = {
+              handlers.__raw = ''{
+                ['client/registerCapability'] = function(err, results, ctx, config)
+                  local registration = {
+                    registrations = { result },
+                  }
+                  return vim.lsp.handlers['client/registerCapability'](err, registration, ctx, config)
+                end
+              },'';
+            };
+          };
+          lua-ls.enable = true;
           kotlin-language-server.enable = true;
           nil-ls.enable = true;
           pyright.enable = true;

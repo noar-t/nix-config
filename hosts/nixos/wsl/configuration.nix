@@ -31,6 +31,7 @@
     gcc
     htop
     iotop-c
+    lua
     neovim
     nodejs_20
     python3
