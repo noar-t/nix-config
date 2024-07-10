@@ -140,8 +140,8 @@
           };
         };
       };
+      transparent.enable = true;
       # Later if needed
-      # fzf-lua
     };
 
     keymaps = [
