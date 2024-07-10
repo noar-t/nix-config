@@ -107,6 +107,7 @@
       ## Language server tooling
       lsp-format.enable = true;
       lsp-lines.enable = true;
+      lspkind.enable = true;
       lsp = {
         enable = true;
         servers = {
