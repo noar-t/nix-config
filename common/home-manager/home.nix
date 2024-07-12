@@ -8,9 +8,16 @@
 
   home.stateVersion = "24.05";
   programs.home-manager.enable = true;
+  # home-manager-help tool
+  manual.html.enable = true;
 
   # improved cat
-  programs.bat.enable = true;
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "gruvbox-dark";
+    };
+  };
 
   # improved ls
   programs.eza = {
@@ -28,7 +35,6 @@
   programs.fzf = {
     enable = true;
     enableFishIntegration = true;
-    # TODO tmux integration?
   };
 
   # version control
@@ -77,7 +83,6 @@
 
   # TODO stuff to add later/explore
   # borgmatic
-  # broot
   # chromium/firefox w/ extensions
   # fd
   # git-cliff -> generate changelog
