@@ -16,6 +16,9 @@
     # Some binaries are necessary for plugins
     extraPackages = with pkgs; [];
     plugins = {
+      # File tree
+      neo-tree.enable = true;
+
       # Show status loading in bottom right
       fidget.enable = true;
 
@@ -105,7 +108,7 @@
       cmp-emoji.enable = true;
 
       ## Language server tooling
-      lsp-format.enable = true;
+      #lsp-format.enable = true;
       lsp-lines.enable = true;
       lspkind.enable = true;
       lsp = {
