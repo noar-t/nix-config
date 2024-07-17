@@ -14,7 +14,9 @@
 
     extraPlugins = with pkgs.vimPlugins; [];
     # Some binaries are necessary for plugins
-    extraPackages = with pkgs; [];
+    extraPackages = with pkgs; [
+      jdt-language-server
+    ];
     plugins = {
       # Git wrapper
       fugitive.enable = true;
@@ -120,16 +122,18 @@
           elmls.enable = true;
           java-language-server = {
             enable = true;
-            extraOptions = {
-              handlers.__raw = ''{
-                ['client/registerCapability'] = function(err, results, ctx, config)
-                  local registration = {
-                    registrations = { result },
-                  }
-                  return vim.lsp.handlers['client/registerCapability'](err, registration, ctx, config)
-                end
-              },'';
-            };
+            package = pkgs.jdt-language-server;
+            cmd = ["${pkgs.jdt-language-server}/bin/jdt-language-server" ];
+            # extraOptions = {
+            #   handlers.__raw = ''{
+            #     ['client/registerCapability'] = function(err, results, ctx, config)
+            #       local registration = {
+            #         registrations = { result },
+            #       }
+            #       return vim.lsp.handlers['client/registerCapability'](err, registration, ctx, config)
+            #     end
+            #   },'';
+            # };
           };
           lua-ls.enable = true;
           kotlin-language-server.enable = true;
