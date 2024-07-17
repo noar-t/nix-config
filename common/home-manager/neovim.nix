@@ -16,6 +16,9 @@
     # Some binaries are necessary for plugins
     extraPackages = with pkgs; [];
     plugins = {
+      # Git wrapper
+      fugitive.enable = true;
+
       # File tree
       neo-tree.enable = true;
 
