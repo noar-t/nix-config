@@ -8,7 +8,10 @@
   ];
 
   home.stateVersion = "24.05";
+  home.sessionVariables.EDITOR = "nvim";
+
   programs.home-manager.enable = true;
+
   # home-manager-help tool
   manual.html.enable = true;
 
