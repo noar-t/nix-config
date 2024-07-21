@@ -1,6 +1,7 @@
 { config, pkgs, specialArgs, inputs, ... }:
 {
   imports = [
+    ./git.nix
     ./neovim.nix
     ./tmux.nix
     ./fish.nix
@@ -37,21 +38,6 @@
     enableFishIntegration = true;
   };
 
-  # version control
-  programs.git = let
-    inherit (specialArgs.profile) email;
-  in {
-    enable = true;
-
-    # improved difftool
-    difftastic.enable = true;
-
-    userName = "Noah Thornton";
-    userEmail = email;
-
-    # TODO gitignore
-    # TODO git include to include options, but need to modularize for work
-  };
 
   # cpu and memory monitor
   programs.htop = {
