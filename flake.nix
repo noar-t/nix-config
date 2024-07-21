@@ -94,6 +94,24 @@
         };
       };
 
+      homeConfigurations = let
+        username = "placeholder";
+        homeDirectory = "placeholder";
+        profile = profiles.work;
+      in {
+        clouddesktop = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs { system = "x86_64-linux"; };
+          extraSpecialArgs = { inherit inputs profile; };
+          modules = [
+            {
+              home.username = username;
+              home.homeDirectory = homeDirectory;
+            }
+            ./common/home-manager/home.nix
+          ];
+        };
+      };
+
       # Work MacBook
       darwinConfigurations = let
         profile = profiles.work;
