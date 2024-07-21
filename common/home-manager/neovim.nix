@@ -123,17 +123,7 @@
           java-language-server = {
             enable = true;
             package = pkgs.jdt-language-server;
-            cmd = ["${pkgs.jdt-language-server}/bin/jdt-language-server" ];
-            # extraOptions = {
-            #   handlers.__raw = ''{
-            #     ['client/registerCapability'] = function(err, results, ctx, config)
-            #       local registration = {
-            #         registrations = { result },
-            #       }
-            #       return vim.lsp.handlers['client/registerCapability'](err, registration, ctx, config)
-            #     end
-            #   },'';
-            # };
+            cmd = ["${pkgs.jdt-language-server}/bin/jdtls" ];
           };
           lua-ls.enable = true;
           kotlin-language-server.enable = true;
