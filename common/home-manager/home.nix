@@ -9,6 +9,11 @@
 
   home.stateVersion = "24.05";
   home.sessionVariables.EDITOR = "nvim";
+  home.packages = with pkgs; [
+    erdtree
+    silver-searcher
+    duf
+  ];
 
   programs.home-manager.enable = true;
 

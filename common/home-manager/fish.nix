@@ -39,6 +39,7 @@
     shellAliases = {
       "cat" = "bat";
       "tree" = "eza -T";
+      "df" = "duf";
     };
 
     interactiveShellInit = ''
