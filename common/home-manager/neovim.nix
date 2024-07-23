@@ -12,14 +12,20 @@
 
     colorschemes.gruvbox.enable = true;
 
-    extraPlugins = with pkgs.vimPlugins; [];
+    extraPlugins = with pkgs.vimPlugins; [
+    ];
+
     # Some binaries are necessary for plugins
     extraPackages = with pkgs; [
       jdt-language-server
     ];
+
     plugins = {
       # Git wrapper
       fugitive.enable = true;
+
+      # Toggle-able terminal
+      toggleterm.enable = true;
 
       # File tree
       neo-tree.enable = true;
