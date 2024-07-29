@@ -30,6 +30,9 @@
     ];
 
     plugins = {
+      # Highlight current word within buffer
+      cursorline.enable = true;
+
       # Airline style status bar
       lualine.enable = true;
 
