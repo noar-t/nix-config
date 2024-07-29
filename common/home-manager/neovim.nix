@@ -13,6 +13,15 @@
     colorschemes.gruvbox.enable = true;
 
     extraPlugins = with pkgs.vimPlugins; [
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "vim-startuptime";
+        src = pkgs.fetchFromGitHub {
+          owner = "dstein64";
+          repo = "vim-startuptime";
+          rev = "ac2cccb5be617672add1f4f3c0a55ce99ba34e01";
+          hash = "sha256-+r4fDjEofLpz8+J8sPCFxwwCUbjNpMe1Hpa62LDtdD0=";
+        };
+      })
     ];
 
     # Some binaries are necessary for plugins
