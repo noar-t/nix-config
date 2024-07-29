@@ -30,6 +30,9 @@
     ];
 
     plugins = {
+      # Airline style status bar
+      lualine.enable = true;
+
       # Git wrapper
       fugitive.enable = true;
 
