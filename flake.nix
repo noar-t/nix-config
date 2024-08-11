@@ -1,5 +1,5 @@
 {
-  description = "flake for nix-on-droid and nix-os devices/hostss";
+  description = "flake for nix-on-droid and nix-os devices/hosts";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
@@ -29,9 +29,11 @@
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin, nixvim, nixos-wsl }: 
+  outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin, nixvim, nixos-wsl, nix-hardware }: 
     let 
       profiles = import ./common/profiles.nix;
     in {
@@ -82,6 +84,7 @@
           modules = [
             ./hosts/nixos/raiden/configuration.nix
             ./common/nix-cleanup.nix
+            nix-hardware.nixosModules.gigabyte-b550
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = { inherit inputs profile; };
