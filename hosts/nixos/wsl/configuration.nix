@@ -45,6 +45,7 @@
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix = {
     package = pkgs.nixFlakes;
