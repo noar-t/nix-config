@@ -38,61 +38,51 @@
       profiles = import ./common/profiles.nix;
     in {
       nixosConfigurations = let
-        profile = profiles.personal;
+        linuxSystem = "x86_64-linux";
+        mkNixOS = { arch, profile, extraModules ? [] }:
+          nixpkgs.lib.nixosSystem {
+            system = arch;
+            specialArgs = { inherit inputs profile; };
+            modules = [
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.extraSpecialArgs = { inherit inputs profile; };
+                home-manager.useUserPackages = true;
+                home-manager.useGlobalPkgs = true;
+                home-manager.backupFileExtension = "bak";
+                home-manager.users.noah = import ./common/home-manager/home.nix;
+              }
+            ] ++ extraModules;
+          };
       in {
-        wsl = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs profile; };
-          modules = [
+        # WSL
+        wsl = mkNixOS { 
+          arch = linuxSystem;
+          profile = profiles.personal;
+          extraModules = [ 
             nixos-wsl.nixosModules.default
-            ./hosts/nixos/wsl/configuration.nix
-            #./hosts/nixos/rinsler/configuration.nix
-            #./common/nix-cleanup.nix # TODO move to nixOS common module
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = { inherit inputs profile; };
-              home-manager.useUserPackages = true;
-              home-manager.useGlobalPkgs = true;
-              home-manager.backupFileExtension = "bak";
-              home-manager.users.noah = import ./common/home-manager/home.nix;
-            }
+            ./hosts/nixos/wsl/configuration.nix 
           ];
         };
 
         # Home server
-        rinsler = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs profile; };
-          modules = [
+        rinsler = mkNixOS {
+          arch = linuxSystem;
+          profile = profiles.personal;
+          extraModules = [
             ./hosts/nixos/rinsler/configuration.nix
             ./common/nix-cleanup.nix # TODO move to nixOS common module
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = { inherit inputs profile; };
-              home-manager.useUserPackages = true;
-              home-manager.useGlobalPkgs = true;
-              home-manager.backupFileExtension = "bak";
-              home-manager.users.noah = import ./common/home-manager/home.nix;
-            }
           ];
         };
 
         # Gaming desktop
-        raiden = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs profile; };
-          modules = [
+        raiden = mkNixOS {
+          arch = linuxSystem;
+          profile = profiles.personal;
+          extraModules = [
             ./hosts/nixos/raiden/configuration.nix
             ./common/nix-cleanup.nix
             nix-hardware.nixosModules.gigabyte-b550
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = { inherit inputs profile; };
-              home-manager.useUserPackages = true;
-              home-manager.useGlobalPkgs = true;
-              home-manager.backupFileExtension = "bak";
-              home-manager.users.noah = import ./common/home-manager/home.nix;
-            }
           ];
         };
       };
