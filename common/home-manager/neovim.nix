@@ -30,6 +30,19 @@
     ];
 
     plugins = {
+      # Better error alerts
+      notify.enable = true;
+
+      # Snippets
+      luasnip.enable = true;
+      friendly-snippets.enable = true;
+
+      # Quick file naviagtor
+      telescope.enable = true;
+
+      # Quick file switcher
+      harpoon.enable = true;
+
       # Highlight current word within buffer
       cursorline.enable = true;
 
@@ -148,7 +161,7 @@
           };
           lua-ls.enable = true;
           kotlin-language-server.enable = true;
-          nil-ls.enable = true;
+          nixd.enable = true;
           pyright.enable = true;
         };
 
