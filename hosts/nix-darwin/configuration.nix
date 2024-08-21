@@ -1,8 +1,21 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ../nix.nix {
+      extraExtraOptions = ''
+        extra-platforms = x86_64-darwin aarch64-darwin
+      '';
+    }
+  ];
   nixpkgs.hostPlatform = "aarch64-darwin";
   services.nix-daemon.enable = true;
+
+  nix.extraOptions = ''
+    auto-optimise-store = true
+    experimental-features = nix-command flakes
+    extra-platforms = x86_64-darwin aarch64-darwin
+  '';
 
   users.users.noahthor = {
     home = "/Users/noahthor";
@@ -28,11 +41,6 @@
   environment.shells = [ pkgs.bashInteractive pkgs.zsh pkgs.fish ];
   system.keyboard.remapCapsLockTocontrol = true;
 
-  nix.extraOptions = ''
-    auto-optimise-store = true
-    experimental-features = nix-command flakes
-    extra-platforms = x86_64-darwin aarch64-darwin
-  '';
 
   homebrew = {
     enable = true;

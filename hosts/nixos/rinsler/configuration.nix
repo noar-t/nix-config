@@ -8,30 +8,31 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../nix.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
   boot.kernelModules = [ "sg" ];
   boot.kernel.sysctl = { "kernel.task_delayacct" = 1; }; # flag for iotop
 
   system.autoUpgrade.enable = true;
 
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "nixos";
+    networkmanager.enable = true;
+    firewall.enable = false;
+    firewall.allowPing = true;
+  };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
-  networking.firewall.allowPing = true;
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
   # Define accounts
+  users.groups.noahs.gid = 1000;
   users.users.noah = {
     isNormalUser = true;
     uid = 1000;
@@ -44,12 +45,9 @@
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCD8aFvjd6RhUbJzvuhnyBiTmXX+PQ0uzs2ju85EnMUm+Wq7uCZ+AC8tO9IN0YiwEpIwhtNDJC/ZwzMSuEWIy9M= u0_a290@localhost"
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDUjdiPWiGQ3o/xbdPWYtEK37tsSSu+rA8VLWneOkoEtIU1F8HyjwNKWBjn+Y/8syQUF3TghV8N2d2/HPGyltccgVfPVfdh+MKLwgVXAjnLA2IhMpLnghDSQFHNvSs/RIwi1ETHP5pdiPVLkzV2wv3sfSLiayAwXiyh0D5RKUUAlY/0LKrOOvsv/1slg6Q2pk8W4u2WCJhyVGqGmFv7X71U/aX7izvyyui/AJRS2XnIcCjgB439QRXy9yMyyFQfi9C0WV38u/grq0AUuDvVuXl1jzTTDw9M9Gk7yILnVTlsK0mtNwxR54Q2ay9EhB490sa//WFCVqoYiZHjvcwFc7qHAf+en1fr5mBRlaoAZRXaq3wKuhVynTS7w92GhKdQxjPhJxbML8yqVaYvsJ+USYIBowctaVqXoDBzM+PbAuvfQcs6Mff/BzGlzwOI5RPYIEjLKDva/mBVQWm77PdqHW4r59TPE7eY6T0KqGTvto0X+N0NiQwsLHB0p+9hpEJ/3XU= u0_a178@localhost"
     ];
-    packages = with pkgs; [
-    ];
   };
 
-  users.groups.noah.gid = 1000;
-  environment.sessionVariables = rec {
+  environment.sessionVariables = {
     # Docker compose variables
     UID       = "1000";
     GID       = "1000";
@@ -60,6 +58,9 @@
     DOWNLOADS = "/mnt/easystore/downloads";
     TZ        = "America/Los_Angeles";
   };
+
+
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -121,11 +122,45 @@
 
   virtualisation.docker.enable = true;
 
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
+  services.nfs.server = {
+    enable = true;
+    exports = ''
+      /mnt/easystore 192.168.0.0/24(insecure,rw,sync,no_subtree_check)
     '';
+  };
+
+  services = {
+    samba = {
+      enable = true;
+      securityType = "user";
+      extraConfig = ''
+        guest account = noah
+        map to guest = Bad User
+
+        load printers = no
+        printcap name = /dev/null
+
+        log file = /var/log/samba/client.%I
+        log level = 2
+      '';
+      shares = {
+
+        samba = {
+          path = "/mnt/easystore";
+          browsable = "yes";
+          "read only" = "yes";
+          "guest ok" = "yes";
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          #"force user" = "noah";
+          #"force group" = "noah";
+        };
+      };
+    };
+
+    samba-wsdd = {
+      enable = true;
+    };
   };
 
   system.stateVersion = "24.05";

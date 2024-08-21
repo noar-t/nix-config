@@ -39,7 +39,7 @@
     in {
       nixosConfigurations = let
         linuxSystem = "x86_64-linux";
-        mkNixOS = { arch, profile, extraModules ? [] }:
+        mkNixOS = { arch, profile, extraModules }:
           nixpkgs.lib.nixosSystem {
             system = arch;
             specialArgs = { inherit inputs profile; };

@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ../../nix.nix ];
+
   networking.hostName = "wsl";
 
   # Set your time zone.
@@ -47,12 +49,6 @@
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
 
   system.stateVersion = "24.05";
   wsl = {

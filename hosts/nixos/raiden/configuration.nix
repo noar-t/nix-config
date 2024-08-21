@@ -5,7 +5,9 @@
 
 { imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix ];
+      ./hardware-configuration.nix
+      ../../nix.nix
+    ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -57,9 +59,6 @@
 
   # Piper mouse software
   services.ratbagd.enable = true;
-
-
-
 
   # Enable pipewire audio server
   hardware.pulseaudio.enable = false;
@@ -174,13 +173,6 @@
 #  can configure basically everything
 #}
 #  ''
-  
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
 
   system.stateVersion = "24.05";
 }
