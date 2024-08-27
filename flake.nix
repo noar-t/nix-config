@@ -39,21 +39,7 @@
     in {
       nixosConfigurations = let
         linuxSystem = "x86_64-linux";
-        mkNixOS = { arch, profile, extraModules }:
-          nixpkgs.lib.nixosSystem {
-            system = arch;
-            specialArgs = { inherit inputs profile; };
-            modules = [
-              home-manager.nixosModules.home-manager
-              {
-                home-manager.extraSpecialArgs = { inherit inputs profile; };
-                home-manager.useUserPackages = true;
-                home-manager.useGlobalPkgs = true;
-                home-manager.backupFileExtension = "bak";
-                home-manager.users.noah = import ./common/home-manager/home.nix;
-              }
-            ] ++ extraModules;
-          };
+        mkNixOS = (import ./common/nixos { inherit nixpkgs inputs; });
       in {
         # WSL
         wsl = mkNixOS { 
