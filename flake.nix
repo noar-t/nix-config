@@ -35,15 +35,12 @@
 
   outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin, nixvim, nixos-wsl, nix-hardware }: 
     let 
-      profiles = import ./common/profiles.nix;
+      profiles = (import ./common/profiles.nix);
+      libx = (import ./lib { inherit inputs; });
     in {
-      nixosConfigurations = let
-        linuxSystem = "x86_64-linux";
-        mkNixOS = (import ./common/nixos { inherit nixpkgs inputs; });
-      in {
+      nixosConfigurations = {
         # WSL
-        wsl = mkNixOS { 
-          arch = linuxSystem;
+        wsl = libx.mkNixOS { 
           profile = profiles.personal;
           extraModules = [ 
             nixos-wsl.nixosModules.default
@@ -52,18 +49,16 @@
         };
 
         # Home server
-        rinsler = mkNixOS {
-          arch = linuxSystem;
+        rinsler = libx.mkNixOS {
           profile = profiles.personal;
           extraModules = [
             ./hosts/nixos/rinsler/configuration.nix
-            ./common/nix-cleanup.nix # TODO move to nixOS common module
+            ./common/nix-cleanup.nix
           ];
         };
 
         # Gaming desktop
-        raiden = mkNixOS {
-          arch = linuxSystem;
+        raiden = libx.mkNixOS {
           profile = profiles.personal;
           extraModules = [
             ./hosts/nixos/raiden/configuration.nix
@@ -73,51 +68,20 @@
         };
       };
 
-      homeConfigurations = let
-        username = "placeholder";
-        homeDirectory = "placeholder";
-        profile = profiles.work;
-      in {
-        clouddesktop = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs { system = "x86_64-linux"; };
-          extraSpecialArgs = { inherit inputs profile; };
-          modules = [
-            {
-              home.username = username;
-              home.homeDirectory = homeDirectory;
-            }
-            ./common/home-manager/home.nix
-          ];
-        };
+      homeConfigurations = {
+        clouddesktop = libx.mkStandaloneHomeManager { profile = profiles.work; };
       };
 
       # Work MacBook
-      darwinConfigurations = let
-        profile = profiles.work;
-      in {
-        system = "aarch64-darwin";
-        specialArgs = { inherit inputs profile; };
-        kodoma = nix-darwin.lib.darwinSystem {
-          modules = [
-            ./hosts/nix-darwin/configuration.nix
-          ];
+      darwinConfigurations = {
+        kodoma = libx.mkDarwin {
+          profile = profiles.work;
         };
       };
 
       # Galaxy Tab S8+
-      nixOnDroidConfigurations.default = let
-        profile = profiles.personal ;
-      in nix-on-droid.lib.nixOnDroidConfiguration {
-        extraSpecialArgs = { inherit inputs profile; };
-        modules = [
-          ./hosts/nix-on-droid/default/nix-on-droid.nix
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.backupFileExtension = "bak";
-            home-manager.extraSpecialArgs = { inherit inputs profile; };
-            home-manager.config = ./common/home-manager/home.nix;
-          }
-        ];
+      nixOnDroidConfigurations.default = libx.mkNixOnDroid {
+        profile = profiles.personal;
       };
   };
 }
