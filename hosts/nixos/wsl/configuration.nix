@@ -1,7 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ../../nix.nix ];
+  imports = [
+    ../../../common
+    ../../nix.nix
+    ../../../common/packages/base-packages.nix
+  ];
 
   networking.hostName = "wsl";
 

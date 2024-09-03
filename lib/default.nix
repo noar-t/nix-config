@@ -15,6 +15,7 @@
         home-manager.backupFileExtension = "bak";
         home-manager.users.noah = import ../common/home-manager/home.nix;
       }
+      ../common
     ] ++ extraModules;
   };
 
@@ -31,6 +32,7 @@
         home.homeDirectory = profile.homeDirectory;
       }
       ../common/home-manager/home.nix
+      ../common
     ] ++ extraModules;
   };
 
