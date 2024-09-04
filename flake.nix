@@ -83,5 +83,7 @@
       nixOnDroidConfigurations.default = libx.mkNixOnDroid {
         profile = profiles.personal;
       };
+
+      functions = libx;
   };
 }
