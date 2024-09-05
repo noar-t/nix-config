@@ -4,29 +4,30 @@ let
   moduleMode = specialArgs.moduleMode;
   cfg = config.common.basePackages;
   basePackages = with pkgs; [
-    bat
-    comma
-    cowsay
-    duf
-    erdtree
-    eza
-    fish
-    fzf
-    gcc
-    git
-    gotop
-    htop
-    iotop-c
-    lm_sensors
-    memtester
-    neofetch
-    neovim
-    nix-index
-    stress
-    silver-searcher
-    tmux
-    watch
-    wget
+    bat             # improved syntax aware cat
+    comma           # run a package without installing
+    cowsay          # a silly classic
+    duf             # fancy du + df
+    erdtree         # TESTING tree replacement
+    eza             # enhanced ls replacement
+    fish            # fish shell
+    fzf             # fuzzy searcher
+    gcc             # c/c++ compiler
+    git             # version control
+    gotop           # fancy resource viewer
+    htop            # process manager
+    iotop-c         # I/O resource usage viewer
+    lm_sensors      # temperature and other sensor data viewer
+    memtester       # memory tester
+    neofetch        # terminal eye candy
+    neovim          # better vim
+    nix-index       # search for which nix package provides a file
+    stress          # stress test
+    silver-searcher # better grep
+    tmux            # terminal multiplexer
+    watch           # run commands at set interval
+    wget            # downloader
+    yazi            # file manager
   ];
 in {
   options.common.basePackages = {
