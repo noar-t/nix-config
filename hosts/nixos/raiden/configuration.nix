@@ -48,7 +48,6 @@
   '';
 
 
-
   # Locate command
   services.locate = {
     enable = true;

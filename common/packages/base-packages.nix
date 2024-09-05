@@ -11,10 +11,12 @@ let
     erdtree
     eza
     fish
+    fzf
     gcc
     git
     gotop
     htop
+    iotop-c
     lm_sensors
     memtester
     neofetch
