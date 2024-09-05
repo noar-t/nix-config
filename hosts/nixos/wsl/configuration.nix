@@ -56,6 +56,7 @@
   wsl = {
     enable = true;
     defaultUser = "noah";
+    interop.register = true;
   };
 }
 
