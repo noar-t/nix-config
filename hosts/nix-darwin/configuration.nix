@@ -2,12 +2,13 @@
 
 {
   imports = [
-    ../nix.nix {
-      extraExtraOptions = ''
-        extra-platforms = x86_64-darwin aarch64-darwin
-      '';
-    }
+    ../nix.nix
   ];
+
+  nix.extraOptions = ''
+    extra-platforms = x86_64-darwin aarch64-darwin
+  '';
+    
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   services.nix-daemon.enable = true;
