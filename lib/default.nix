@@ -58,6 +58,14 @@
     };
     modules = [
       ../common
+      inputs.home-manager.nixosModules.home-manager
+      {
+        home-manager.extraSpecialArgs = { inherit inputs; };
+        home-manager.useUserPackages = true;
+        home-manager.useGlobalPkgs = true;
+        home-manager.users.${username} = import ../common/home-manager/home.nix;
+        home-manager.backupFileExtension = "bak";
+      }
       ../hosts/nix-darwin/configuration.nix
     ] ++ extraModules;
   };
