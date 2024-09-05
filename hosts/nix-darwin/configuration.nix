@@ -8,19 +8,14 @@
       '';
     }
   ];
+
   nixpkgs.hostPlatform = "aarch64-darwin";
   services.nix-daemon.enable = true;
 
-  nix.extraOptions = ''
-    auto-optimise-store = true
-    experimental-features = nix-command flakes
-    extra-platforms = x86_64-darwin aarch64-darwin
-  '';
-
   users.users.${username} = {
     home = homeDirectory;
+    shell = pkgs.fish;
   };
-
 
   environment.systemPackages = with pkgs; [
     eza     # ls with better defaults
@@ -47,7 +42,7 @@
 
     taps = [
       "nikitabobko/tap"     # aerospace
-        "felixkratz/formulae" # sketchybar + borders
+      "felixkratz/formulae" # sketchybar + borders
     ];
 
     brews = [
@@ -67,6 +62,7 @@
       "bettertouchtool"    # map gestures to handle workspaces
       "caffeine"           # prevent mac from sleeping on demand
       "cheatsheet"         # show all shorcuts for an app
+      "memoryanalyzer"     # java heap dump viewer
       "flameshot"          # gui screenshot tool
       "monitorcontrol"     # control external monitor brightness
       "shortcat"           # click on things mouse-free
@@ -74,6 +70,7 @@
       "stats"              # system bar resource monitor
       "visual-studio-code" # editor, do I even want this?
       "vlc"                # media player
+      "wezterm"            # terminal emulator
     ];
   };
 }
