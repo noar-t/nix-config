@@ -84,6 +84,6 @@
         profile = profiles.personal;
       };
 
-      functions = libx;
+      lib = libx;
   };
 }
