@@ -1,17 +1,12 @@
-#{ config, pkgs, lib, mode ? "NixOS", ... }:
 { config, pkgs, lib, specialArgs, ... }:
-# TODO cant change argument to a module so need to make
-# these an option or curry, I kinda like curry here
-# since there might be multiple modules that need
-# this pattern
 let
-  specialArgsMode = if (builtins.hasAttr "mode" specialArgs)
-    then specialArgs.mode
-    else "NixOS";
+  # moduleMode = "NixOS" OR "HomeManager"
+  moduleMode = specialArgs.moduleMode;
   cfg = config.common.basePackages;
   basePackages = with pkgs; [
     bat
     comma
+    cowsay
     duf
     erdtree
     eza
@@ -33,17 +28,16 @@ let
   ];
 in {
   options.common.basePackages = {
-    enable = lib.mkEnableOption "basePackages";
-
-    # mode = lib.mkOption {
-    #   type = lib.types.enum [ "NixOS" "Home-Manager" ];
-    #   default = specialArgsMode;
-    #   description = "The mode in which this module should operate in.";
-    # };
+    enable = lib.mkOption {
+      default = true;
+      example = true;
+      description = "Whether to enable my standard cli packages";
+      type = lib.types.bool;
+    };
   };
 
   config = lib.mkIf cfg.enable (
-    if (specialArgsMode == "NixOS") 
+    if (moduleMode == "NixOS") 
     # Used as NixOS module
     then { environment.systemPackages = basePackages; }
     # Used as Home-Manager module

@@ -1,11 +1,15 @@
 { inputs }: {
+
   mkNixOS = {
     profile,
     arch ? "x86_64-linux",
-    extraModules ? []
+    extraModules ? [],
   }: inputs.nixpkgs.lib.nixosSystem {
     system = arch;
-    specialArgs = { inherit inputs profile; };
+    specialArgs = { 
+      inherit inputs profile;
+      moduleMode = "NixOS";
+    };
     modules = [
       inputs.home-manager.nixosModules.home-manager
       {
@@ -25,14 +29,17 @@
     extraModules ? []
   }: inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = (import inputs.nixpkgs { system = arch; });
-    extraSpecialArgs = { inherit inputs profile; };
+    extraSpecialArgs = {
+      inherit inputs profile; 
+      moduleMode = "HomeManager";
+    };
     modules = [
+      ../common
       {
         home.username = profile.username;
         home.homeDirectory = profile.homeDirectory;
       }
       ../common/home-manager/home.nix
-      ../common
     ] ++ extraModules;
   };
 
@@ -43,8 +50,12 @@
     extraModules ? []
   }: inputs.nix-darwin.lib.darwinSystem {
     system = arch;
-    specialArgs = { inherit inputs profile; };
+    specialArgs = { 
+      inherit inputs profile;
+      moduleMode = "NixOS";
+    };
     modules = [
+      ../common
       ../hosts/nix-darwin/configuration.nix
     ] ++ extraModules;
   };
@@ -53,8 +64,12 @@
     profile,
     extraModules ? []
   }: inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-    extraSpecialArgs = { inherit inputs profile; };
+    extraSpecialArgs = {
+      inherit inputs profile;
+      moduleMode = "NixOS";
+    };
     modules = [
+      ../common
       ../hosts/nix-on-droid/default/nix-on-droid.nix
       {
         home-manager.useGlobalPkgs = true;

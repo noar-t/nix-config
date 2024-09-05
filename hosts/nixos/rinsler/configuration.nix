@@ -32,7 +32,7 @@
   time.timeZone = "America/Los_Angeles";
 
   # Define accounts
-  users.groups.noahs.gid = 1000;
+  users.groups.noah.gid = 1000;
   users.users.noah = {
     isNormalUser = true;
     uid = 1000;
