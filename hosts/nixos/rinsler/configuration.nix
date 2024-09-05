@@ -71,17 +71,7 @@
     docker-compose
     eza
     ffmpeg
-    fish
-    fzf
-    git
-    gcc
-    htop
-    iotop-c
-    neovim
     nodejs_20
-    stress
-    tmux
-    tree
     wget
   ];
 

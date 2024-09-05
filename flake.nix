@@ -68,15 +68,15 @@
         };
       };
 
-      homeConfigurations = {
-        clouddesktop = libx.mkStandaloneHomeManager { profile = profiles.work; };
+      homeConfigurations.default = libx.mkStandaloneHomeManager {
+        homeDirectory = "/home/noah";
+        username = "noah";
       };
 
       # Work MacBook
-      darwinConfigurations = {
-        kodoma = libx.mkDarwin {
-          profile = profiles.work;
-        };
+      darwinConfigurations.default = libx.mkDarwin {
+        homeDirectory = "/Users/noah";
+        username = "noah";
       };
 
       # Galaxy Tab S8+

@@ -24,20 +24,21 @@
   };
 
   mkStandaloneHomeManager = {
-    profile,
+    homeDirectory,
+    username,
     arch ? "x86_64-linux",
     extraModules ? []
   }: inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = (import inputs.nixpkgs { system = arch; });
     extraSpecialArgs = {
-      inherit inputs profile; 
+      inherit inputs homeDirectory username; 
       moduleMode = "HomeManager";
     };
     modules = [
       ../common
       {
-        home.username = profile.username;
-        home.homeDirectory = profile.homeDirectory;
+        home.username = username;
+        home.homeDirectory = homeDirectory;
       }
       ../common/home-manager/home.nix
     ] ++ extraModules;
@@ -45,13 +46,14 @@
 
   
   mkDarwin = {
-    profile,
+    homeDirectory,
+    username,
     arch ? "aarch64-darwin",
     extraModules ? []
   }: inputs.nix-darwin.lib.darwinSystem {
     system = arch;
     specialArgs = { 
-      inherit inputs profile;
+      inherit inputs homeDirectory username;
       moduleMode = "NixOS";
     };
     modules = [

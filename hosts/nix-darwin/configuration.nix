@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, homeDirectory, username, ... }:
 
 {
   imports = [
@@ -17,8 +17,8 @@
     extra-platforms = x86_64-darwin aarch64-darwin
   '';
 
-  users.users.noahthor = {
-    home = "/Users/noahthor";
+  users.users.${username} = {
+    home = homeDirectory;
   };
 
 
