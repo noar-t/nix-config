@@ -1,5 +1,5 @@
 
-{ config, pkgs, specialArgs, inputs, ... }:
+{ config, specialArgs, ... }:
 {
   # version control
   programs.git = let
@@ -31,6 +31,15 @@
       "result/"
     ];
 
-    # TODO git include to include options
+    extraConfig = {
+      branch.sort = "-commiterdate"; # sort branches by activity
+      help.autocorrect = "1";        # fix typos in git commands
+      init.defaultBranch = "master"; # default branch when repo init
+      pull.rebase = true;            # always rebase when pulling
+      rebase.autostash = true;       # auto stash when rebasing
+      rerere.enabled = true;         # remember conflict resolutions
+      rerere.autoupdate = true;
+      # TODO try out meld merget tool
+    };
   };
 }
