@@ -1,4 +1,8 @@
-{ inputs }: {
+{ inputs }: 
+let
+  defaultHomeManagerConfig = import ../common/home-manager/home.nix {};
+in
+{
 
   mkNixOS = {
     profile,
@@ -17,7 +21,7 @@
         home-manager.useUserPackages = true;
         home-manager.useGlobalPkgs = true;
         home-manager.backupFileExtension = "bak";
-        home-manager.users.noah = import ../common/home-manager/home.nix;
+        home-manager.users.noah = defaultHomeManagerConfig;
       }
       ../common
     ] ++ extraModules;
@@ -27,7 +31,8 @@
     homeDirectory,
     username,
     arch ? "x86_64-linux",
-    extraModules ? []
+    extraModules ? [],
+    extraHomeModules ? [],
   }: inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = (import inputs.nixpkgs { system = arch; });
     extraSpecialArgs = {
@@ -40,7 +45,7 @@
         home.username = username;
         home.homeDirectory = homeDirectory;
       }
-      ../common/home-manager/home.nix
+      ../common/home-manager/home.nix { inherit extraHomeModules; }
     ] ++ extraModules;
   };
 
@@ -49,7 +54,8 @@
     homeDirectory,
     username,
     arch ? "aarch64-darwin",
-    extraModules ? []
+    extraModules ? [],
+    extraHomeModules ? []
   }: inputs.nix-darwin.lib.darwinSystem {
     system = arch;
     specialArgs = { 
@@ -67,6 +73,16 @@
         home-manager.backupFileExtension = "bak";
       }
       ../hosts/nix-darwin/configuration.nix
+      inputs.home-manager.darwinModules.home-manager
+      {
+        home-manager.extraSpecialArgs = { inherit inputs profile extraHomeModules; };
+        home-manager.useUserPackages = true;
+        home-manager.useGlobalPkgs = true;
+        home-manager.backupFileExtension = "bak";
+        home-manager.users.${profile.username} = import ../common/home-manager/home.nix { 
+          inherit extraHomeModules;
+        };
+      }
     ] ++ extraModules;
   };
 
@@ -85,7 +101,7 @@
         home-manager.useGlobalPkgs = true;
         home-manager.backupFileExtension = "bak";
         home-manager.extraSpecialArgs = { inherit inputs profile; };
-        home-manager.config = ../common/home-manager/home.nix;
+        home-manager.config = defaultHomeManagerConfig;
       }
     ] ++ extraModules;
   };

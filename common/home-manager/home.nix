@@ -1,11 +1,17 @@
-{ config, pkgs, specialArgs, inputs, ... }:
+{ extraHomeModules ? [] }:
+{ 
+  pkgs,
+  ...
+}:
 {
+
   imports = [
     ./git.nix
     ./neovim.nix
     ./tmux.nix
     ./fish.nix
-  ];
+  ] ++ extraHomeModules;
+
 
   home.stateVersion = "24.05";
   home.sessionVariables.EDITOR = "nvim";
