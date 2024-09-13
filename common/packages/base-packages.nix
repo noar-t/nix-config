@@ -16,7 +16,6 @@ let
     git             # version control
     gotop           # fancy resource viewer
     htop            # process manager
-    lm_sensors      # temperature and other sensor data viewer
     memtester       # memory tester
     neofetch        # terminal eye candy
     neovim          # better vim
