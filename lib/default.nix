@@ -64,7 +64,6 @@ in
     };
     modules = [
       ../common
-      inputs.home-manager.nixosModules.home-manager
       ../hosts/nix-darwin/configuration.nix
       inputs.home-manager.darwinModules.home-manager
       {

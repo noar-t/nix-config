@@ -35,7 +35,7 @@
   };
 
   environment.shells = [ pkgs.bashInteractive pkgs.zsh pkgs.fish ];
-  system.keyboard.remapCapsLockTocontrol = true;
+  system.keyboard.remapCapsLockToControl = true;
 
 
   homebrew = {
