@@ -1,4 +1,4 @@
-{ config, pkgs, specialArgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
@@ -55,8 +55,8 @@
       # Toggle-able terminal
       toggleterm.enable = true;
 
-      # File tree
-      neo-tree.enable = true;
+      # File browser
+      oil.enable = true;
 
       # Show status loading in bottom right
       fidget.enable = true;
