@@ -9,7 +9,12 @@ let
   ];
 in {
   options.common.guiPackages = {
-    enable = lib.mkEnableOption "my standard gui packages";
+    enable = lib.mkOption {
+      default = false;
+      example = true;
+      description = "Whether to enable my standard gui packages";
+      type = lib.types.bool;
+    };
   };
 
   config = lib.mkIf cfg.enable (

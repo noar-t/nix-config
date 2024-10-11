@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
+  
+  #common.basePackages.enable = false;
+
   # Simply install just the packages
   environment.packages = with pkgs; [
     # Some common stuff that people expect to have
@@ -15,6 +18,7 @@
     bzip2
     gzip
     xz
+    nushell
 
     # User added
 
