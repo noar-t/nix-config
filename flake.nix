@@ -2,7 +2,7 @@
   description = "flake for nix-on-droid and nix-os devices/hosts";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid/release-23.11";
@@ -21,7 +21,7 @@
     };
     
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-24.05";
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
