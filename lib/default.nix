@@ -86,8 +86,9 @@ in
       inherit inputs profile;
       moduleMode = "NixOS";
     };
+    pkgs = import inputs.nixpkgs { system = "aarch64-linux"; };
     modules = [
-      ../common
+      #../common TODO fix this module to work for nix-on-droid
       ../hosts/nix-on-droid/default/nix-on-droid.nix
       {
         home-manager.useGlobalPkgs = true;
