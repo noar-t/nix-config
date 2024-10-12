@@ -79,7 +79,6 @@
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
-  sound.enable = false;
   hardware.pulseaudio.enable = false;
 
   # required for AlderLake igpu
@@ -123,16 +122,19 @@
     samba = {
       enable = true;
       securityType = "user";
-      extraConfig = ''
-        guest account = noah
-        map to guest = Bad User
+      settings = {
+        global = {
+          "guest account" = "noah";
+          "map to guest" = "Bad User";
 
-        load printers = no
-        printcap name = /dev/null
+          "load printers" = "no";
+          "printcap name" = "/dev/null";
 
-        log file = /var/log/samba/client.%I
-        log level = 2
-      '';
+          "log file" = "/var/log/samba/client.%I";
+          "log level" = 2;
+        };
+      };
+
       shares = {
 
         samba = {

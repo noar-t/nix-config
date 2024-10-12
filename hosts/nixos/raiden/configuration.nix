@@ -70,12 +70,9 @@
   };
 
   # Nvidia settings follow
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
     extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
-    setLdLibraryPath = true;
   };
 
   services.xserver.videoDrivers = ["nvidia"];
