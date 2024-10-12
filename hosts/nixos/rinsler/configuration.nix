@@ -89,7 +89,7 @@
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
@@ -121,9 +121,9 @@
   services = {
     samba = {
       enable = true;
-      securityType = "user";
       settings = {
         global = {
+          security = "user";
           "guest account" = "noah";
           "map to guest" = "Bad User";
 
@@ -133,10 +133,7 @@
           "log file" = "/var/log/samba/client.%I";
           "log level" = 2;
         };
-      };
-
-      shares = {
-
+        # Share named samba
         samba = {
           path = "/mnt/easystore";
           browsable = "yes";
@@ -144,10 +141,9 @@
           "guest ok" = "yes";
           "create mask" = "0644";
           "directory mask" = "0755";
-          #"force user" = "noah";
-          #"force group" = "noah";
         };
       };
+
     };
 
     samba-wsdd = {

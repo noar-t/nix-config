@@ -25,8 +25,9 @@
       luasnip.enable = true;
       friendly-snippets.enable = true;
 
-      # Quick file naviagtor
+      # Quick file naviagtor and required icons
       telescope.enable = true;
+      web-devicons.enable = true;
 
       # Quick file switcher
       harpoon.enable = true;
@@ -73,36 +74,38 @@
       # A popup that shows possible keybinds for commands typed
       which-key = {
         enable = true;
-        operators = {
-          gc = "Comments";
-        };
-        triggersBlackList = {
-          i = [
-            "j"
-            "k"
+        settings = {
+          operators = {
+            gc = "Comments";
+          };
+          triggers_black_list = {
+            i = [
+              "j"
+                "k"
+            ];
+            v = [
+              "j"
+                "k"
+            ];
+          };
+          triggers_no_wait = [
+            "`"
+              "'"
+              "g`"
+              "g'"
+              "\""
+              "<C-r>"
+              "z="
           ];
-          v = [
-            "j"
-            "k"
-          ];
-        };
-        triggersNoWait = [
-          "`"
-          "'"
-          "g`"
-          "g'"
-          "\""
-          "<C-r>"
-          "z="
-        ];
-        plugins.presets = {
-          g = true;
-          motions = true;
-          nav = true;
-          operators = true;
-          textObjects = true;
-          windows = true;     # <C-w>
-          z = true;           # folds
+          plugins.presets = {
+            g = true;
+            motions = true;
+            nav = true;
+            operators = true;
+            text_objects = true;
+            windows = true;     # <C-w>
+            z = true;           # folds
+          };
         };
       };
 
@@ -145,13 +148,9 @@
         enable = true;
         servers = {
           elmls.enable = true;
-          java-language-server = {
-            enable = true;
-            package = pkgs.jdt-language-server;
-            cmd = ["${pkgs.jdt-language-server}/bin/jdtls" ];
-          };
-          lua-ls.enable = true;
-          kotlin-language-server.enable = true;
+          jdtls.enable = true;
+          lua_ls.enable = true;
+          kotlin_language_server.enable = true;
           nixd.enable = true;
           pyright.enable = true;
         };

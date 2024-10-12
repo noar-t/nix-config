@@ -48,14 +48,6 @@
   '';
 
 
-  # Locate command
-  services.locate = {
-    enable = true;
-    locate = pkgs.mlocate;
-    # possible with mlocate because it's fast (because incremental)
-    interval = "daily";
-  };
-
   # Piper mouse software
   services.ratbagd.enable = true;
 
@@ -106,6 +98,7 @@
     bitwarden-cli
     comma
     discord
+    dconf-editor
     easyeffects
     eza
     firefox
@@ -113,8 +106,7 @@
     gcc
     git
     glxinfo
-    gnome3.dconf-editor
-    gnome3.gnome-tweaks
+    gnome-tweaks
     htop
     jdk17
     jetbrains.idea-community
