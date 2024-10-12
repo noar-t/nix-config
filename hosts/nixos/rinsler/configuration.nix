@@ -74,6 +74,7 @@
     docker-compose
     eza
     ffmpeg
+    mosh
     nodejs_20
     wget
   ];
