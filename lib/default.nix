@@ -1,6 +1,6 @@
 { inputs }: 
 let
-  defaultHomeManagerConfig = import ../common/home-manager/home.nix {};
+  defaultHomeManagerConfig = import ../modules/home;
 in
 {
 
@@ -45,7 +45,7 @@ in
         home.username = username;
         home.homeDirectory = homeDirectory;
       }
-      ../common/home-manager/home.nix { inherit extraHomeModules; }
+      ../modules/home/home.nix { inherit extraHomeModules; }
     ] ++ extraModules;
   };
 
@@ -71,7 +71,7 @@ in
         home-manager.useUserPackages = true;
         home-manager.useGlobalPkgs = true;
         home-manager.backupFileExtension = "bak";
-        home-manager.users.${username} = import ../common/home-manager/home.nix { 
+        home-manager.users.${username} = import ../modules/home/home.nix { 
           inherit extraHomeModules;
         };
       }
