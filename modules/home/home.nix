@@ -6,13 +6,20 @@
   ...
 }:
 {
-
   imports = [
-    ./git.nix
-    ./neovim.nix
-    ./tmux.nix
+    ./bat.nix
+    ./eza.nix
     ./fish.nix
+    ./fzf.nix
+    ./git.nix
+    ./htop.nix
     ./hyprland.nix
+    ./neovim.nix
+    ./ssh.nix
+    ./tealdeer.nix
+    ./thefuck.nix
+    ./tmux.nix
+    ./yt-dlp.nix
   ] ++ extraHomeModules;
 
   home.stateVersion = "24.05";
@@ -25,62 +32,8 @@
 
   programs.home-manager.enable = true;
 
-  # home-manager-help tool
+  # home-manager-help tool, use command "home-manager-help"
   manual.html.enable = true;
-
-  # improved cat
-  programs.bat = {
-    enable = true;
-    config = {
-      theme = "gruvbox-dark";
-    };
-  };
-
-  # improved ls
-  programs.eza = {
-    enable = true;
-    enableFishIntegration = true;
-
-    # list git status if tracked
-    git = true;
-
-    # show icons next to items
-    icons = true;
-  };
-
-  # fuzzy finder for shell history, files, etc
-  programs.fzf = {
-    enable = true;
-    enableFishIntegration = true;
-  };
-
-  # cpu and memory monitor
-  programs.htop = {
-    enable = true;
-  };
-
-  # its ssh...
-  programs.ssh = {
-    enable = true;
-    # TODO modularize to use at work
-  };
-
-  # faster tldr
-  programs.tealdeer = {
-    enable = true;
-    settings.updates.auto_update = true;
-  };
-
-  # command typo fixer
-  programs.thefuck = {
-    enable = true;
-    enableFishIntegration = true;
-  };
-
-  # youtube downloader
-  programs.yt-dlp = {
-    enable = true;
-  };
 
   # TODO stuff to add later/explore
   # borgmatic
@@ -118,6 +71,4 @@
   # editorconfig?
   # fonts?
   # gtk?
-  #
-  # home.file for all configs
 }
