@@ -1,5 +1,10 @@
-
-{ config, pkgs, specialArgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  specialArgs,
+  inputs,
+  ...
+}:
 {
   # terminal multiplexer
   programs.tmux = {

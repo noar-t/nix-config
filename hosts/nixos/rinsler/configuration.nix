@@ -5,18 +5,20 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../nix.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../nix.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelModules = [ "sg" ];
-  boot.kernel.sysctl = { "kernel.task_delayacct" = 1; }; # flag for iotop
+  boot.kernel.sysctl = {
+    "kernel.task_delayacct" = 1;
+  }; # flag for iotop
 
   system.autoUpgrade.enable = true;
 
@@ -27,7 +29,6 @@
     firewall.allowPing = true;
   };
 
-
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
@@ -37,7 +38,12 @@
     isNormalUser = true;
     uid = 1000;
     home = "/home/noah";
-    extraGroups = [ "docker" "networkmanager" "noah" "wheel" ];
+    extraGroups = [
+      "docker"
+      "networkmanager"
+      "noah"
+      "wheel"
+    ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBG5/igfDm33qmKoujL1y8F/D2EInyUyJJE4fHZjZXKRYcDfrDp30QEd6CM7BFNJMREyzeZe4CBopIZld77YjKus= noah@WIN11-DESKTOP"
@@ -49,18 +55,15 @@
 
   environment.sessionVariables = {
     # Docker compose variables
-    UID       = "1000";
-    GID       = "1000";
+    UID = "1000";
+    GID = "1000";
     DOCKERDIR = "/home/docker/";
-    TV        = "/mnt/easystore/tvShows";
-    MOVIES    = "/mnt/easystore/movies";
-    NZBDIR    = "/mnt/easystore/nzb";
+    TV = "/mnt/easystore/tvShows";
+    MOVIES = "/mnt/easystore/movies";
+    NZBDIR = "/mnt/easystore/nzb";
     DOWNLOADS = "/mnt/easystore/downloads";
-    TZ        = "America/Los_Angeles";
+    TZ = "America/Los_Angeles";
   };
-
-
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -93,12 +96,11 @@
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
       vaapiVdpau
       libvdpau-va-gl
     ];
   };
-
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -153,4 +155,3 @@
 
   system.stateVersion = "24.05";
 }
-

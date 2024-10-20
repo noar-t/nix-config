@@ -81,21 +81,21 @@
           triggers_black_list = {
             i = [
               "j"
-                "k"
+              "k"
             ];
             v = [
               "j"
-                "k"
+              "k"
             ];
           };
           triggers_no_wait = [
             "`"
-              "'"
-              "g`"
-              "g'"
-              "\""
-              "<C-r>"
-              "z="
+            "'"
+            "g`"
+            "g'"
+            "\""
+            "<C-r>"
+            "z="
           ];
           plugins.presets = {
             g = true;
@@ -103,8 +103,8 @@
             nav = true;
             operators = true;
             text_objects = true;
-            windows = true;     # <C-w>
-            z = true;           # folds
+            windows = true; # <C-w>
+            z = true; # folds
           };
         };
       };
@@ -196,7 +196,6 @@
       # TODO remove when adding status line
       showmode = true;
 
-
       # Always split right/down
       splitright = true;
       splitbelow = true;
@@ -248,7 +247,6 @@
 
       # Enable spell checking
       spell = true;
-
 
       list = true;
       listchars = {

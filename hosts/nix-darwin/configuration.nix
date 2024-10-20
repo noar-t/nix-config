@@ -1,4 +1,11 @@
-{ config, lib, pkgs, homeDirectory, username, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  homeDirectory,
+  username,
+  ...
+}:
 
 {
   imports = [
@@ -8,7 +15,6 @@
   nix.extraOptions = ''
     extra-platforms = x86_64-darwin aarch64-darwin
   '';
-    
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   services.nix-daemon.enable = true;
@@ -19,14 +25,14 @@
   };
 
   environment.systemPackages = with pkgs; [
-    eza     # ls with better defaults
+    eza # ls with better defaults
     fselect # query files with sql-like syntax
-    git     # version control
-    jq      # json query tool
-    neovim  # modern vim
-    tmux    # terminal multiplexer
+    git # version control
+    jq # json query tool
+    neovim # modern vim
+    tmux # terminal multiplexer
     # TODO replace with alias to `eza -T`
-    tree    # list directory tree
+    tree # list directory tree
   ];
 
   programs = {
@@ -34,15 +40,18 @@
     zsh.enable = true;
   };
 
-  environment.shells = [ pkgs.bashInteractive pkgs.zsh pkgs.fish ];
+  environment.shells = [
+    pkgs.bashInteractive
+    pkgs.zsh
+    pkgs.fish
+  ];
   system.keyboard.remapCapsLockToControl = true;
-
 
   homebrew = {
     enable = true;
 
     taps = [
-      "nikitabobko/tap"     # aerospace
+      "nikitabobko/tap" # aerospace
       "felixkratz/formulae" # sketchybar + borders
     ];
 
@@ -57,21 +66,21 @@
     # TODO zap
 
     casks = [
-      "aerospace"          # tiling wm
-      "alacritty"          # gpu accelerated terminal
-      "alfred"             # spotlight replacement, dmenu-ish
-      "bettertouchtool"    # map gestures to handle workspaces
-      "caffeine"           # prevent mac from sleeping on demand
-      "cheatsheet"         # show all shorcuts for an app
-      "memoryanalyzer"     # java heap dump viewer
-      "flameshot"          # gui screenshot tool
-      "monitorcontrol"     # control external monitor brightness
-      "shortcat"           # click on things mouse-free
-      "spotify"            # music player
-      "stats"              # system bar resource monitor
+      "aerospace" # tiling wm
+      "alacritty" # gpu accelerated terminal
+      "alfred" # spotlight replacement, dmenu-ish
+      "bettertouchtool" # map gestures to handle workspaces
+      "caffeine" # prevent mac from sleeping on demand
+      "cheatsheet" # show all shorcuts for an app
+      "memoryanalyzer" # java heap dump viewer
+      "flameshot" # gui screenshot tool
+      "monitorcontrol" # control external monitor brightness
+      "shortcat" # click on things mouse-free
+      "spotify" # music player
+      "stats" # system bar resource monitor
       "visual-studio-code" # editor, do I even want this?
-      "vlc"                # media player
-      "wezterm"            # terminal emulator
+      "vlc" # media player
+      "wezterm" # terminal emulator
     ];
   };
 }

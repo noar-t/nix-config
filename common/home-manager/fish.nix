@@ -1,4 +1,10 @@
-{ config, pkgs, specialArgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  specialArgs,
+  inputs,
+  ...
+}:
 {
   # user-friendly shell
   programs.fish = {

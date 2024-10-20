@@ -19,7 +19,7 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,18 +33,29 @@
     nix-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-on-droid, home-manager, nix-darwin, nixvim, nixos-wsl, nix-hardware }: 
-    let 
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      nix-on-droid,
+      home-manager,
+      nix-darwin,
+      nixvim,
+      nixos-wsl,
+      nix-hardware,
+    }:
+    let
       profiles = (import ./common/profiles.nix);
       libx = (import ./lib { inherit inputs; });
-    in {
+    in
+    {
       nixosConfigurations = {
         # WSL
-        wsl = libx.mkNixOS { 
+        wsl = libx.mkNixOS {
           profile = profiles.personal;
-          extraModules = [ 
+          extraModules = [
             nixos-wsl.nixosModules.default
-            ./hosts/nixos/wsl/configuration.nix 
+            ./hosts/nixos/wsl/configuration.nix
           ];
         };
 
@@ -80,10 +91,11 @@
       };
 
       # Galaxy Tab S8+
-      nixOnDroidConfigurations.default = libx.mkNixOnDroid {
-        profile = profiles.personal;
-      };
+      nixOnDroidConfigurations.default = libx.mkNixOnDroid { profile = profiles.personal; };
 
+      # Export functions to enable importing flake to work computers
       lib = libx;
-  };
+
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+    };
 }

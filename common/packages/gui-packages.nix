@@ -1,4 +1,10 @@
-{ config, pkgs, lib, specialArgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  specialArgs,
+  ...
+}:
 let
   # moduleMode = "NixOS" OR "HomeManager"
   moduleMode = specialArgs.moduleMode;
@@ -7,7 +13,8 @@ let
     discord
     firefox
   ];
-in {
+in
+{
   options.common.guiPackages = {
     enable = lib.mkOption {
       default = false;
@@ -18,10 +25,13 @@ in {
   };
 
   config = lib.mkIf cfg.enable (
-    if (moduleMode == "NixOS") 
+    if
+      (moduleMode == "NixOS")
     # Used as NixOS module
-    then { environment.systemPackages = guiPackages; }
+    then
+      { environment.systemPackages = guiPackages; }
     # Used as Home-Manager module
-    else { home.packages = guiPackages; }
+    else
+      { home.packages = guiPackages; }
   );
 }

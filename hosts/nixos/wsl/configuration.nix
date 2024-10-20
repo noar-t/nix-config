@@ -16,8 +16,10 @@
     uid = 1000;
     home = "/home/noah";
     shell = pkgs.fish;
-    packages = with pkgs; [
-    ];
+    packages =
+      with pkgs;
+      [
+      ];
   };
 
   users.groups.noah.gid = 1000;
@@ -51,7 +53,6 @@
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-
   system.stateVersion = "24.05";
   wsl = {
     enable = true;
@@ -59,4 +60,3 @@
     interop.register = true;
   };
 }
-

@@ -1,5 +1,7 @@
-{ extraHomeModules ? [] }:
-{ 
+{
+  extraHomeModules ? [ ],
+}:
+{
   pkgs,
   ...
 }:
@@ -12,7 +14,6 @@
     ./fish.nix
     ./hyprland.nix
   ] ++ extraHomeModules;
-
 
   home.stateVersion = "24.05";
   home.sessionVariables.EDITOR = "nvim";
@@ -52,7 +53,6 @@
     enable = true;
     enableFishIntegration = true;
   };
-
 
   # cpu and memory monitor
   programs.htop = {
