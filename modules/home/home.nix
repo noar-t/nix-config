@@ -7,6 +7,7 @@
 }:
 {
   imports = [
+    ./alacritty.nix
     ./bat.nix
     ./eza.nix
     ./fish.nix
@@ -39,7 +40,6 @@
   # borgmatic
   # chromium/firefox w/ extensions
   # fd
-  # git-cliff -> generate changelog
   # jq
   # kitty
   # man -> isnt there a better man viewer?
