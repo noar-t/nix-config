@@ -23,7 +23,7 @@
   system.autoUpgrade.enable = true;
 
   networking = {
-    hostName = "nixos";
+    hostName = "rinsler";
     networkmanager.enable = true;
     firewall.enable = false;
     firewall.allowPing = true;
