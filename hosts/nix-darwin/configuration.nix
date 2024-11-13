@@ -82,5 +82,7 @@
       "vlc" # media player
       "wezterm" # terminal emulator
     ];
+
+    system.stateVersion = 5;1
   };
 }
