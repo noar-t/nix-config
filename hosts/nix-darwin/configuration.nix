@@ -83,6 +83,6 @@
       "wezterm" # terminal emulator
     ];
 
-    system.stateVersion = 5;1
+    system.stateVersion = 5;
   };
 }
