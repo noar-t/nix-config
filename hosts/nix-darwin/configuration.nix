@@ -12,6 +12,8 @@
     ../nix.nix
   ];
 
+  system.stateVersion = 5;
+
   nix.extraOptions = ''
     extra-platforms = x86_64-darwin aarch64-darwin
   '';
@@ -83,6 +85,5 @@
       "wezterm" # terminal emulator
     ];
 
-    system.stateVersion = 5;
   };
 }
