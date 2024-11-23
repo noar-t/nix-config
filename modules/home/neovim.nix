@@ -25,6 +25,9 @@
       luasnip.enable = true;
       friendly-snippets.enable = true;
 
+      # Auto trim trailing spaces
+      trim.enable = true;
+
       # Quick file naviagtor and required icons
       telescope.enable = true;
       web-devicons.enable = true;
