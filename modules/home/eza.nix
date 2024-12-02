@@ -11,6 +11,6 @@
     git = true;
 
     # show icons next to items
-    icons = true;
+    icons = "auto";
   };
 }
