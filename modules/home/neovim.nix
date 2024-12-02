@@ -28,7 +28,7 @@
       # Auto trim trailing spaces
       trim.enable = true;
 
-      # Quick file naviagtor and required icons
+      # Quick file navigator and required icons
       telescope.enable = true;
       web-devicons.enable = true;
 
@@ -154,7 +154,30 @@
           jdtls.enable = true;
           lua_ls.enable = true;
           kotlin_language_server.enable = true;
-          nixd.enable = true;
+          nixd = {
+            enable = true;
+            settings = {
+              nixpkgs = {
+
+                expr = "import <nixpkgs> { }";
+              };
+              formatting = {
+                command = [ "nixfmt" ];
+              };
+              options = {
+                nixos = {
+                  # TODO fix hostname to be dynamic, for now will just pin to WSL
+                  expr = "(builtins.getFlake \"github:noar-t/nix-config\").nixosConfigurations.wsl.options";
+                };
+                home_manager = {
+                  expr = "(builtins.getFlake \"github:noar-t/nix-config\").homeConfigurations.default.options";
+                };
+                darwin = {
+                  expr = "(builtins.getFlake \"github:noar-t/nix-config\").darwinConfigurations.default.options";
+                };
+              };
+            };
+          };
           pyright.enable = true;
         };
 
@@ -275,7 +298,7 @@
       # lspkind.nvim
       # rainbow-delimiters?
       # configure vim.diagnostics.config
-      # configure 
+      # configure
       # lsp highlighting bindings from kickstart
     };
   };
