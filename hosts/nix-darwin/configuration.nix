@@ -51,8 +51,10 @@
 
   homebrew = {
     enable = true;
-    autoUpdate = true;
-    upgrade = true;
+    onActivation = {
+      autoUpdate = true;
+      upgrade = true;
+    };
 
     taps = [
       "nikitabobko/tap" # aerospace
