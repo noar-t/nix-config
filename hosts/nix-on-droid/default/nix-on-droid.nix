@@ -9,6 +9,7 @@
 
   #common.basePackages.enable = false;
 
+
   # Simply install just the packages
   environment.packages = with pkgs; [
     # Some common stuff that people expect to have
@@ -26,6 +27,7 @@
     nushell
 
     # User added
+    android-tools
 
     elmPackages.elm
     eza
@@ -45,12 +47,12 @@
     vim
     which
     zip
-    nerdfonts
+    nerd-fonts.hack
   ];
 
   terminal = {
     # Hack font
-    font = "${pkgs.nerdfonts}/share/fonts/truetype/NerdFonts/HackNerdFontMono-Regular.ttf";
+    font = "${pkgs.nerd-fonts.hack}/share/fonts/truetype/NerdFonts/Hack/HackNerdFontMono-Regular.ttf";
     # gruvbox colors
     colors = {
       background = "#1d2021";
