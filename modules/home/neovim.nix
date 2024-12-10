@@ -21,6 +21,9 @@
       # Better error alerts
       notify.enable = true;
 
+      # Use relative numbers only when focussed
+      numbertoggle.enable = true;
+
       # Snippets
       luasnip.enable = true;
       friendly-snippets.enable = true;
