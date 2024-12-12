@@ -57,7 +57,11 @@
       fidget.enable = true;
 
       # Syntactic aware editing and highlighting
-      treesitter.enable = true;
+      treesitter = {
+        enable = true;
+        settings.highlight.enable = true;
+        grammarPackages = pkgs.vimPlugins.nvim-treesitter.passthru.allGrammars;
+      };
 
       # Autodetect indent
       sleuth.enable = true;
@@ -157,6 +161,7 @@
           jdtls.enable = true;
           lua_ls.enable = true;
           kotlin_language_server.enable = true;
+          elixirls.enable = true;
           nixd = {
             enable = true;
             settings = {

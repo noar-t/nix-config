@@ -31,6 +31,7 @@
 
     elmPackages.elm
     eza
+    elixir
     fish
     gcc
     git

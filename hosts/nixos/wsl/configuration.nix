@@ -17,8 +17,7 @@
     home = "/home/noah";
     shell = pkgs.fish;
     packages =
-      with pkgs;
-      [
+      with pkgs; [
       ];
   };
 
@@ -30,6 +29,7 @@
     borgbackup
     cargo
     eza
+    elixir
     ffmpeg
     fish
     fzf
