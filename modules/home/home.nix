@@ -15,6 +15,7 @@
     ./git.nix
     ./htop.nix
     ./hyprland.nix
+    ./neovide.nix
     ./neovim.nix
     ./ssh.nix
     ./tealdeer.nix
