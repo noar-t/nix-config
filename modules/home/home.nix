@@ -26,6 +26,7 @@
 
   home.stateVersion = "24.05";
   home.sessionVariables.EDITOR = "nvim";
+  home.sessionVariables.MANPAGER = "nvim +Man!";
   home.packages = with pkgs; [
     erdtree
     silver-searcher
