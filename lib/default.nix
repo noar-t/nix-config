@@ -7,11 +7,11 @@ in
   mkNixOS =
     {
       profile,
-      arch ? "x86_64-linux",
+      system ? "x86_64-linux",
       extraModules ? [ ],
     }:
     inputs.nixpkgs.lib.nixosSystem {
-      system = arch;
+      system = system;
       specialArgs = {
         inherit inputs profile;
         moduleMode = "NixOS";
@@ -20,7 +20,7 @@ in
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager.extraSpecialArgs = {
-            inherit inputs profile;
+            inherit inputs profile system;
           };
           home-manager.useUserPackages = true;
           home-manager.useGlobalPkgs = true;
@@ -36,14 +36,19 @@ in
       profile,
       homeDirectory,
       username,
-      arch ? "x86_64-linux",
+      system ? "x86_64-linux",
       extraModules ? [ ],
       extraHomeModules ? [ ],
     }:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = (import inputs.nixpkgs { system = arch; });
       extraSpecialArgs = {
-        inherit inputs homeDirectory username profile;
+        inherit
+          inputs
+          homeDirectory
+          username
+          profile
+          ;
         moduleMode = "HomeManager";
       };
       modules = [
@@ -69,7 +74,12 @@ in
     inputs.nix-darwin.lib.darwinSystem {
       system = arch;
       specialArgs = {
-        inherit inputs homeDirectory username profile;
+        inherit
+          inputs
+          homeDirectory
+          username
+          profile
+          ;
         moduleMode = "NixOS";
       };
       modules = [

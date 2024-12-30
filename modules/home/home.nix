@@ -12,6 +12,7 @@
     ./eza.nix
     ./fish.nix
     ./fzf.nix
+    ./ghostty.nix
     ./git.nix
     ./htop.nix
     ./hyprland.nix

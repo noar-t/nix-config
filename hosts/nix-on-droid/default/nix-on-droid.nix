@@ -9,7 +9,6 @@
 
   #common.basePackages.enable = false;
 
-
   # Simply install just the packages
   environment.packages = with pkgs; [
     # Some common stuff that people expect to have

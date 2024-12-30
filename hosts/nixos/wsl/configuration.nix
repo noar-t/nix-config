@@ -17,7 +17,8 @@
     home = "/home/noah";
     shell = pkgs.fish;
     packages =
-      with pkgs; [
+      with pkgs;
+      [
       ];
   };
 

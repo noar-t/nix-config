@@ -5,7 +5,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 
@@ -103,6 +102,7 @@
   environment.variables = {
     EDITOR = "nvim";
   };
+
   environment.systemPackages = with pkgs; [
     bitwarden
     bitwarden-cli
@@ -111,7 +111,6 @@
     dconf-editor
     easyeffects
     eza
-    inputs.ghostty.packages.x86_64-linux.default
     firefox
     fish
     gcc
