@@ -41,7 +41,7 @@ in
       extraHomeModules ? [ ],
     }:
     inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = (import inputs.nixpkgs { system = arch; });
+      pkgs = (import inputs.nixpkgs { inherit system; });
       extraSpecialArgs = {
         inherit
           inputs
@@ -67,18 +67,19 @@ in
       profile,
       homeDirectory,
       username,
-      arch ? "aarch64-darwin",
+      system ? "aarch64-darwin",
       extraModules ? [ ],
       extraHomeModules ? [ ],
     }:
     inputs.nix-darwin.lib.darwinSystem {
-      system = arch;
+      inherit system;
       specialArgs = {
         inherit
           inputs
           homeDirectory
           username
           profile
+          system
           ;
         moduleMode = "NixOS";
       };
@@ -88,7 +89,7 @@ in
         inputs.home-manager.darwinModules.home-manager
         {
           home-manager.extraSpecialArgs = {
-            inherit inputs profile;
+            inherit inputs profile system;
           };
           home-manager.useUserPackages = true;
           home-manager.useGlobalPkgs = true;
@@ -119,6 +120,7 @@ in
           home-manager.backupFileExtension = "bak";
           home-manager.extraSpecialArgs = {
             inherit inputs profile;
+            system = "aarch64-linux";
           };
           home-manager.config = defaultHomeManagerConfig;
         }
