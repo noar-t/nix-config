@@ -31,6 +31,8 @@
     };
 
     nix-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    ghostty.url = "github:ghostty-org/ghostty";
   };
 
   outputs =
@@ -43,6 +45,7 @@
       nixvim,
       nixos-wsl,
       nix-hardware,
+      ghostty,
     }:
     let
       profiles = (import ./common/profiles.nix);

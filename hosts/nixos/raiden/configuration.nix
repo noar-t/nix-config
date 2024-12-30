@@ -1,10 +1,11 @@
-# Edit this configuration file to define what should be installed on your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual 
+# Edit this configuration file to define what should be installed on your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual
 # (accessible by running `nixos-help`).
 
 {
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 
@@ -28,12 +29,12 @@
   boot.tmp.useTmpfs = true;
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "nixdesktop";
+  networking.hostName = "raiden";
   time.hardwareClockInLocalTime = true;
 
   time.timeZone = "America/Los_Angeles";
 
-  # Configure network proxy if necessary networking.proxy.default = "http://user:password@proxy:port/"; networking.proxy.noProxy = 
+  # Configure network proxy if necessary networking.proxy.default = "http://user:password@proxy:port/"; networking.proxy.noProxy =
   # "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties. i18n.defaultLocale = "en_US.UTF-8"; console = {
@@ -110,6 +111,7 @@
     dconf-editor
     easyeffects
     eza
+    inputs.ghostty.packages.x86_64-linux.default
     firefox
     fish
     gcc
