@@ -89,7 +89,6 @@
           profile = profiles.personal;
           extraModules = [
             ./hosts/nixos/thinkpad/configuration.nix
-            nix-hardware.nixosModules.gigabyte-b550
           ];
         };
       };
