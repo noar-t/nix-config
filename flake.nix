@@ -83,6 +83,15 @@
             nix-hardware.nixosModules.gigabyte-b550
           ];
         };
+
+	# Old thinkpad
+        thinkpad = libx.mkNixOS {
+          profile = profiles.personal;
+          extraModules = [
+            ./hosts/nixos/thinkpad/configuration.nix
+            nix-hardware.nixosModules.gigabyte-b550
+          ];
+        };
       };
 
       homeConfigurations.default = libx.mkStandaloneHomeManager {
