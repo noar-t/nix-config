@@ -15,6 +15,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprland.url = "github:hyprwm/Hyprland";
+
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,6 +43,7 @@
       nixpkgs,
       nix-on-droid,
       home-manager,
+      hyprland,
       nix-darwin,
       nixvim,
       nixos-wsl,
