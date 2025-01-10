@@ -103,7 +103,7 @@ in
         inputs.home-manager.darwinModules.home-manager
         {
           home-manager.extraSpecialArgs = {
-            inherit inputs profile system;
+            inherit inputs profile system platform;
           };
           home-manager.useUserPackages = true;
           home-manager.useGlobalPkgs = true;
@@ -119,10 +119,12 @@ in
     {
       profile,
       extraModules ? [ ],
-    }:
+    }: let
+      platform = "linux";
+    in
     inputs.nix-on-droid.lib.nixOnDroidConfiguration {
       extraSpecialArgs = {
-        inherit inputs profile;
+        inherit inputs profile platform;
         moduleMode = "NixOS";
       };
       pkgs = import inputs.nixpkgs { system = "aarch64-linux"; };
@@ -133,7 +135,7 @@ in
           home-manager.useGlobalPkgs = true;
           home-manager.backupFileExtension = "bak";
           home-manager.extraSpecialArgs = {
-            inherit inputs profile;
+            inherit inputs profile platform;
             system = "aarch64-linux";
           };
           home-manager.config = defaultHomeManagerConfig;
