@@ -16,10 +16,8 @@
     uid = 1000;
     home = "/home/noah";
     shell = pkgs.fish;
-    packages =
-      with pkgs;
-      [
-      ];
+    packages = with pkgs; [
+    ];
   };
 
   users.groups.noah.gid = 1000;

@@ -10,17 +10,26 @@ in
       system ? "x86_64-linux",
       extraModules ? [ ],
     }:
+    let
+      platform = "linux";
+    in
     inputs.nixpkgs.lib.nixosSystem {
       system = system;
       specialArgs = {
         inherit inputs profile;
         moduleMode = "NixOS";
+        platform = "linux";
       };
       modules = [
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager.extraSpecialArgs = {
-            inherit inputs profile system;
+            inherit
+              inputs
+              profile
+              system
+              platform
+              ;
           };
           home-manager.useUserPackages = true;
           home-manager.useGlobalPkgs = true;
@@ -37,6 +46,7 @@ in
       homeDirectory,
       username,
       system ? "x86_64-linux",
+      platform ? "linux",
       extraModules ? [ ],
       extraHomeModules ? [ ],
     }:
@@ -58,7 +68,7 @@ in
           home.homeDirectory = homeDirectory;
         }
         ../modules/home/home.nix
-        { inherit extraHomeModules profile; }
+        { inherit extraHomeModules profile platform; }
       ] ++ extraModules;
     };
 
@@ -71,6 +81,9 @@ in
       extraModules ? [ ],
       extraHomeModules ? [ ],
     }:
+    let
+      platform = "darwin";
+    in
     inputs.nix-darwin.lib.darwinSystem {
       inherit system;
       specialArgs = {
@@ -80,6 +93,7 @@ in
           username
           profile
           system
+          platform
           ;
         moduleMode = "NixOS";
       };

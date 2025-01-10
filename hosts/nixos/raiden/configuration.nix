@@ -89,10 +89,8 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     shell = pkgs.fish;
-    packages =
-      with pkgs;
-      [
-      ];
+    packages = with pkgs; [
+    ];
   };
 
   programs.fish.enable = true;

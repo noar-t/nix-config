@@ -9,7 +9,10 @@
       # You can also manually run nix-store --optimize
       auto-optimise-store = true;
 
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
 
       substituters = [
         # Hyprland

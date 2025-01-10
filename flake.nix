@@ -82,7 +82,7 @@
           ];
         };
 
-	# Old thinkpad
+        # Old thinkpad
         thinkpad = libx.mkNixOS {
           profile = profiles.personal;
           extraModules = [
