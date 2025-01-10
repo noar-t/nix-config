@@ -7,7 +7,7 @@
     optimise.automatic = true;
     settings = {
       # You can also manually run nix-store --optimize
-      auto-optimise-store = true;
+      optimise.automatic = true;
 
       experimental-features = [
         "nix-command"
@@ -31,7 +31,7 @@
 
     gc = {
       automatic = true;
-      dates = "weekly";
+      interval = "weekly";
       options = "--delete-older-than 1w";
     };
   };
