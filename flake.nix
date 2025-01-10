@@ -70,7 +70,6 @@
           profile = profiles.personal;
           extraModules = [
             ./hosts/nixos/rinsler/configuration.nix
-            ./common/nix-cleanup.nix
           ];
         };
 
@@ -79,7 +78,6 @@
           profile = profiles.personal;
           extraModules = [
             ./hosts/nixos/raiden/configuration.nix
-            ./common/nix-cleanup.nix
             nix-hardware.nixosModules.gigabyte-b550
           ];
         };
