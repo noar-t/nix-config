@@ -29,6 +29,12 @@
     firewall.allowPing = true;
   };
 
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "server";
+    # TODO to authKey with secret manager
+  };
+
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
@@ -76,6 +82,7 @@
     ffmpeg
     mosh
     nodejs_20
+    tailscale
     wget
   ];
 
