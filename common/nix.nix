@@ -1,13 +1,14 @@
-{ inputs, ... }:
+{ inputs, platform, ... }:
 {
   nix = {
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+    optimise.automatic = true;
 
     # Perform garbage collection weekly to save disk space
-    optimise.automatic = true;
+    #optimise.automatic = true;
     settings = {
       # You can also manually run nix-store --optimize
-      optimise.automatic = true;
+      #optimise.automatic = true;
 
       experimental-features = [
         "nix-command"
@@ -29,10 +30,25 @@
       ];
     };
 
-    gc = {
-      automatic = true;
-      interval = "weekly";
-      options = "--delete-older-than 1w";
-    };
+    gc =
+      {
+        automatic = true;
+      }
+      // (
+        if platform == "linux" then
+          {
+
+            dates = "weekly";
+            options = "--delete-older-than 1w";
+          }
+        else
+          {
+            interval = {
+              Hour = 3;
+              Minute = 15;
+              Weekday = 7;
+            };
+          }
+      );
   };
 }

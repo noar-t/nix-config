@@ -103,7 +103,12 @@ in
         inputs.home-manager.darwinModules.home-manager
         {
           home-manager.extraSpecialArgs = {
-            inherit inputs profile system platform;
+            inherit
+              inputs
+              profile
+              system
+              platform
+              ;
           };
           home-manager.useUserPackages = true;
           home-manager.useGlobalPkgs = true;
@@ -119,7 +124,8 @@ in
     {
       profile,
       extraModules ? [ ],
-    }: let
+    }:
+    let
       platform = "linux";
     in
     inputs.nix-on-droid.lib.nixOnDroidConfiguration {
