@@ -78,16 +78,16 @@
       "bettertouchtool" # map gestures to handle workspaces
       "caffeine" # prevent mac from sleeping on demand
       "cheatsheet" # show all shorcuts for an app
+      "ghostty" # terminal emulator
       "memoryanalyzer" # java heap dump viewer
       "flameshot" # gui screenshot tool
       "monitorcontrol" # control external monitor brightness
+      "raycast" # better spotlight
       "shortcat" # click on things mouse-free
       "spotify" # music player
       "stats" # system bar resource monitor
       "visual-studio-code" # editor, do I even want this?
       "vlc" # media player
-      "wezterm" # terminal emulator
     ];
-
   };
 }
