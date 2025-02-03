@@ -74,6 +74,7 @@
 
     casks = [
       "aerospace" # tiling wm
+      "alt-tab" # better window switcher
       "alacritty" # gpu accelerated terminal
       "alfred" # spotlight replacement, dmenu-ish
       "bettertouchtool" # map gestures to handle workspaces
