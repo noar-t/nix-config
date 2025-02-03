@@ -44,7 +44,6 @@
     tmux
     tree
     unzip
-    vim
     which
     zip
     nerd-fonts.hack
