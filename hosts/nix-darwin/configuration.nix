@@ -47,6 +47,7 @@
     pkgs.zsh
     pkgs.fish
   ];
+  system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToControl = true;
 
   homebrew = {
@@ -60,6 +61,7 @@
     taps = [
       "nikitabobko/tap" # aerospace
       "felixkratz/formulae" # sketchybar + borders
+      "homebrew/services"
     ];
 
     brews = [
