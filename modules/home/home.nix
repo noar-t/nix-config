@@ -30,6 +30,7 @@
   home.sessionVariables.MANPAGER = "nvim +Man!";
   home.packages = with pkgs; [
     erdtree
+    gum
     silver-searcher
     duf
   ];
