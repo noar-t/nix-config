@@ -6,6 +6,10 @@
   ...
 }:
 {
+  # make nix-shell use fish
+  home.packages = [
+    pkgs.any-nix-shell
+  ];
   # user-friendly shell
   programs.fish = {
     enable = true;
@@ -62,6 +66,8 @@
       if test -x /opt/homebrew/bin/brew
         eval (/opt/homebrew/bin/brew shellenv)
       end
+
+      ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
     '';
 
     # use fenv to source nix path correctly
