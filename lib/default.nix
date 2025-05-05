@@ -59,6 +59,7 @@ in
           username
           profile
           platform
+          system
           ;
         moduleMode = "HomeManager";
       };
