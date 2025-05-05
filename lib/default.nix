@@ -63,7 +63,7 @@ in
         moduleMode = "HomeManager";
       };
       modules = [
-        ../common
+        #../common
         {
           home.username = username;
           home.homeDirectory = homeDirectory;
