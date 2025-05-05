@@ -67,7 +67,7 @@ in
           home.username = username;
           home.homeDirectory = homeDirectory;
         }
-        ../modules/home/home.nix { inherit extraHomeModules; }
+        (import ../modules/home/home.nix { inherit extraHomeModules; })
       ] ++ extraModules;
     };
 
