@@ -67,8 +67,7 @@ in
           home.username = username;
           home.homeDirectory = homeDirectory;
         }
-        ../modules/home/home.nix
-        { inherit extraHomeModules profile platform; }
+        ../modules/home/home.nix { inherit extraHomeModules; }
       ] ++ extraModules;
     };
 
