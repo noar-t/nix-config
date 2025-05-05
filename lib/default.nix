@@ -58,7 +58,7 @@ in
           homeDirectory
           username
           profile
-          playform
+          platform
           ;
         moduleMode = "HomeManager";
       };
