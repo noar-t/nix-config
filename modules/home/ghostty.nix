@@ -20,7 +20,7 @@
     ++ (
       if platform == "linux" then
         [
-          inputs.ghostty.packages.${system}.default
+          pkgs.ghostty
 
         ]
       else
