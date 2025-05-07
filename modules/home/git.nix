@@ -33,7 +33,7 @@
       ];
 
       extraConfig = {
-        branch.sort = "-commiterdate"; # sort branches by activity
+        branch.sort = "-committerdate"; # sort branches by activity
         help.autocorrect = "1"; # fix typos in git commands
         init.defaultBranch = "master"; # default branch when repo init
         pull.rebase = true; # always rebase when pulling
