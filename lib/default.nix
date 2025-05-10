@@ -1,6 +1,11 @@
 { inputs }:
 let
   defaultHomeManagerConfig = import ../modules/home;
+  moduleFiles = builtins.filter (file: file != "home.nix" && builtins.match ".*\\.nix$" file != null) (builtins.attrNames (builtins.readDir ../modules/home));
+  homeModules = builtins.listToAttrs (builtins.map (file: {
+    name = builtins.replaceStrings [".nix"] [""] file;
+    value = import ../modules/home/${file};
+  }) moduleFiles);
 in
 {
 
@@ -118,6 +123,7 @@ in
             inherit extraHomeModules;
           };
         }
+        ../common
       ] ++ extraModules;
     };
 
@@ -149,4 +155,6 @@ in
         }
       ] ++ extraModules;
     };
+
+  inherit homeModules;
 }

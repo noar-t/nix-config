@@ -51,6 +51,7 @@
     let
       profiles = (import ./common/profiles.nix);
       libx = (import ./lib { inherit inputs; });
+      homeModules = libx.homeModules;
     in
     {
       nixosConfigurations = {
@@ -105,6 +106,8 @@
 
       # Export functions to enable importing flake to work computers
       lib = libx;
+
+      inherit homeModules;
 
       # Code formatter for flake, use command "nix fmt" to format entire repo
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
