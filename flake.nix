@@ -46,35 +46,17 @@
       homeModules = libx.homeModules;
     in
     {
-      nixosConfigurations = {
-        # WSL
-        wsl = libx.mkNixOS {
-          extraModules = [
-            ./hosts/nixos/wsl/configuration.nix
-          ];
-        };
-
-        # Home server
-        rinsler = libx.mkNixOS {
-          extraModules = [
-            ./hosts/nixos/rinsler/configuration.nix
-          ];
-        };
-
-        # Gaming desktop
-        raiden = libx.mkNixOS {
-          extraModules = [
-            ./hosts/nixos/raiden/configuration.nix
-          ];
-        };
-
-        # Old thinkpad
-        thinkpad = libx.mkNixOS {
-          extraModules = [
-            ./hosts/nixos/thinkpad/configuration.nix
-          ];
-        };
-      };
+      nixosConfigurations = builtins.listToAttrs (
+        map (hostName: {
+          name = hostName;
+          value = libx.mkNixOS {
+            extraModules = [
+              ./hosts/nixos/${hostName}/configuration.nix
+            ];
+          };
+        })
+        [ "wsl" "rinsler" "raiden" "thinkpad" ]
+      );
 
       homeConfigurations.default = libx.mkStandaloneHomeManager {
         homeDirectory = "/home/noah";
