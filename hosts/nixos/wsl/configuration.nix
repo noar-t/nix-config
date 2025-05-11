@@ -1,8 +1,9 @@
-{ config, pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
     ../../nix.nix
+    inputs.nixos-wsl.nixosModules.default
   ];
 
   networking.hostName = "wsl";

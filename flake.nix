@@ -50,7 +50,6 @@
         # WSL
         wsl = libx.mkNixOS {
           extraModules = [
-            nixos-wsl.nixosModules.default
             ./hosts/nixos/wsl/configuration.nix
           ];
         };
@@ -66,7 +65,6 @@
         raiden = libx.mkNixOS {
           extraModules = [
             ./hosts/nixos/raiden/configuration.nix
-            nix-hardware.nixosModules.gigabyte-b550
           ];
         };
 
