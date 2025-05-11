@@ -90,7 +90,7 @@
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   # required for AlderLake igpu
   boot.kernelParams = [ "i915.force_probe=4692" ];

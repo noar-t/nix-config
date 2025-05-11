@@ -58,7 +58,8 @@
   services.ratbagd.enable = true;
 
   # Enable pipewire audio server
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
