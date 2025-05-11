@@ -1,5 +1,6 @@
 { inputs }:
 let
+  defaultProfile = (import ../common/profile.nix);
   defaultHomeManagerConfig = import ../modules/home;
   moduleFiles = builtins.filter (file: file != "home.nix" && builtins.match ".*\\.nix$" file != null) (builtins.attrNames (builtins.readDir ../modules/home));
   homeModules = builtins.listToAttrs (builtins.map (file: {
@@ -11,19 +12,16 @@ in
 
   mkNixOS =
     {
-      profile,
+      profile ? defaultProfile,
       system ? "x86_64-linux",
       extraModules ? [ ],
+      platform ? "linux",
     }:
-    let
-      platform = "linux";
-    in
     inputs.nixpkgs.lib.nixosSystem {
       system = system;
       specialArgs = {
-        inherit inputs profile;
+        inherit inputs profile platform;
         moduleMode = "NixOS";
-        platform = "linux";
       };
       modules = [
         inputs.home-manager.nixosModules.home-manager
@@ -47,9 +45,8 @@ in
 
   mkStandaloneHomeManager =
     {
-      profile,
+      profile ? defaultProfile,
       homeDirectory,
-      username,
       system ? "x86_64-linux",
       platform ? "linux",
       extraModules ? [ ],
@@ -61,7 +58,6 @@ in
         inherit
           inputs
           homeDirectory
-          username
           profile
           platform
           system
@@ -71,7 +67,7 @@ in
       modules = [
         #../common
         {
-          home.username = username;
+          home.username = profile.username;
           home.homeDirectory = homeDirectory;
         }
         (import ../modules/home/home.nix { inherit extraHomeModules; })
@@ -80,10 +76,11 @@ in
 
   mkNixOnDroid =
     {
-      profile,
+      profile ? defaultProfile,
       extraModules ? [ ],
     }:
     let
+      system = "aarch64-linux";
       platform = "linux";
     in
     inputs.nix-on-droid.lib.nixOnDroidConfiguration {
@@ -91,7 +88,7 @@ in
         inherit inputs profile platform;
         moduleMode = "NixOS";
       };
-      pkgs = import inputs.nixpkgs { system = "aarch64-linux"; };
+      pkgs = import inputs.nixpkgs { inherit system; };
       modules = [
         #../common TODO fix this module to work for nix-on-droid
         ../hosts/nix-on-droid/default/nix-on-droid.nix
@@ -99,8 +96,7 @@ in
           home-manager.useGlobalPkgs = true;
           home-manager.backupFileExtension = "bak";
           home-manager.extraSpecialArgs = {
-            inherit inputs profile platform;
-            system = "aarch64-linux";
+            inherit inputs profile platform system;
           };
           home-manager.config = defaultHomeManagerConfig;
         }

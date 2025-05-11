@@ -28,7 +28,6 @@
     };
 
     nix-hardware.url = "github:NixOS/nixos-hardware/master";
-
   };
 
   outputs =
@@ -43,7 +42,6 @@
       nix-hardware,
     }:
     let
-      profiles = (import ./common/profiles.nix);
       libx = (import ./lib { inherit inputs; });
       homeModules = libx.homeModules;
     in
@@ -51,7 +49,6 @@
       nixosConfigurations = {
         # WSL
         wsl = libx.mkNixOS {
-          profile = profiles.personal;
           extraModules = [
             nixos-wsl.nixosModules.default
             ./hosts/nixos/wsl/configuration.nix
@@ -60,7 +57,6 @@
 
         # Home server
         rinsler = libx.mkNixOS {
-          profile = profiles.personal;
           extraModules = [
             ./hosts/nixos/rinsler/configuration.nix
           ];
@@ -68,7 +64,6 @@
 
         # Gaming desktop
         raiden = libx.mkNixOS {
-          profile = profiles.personal;
           extraModules = [
             ./hosts/nixos/raiden/configuration.nix
             nix-hardware.nixosModules.gigabyte-b550
@@ -77,7 +72,6 @@
 
         # Old thinkpad
         thinkpad = libx.mkNixOS {
-          profile = profiles.personal;
           extraModules = [
             ./hosts/nixos/thinkpad/configuration.nix
           ];
@@ -90,7 +84,7 @@
       };
 
       # Galaxy Tab S8+
-      nixOnDroidConfigurations.default = libx.mkNixOnDroid { profile = profiles.personal; };
+      nixOnDroidConfigurations.default = libx.mkNixOnDroid {};
 
       # Export functions to enable importing flake to work computers
       lib = libx;

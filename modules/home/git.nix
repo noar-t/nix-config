@@ -1,4 +1,4 @@
-{ config, specialArgs, ... }:
+{ specialArgs, ... }:
 {
   # version control
   programs.git =
