@@ -50,9 +50,7 @@
         map (hostName: {
           name = hostName;
           value = libx.mkNixOS {
-            extraModules = [
-              ./hosts/nixos/${hostName}/configuration.nix
-            ];
+            hostName = hostName;
           };
         })
         [ "wsl" "rinsler" "raiden" "thinkpad" ]

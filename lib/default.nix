@@ -12,9 +12,9 @@ in
 
   mkNixOS =
     {
+      hostName,
       profile ? defaultProfile,
       system ? "x86_64-linux",
-      extraModules ? [ ],
       platform ? "linux",
     }:
     inputs.nixpkgs.lib.nixosSystem {
@@ -24,6 +24,8 @@ in
         moduleMode = "NixOS";
       };
       modules = [
+        ../hosts/nixos/${hostName}/configuration.nix
+        ../common
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager.extraSpecialArgs = {
@@ -39,8 +41,7 @@ in
           home-manager.backupFileExtension = "bak";
           home-manager.users.noah = defaultHomeManagerConfig;
         }
-        ../common
-      ] ++ extraModules;
+      ];
     };
 
   mkStandaloneHomeManager =
