@@ -78,55 +78,6 @@ in
       ] ++ extraModules;
     };
 
-  mkDarwin =
-    {
-      profile,
-      homeDirectory,
-      username,
-      system ? "aarch64-darwin",
-      extraModules ? [ ],
-      extraHomeModules ? [ ],
-    }:
-    let
-      platform = "darwin";
-    in
-    inputs.nix-darwin.lib.darwinSystem {
-      inherit system;
-      specialArgs = {
-        inherit
-          inputs
-          homeDirectory
-          username
-          profile
-          system
-          platform
-          ;
-        moduleMode = "NixOS";
-      };
-      modules = [
-        ../common
-        ../hosts/nix-darwin/configuration.nix
-        inputs.home-manager.darwinModules.home-manager
-        {
-          home-manager.extraSpecialArgs = {
-            inherit
-              inputs
-              profile
-              system
-              platform
-              ;
-          };
-          home-manager.useUserPackages = true;
-          home-manager.useGlobalPkgs = true;
-          home-manager.backupFileExtension = "bak";
-          home-manager.users.${username} = import ../modules/home/home.nix {
-            inherit extraHomeModules;
-          };
-        }
-        ../common
-      ] ++ extraModules;
-    };
-
   mkNixOnDroid =
     {
       profile,

@@ -45,7 +45,6 @@
   # chromium/firefox w/ extensions
   # fd
   # jq
-  # kitty
   # man -> isnt there a better man viewer?
   # noti -> script around processed
   # nnn -> filemanager
@@ -60,14 +59,7 @@
   # wofi -> launcher for wayland
   # zathura -> pdf reader
   # flameshot -> screenshot
-  #
-  # MacOS
-  # aerospace config
-  # sketchybar config
-  # janky borders config
-  # jetbrains-remote
-  # lots of darwin config option: targets.darwin...
-  #
+
   # Generic Linux
   # targets.genericLinux.enable
   #

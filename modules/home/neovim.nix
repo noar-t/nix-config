@@ -180,9 +180,6 @@
                 home_manager = {
                   expr = "(builtins.getFlake \"github:noar-t/nix-config\").homeConfigurations.default.options";
                 };
-                darwin = {
-                  expr = "(builtins.getFlake \"github:noar-t/nix-config\").darwinConfigurations.default.options";
-                };
               };
             };
           };

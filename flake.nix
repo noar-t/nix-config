@@ -17,11 +17,6 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
 
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,7 +38,6 @@
       nix-on-droid,
       home-manager,
       hyprland,
-      nix-darwin,
       nixvim,
       nixos-wsl,
       nix-hardware,
@@ -92,12 +86,6 @@
 
       homeConfigurations.default = libx.mkStandaloneHomeManager {
         homeDirectory = "/home/noah";
-        username = "noah";
-      };
-
-      # Work MacBook
-      darwinConfigurations.default = libx.mkDarwin {
-        homeDirectory = "/Users/noah";
         username = "noah";
       };
 
