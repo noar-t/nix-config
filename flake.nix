@@ -50,10 +50,10 @@
         map (hostName: {
           name = hostName;
           value = libx.mkNixOS {
-            hostName = hostName;
+            inherit hostName;
           };
         })
-        [ "wsl" "rinsler" "raiden" "thinkpad" ]
+        (builtins.attrNames (builtins.readDir ./hosts/nixos))
       );
 
       homeConfigurations.default = libx.mkStandaloneHomeManager {
