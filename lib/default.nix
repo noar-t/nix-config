@@ -29,7 +29,6 @@ in
               inherit
                 inputs
                 profile
-                system
                 platform
                 ;
             };
@@ -58,7 +57,6 @@ in
           homeDirectory
           profile
           platform
-          system
           ;
         moduleMode = "HomeManager";
       };
@@ -97,7 +95,6 @@ in
                 inputs
                 profile
                 platform
-                system
                 ;
               moduleMode = "NixOS";
             };
