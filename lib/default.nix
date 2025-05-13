@@ -48,6 +48,7 @@ in
       system ? "x86_64-linux",
       platform ? "linux",
       extraHomeModules ? [ ],
+      extraExtraSpecialArgs ? {},
     }:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = (import inputs.nixpkgs { inherit system; });
@@ -59,7 +60,7 @@ in
           platform
           ;
         moduleMode = "HomeManager";
-      };
+      } // extraExtraSpecialArgs;
       modules = [
         ../common
         {
