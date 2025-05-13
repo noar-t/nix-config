@@ -43,7 +43,6 @@
     }:
     let
       libx = (import ./lib { inherit inputs; });
-      homeModules = libx.homeModules;
     in
     {
       nixosConfigurations = builtins.listToAttrs (
@@ -52,8 +51,7 @@
           value = libx.mkNixOS {
             inherit hostName;
           };
-        })
-        (builtins.attrNames (builtins.readDir ./hosts/nixos))
+        }) (builtins.attrNames (builtins.readDir ./hosts/nixos))
       );
 
       homeConfigurations.default = libx.mkStandaloneHomeManager {
@@ -62,12 +60,10 @@
       };
 
       # Galaxy Tab S8+
-      nixOnDroidConfigurations.default = libx.mkNixOnDroid {};
+      nixOnDroidConfigurations.default = libx.mkNixOnDroid { };
 
-      # Export functions to enable importing flake to work computers
-      lib = libx;
-
-      inherit homeModules;
+      # Export standalone home-manager for non-nixos machines
+      lib.mkStandaloneHomeManager = libx.mkStandaloneHomeManager;
 
       # Code formatter for flake, use command "nix fmt" to format entire repo
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;

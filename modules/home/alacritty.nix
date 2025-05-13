@@ -5,6 +5,7 @@
 {
   fonts.fontconfig.enable = true;
   home.packages = [ pkgs.nerd-fonts.hack ];
+
   programs.alacritty = {
     enable = true;
     settings = {

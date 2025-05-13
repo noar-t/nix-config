@@ -5,6 +5,18 @@
   pkgs,
   ...
 }:
+let
+  moduleFiles = builtins.filter (
+    file: file != "home.nix" && builtins.match ".*\\.nix$" file != null
+  ) (builtins.attrNames (builtins.readDir ../modules/home));
+
+  homeModules = builtins.listToAttrs (
+    builtins.map (file: {
+      name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
+      value = import ../modules/home/${file};
+    }) moduleFiles
+  );
+in
 {
   imports = [
     ./alacritty.nix
@@ -16,23 +28,19 @@
     ./git.nix
     ./htop.nix
     ./hyprland.nix
-    ./neovide.nix
     ./neovim.nix
     ./ssh.nix
     ./tealdeer.nix
-    ./thefuck.nix
     ./tmux.nix
-    ./yt-dlp.nix
   ] ++ extraHomeModules;
 
   home.stateVersion = "24.05";
-  home.sessionVariables.EDITOR = "nvim";
-  home.sessionVariables.MANPAGER = "nvim +Man!";
   home.packages = with pkgs; [
-    erdtree
-    gum
-    silver-searcher
-    duf
+    erdtree # tree replacement
+    gum # Tool for interactive CLI
+    silver-searcher # Like grep but fast
+    duf # Disk usage tool
+    jq # JSON CLI tool
   ];
 
   programs.home-manager.enable = true;
@@ -40,11 +48,16 @@
   # home-manager-help tool, use command "home-manager-help"
   manual.html.enable = true;
 
+  home.sessionVariables = {
+    MANPAGER = "nvim +Man!";
+    EDITOR = "nvim";
+    BROWSER = "google-chrome";
+  };
+
   # TODO stuff to add later/explore
   # borgmatic
   # chromium/firefox w/ extensions
   # fd
-  # jq
   # man -> isnt there a better man viewer?
   # noti -> script around processed
   # nnn -> filemanager
@@ -61,10 +74,10 @@
   # flameshot -> screenshot
 
   # Generic Linux
-  # targets.genericLinux.enable
-  #
+
+  # NOTE: set "targets.genericLinux.enable" when on a non-NixOS host
+
   # setup XDG?
   # editorconfig?
-  # fonts?
   # gtk?
 }

@@ -1,15 +1,12 @@
 {
   config,
   pkgs,
-  specialArgs,
-  inputs,
   ...
 }:
 {
   # make nix-shell use fish
-  home.packages = [
-    pkgs.any-nix-shell
-  ];
+  home.packages = [ pkgs.any-nix-shell ];
+
   # user-friendly shell
   programs.fish = {
     enable = true;
@@ -39,11 +36,6 @@
         name = "puffer";
         src = puffer.src;
       }
-      #{ TODO only in unstable
-      #  # Remove failed commands from history
-      #  name = "sponge";
-      #  src = sponge.src;
-      #}
     ];
 
     shellAliases = {
@@ -61,11 +53,6 @@
       # Set prompt path to show more info
       set -g fish_prompt_pwd_dir_length 3
       set -g fish_prompt_pwd_full_dirs 3
-
-      # Source homebrew
-      if test -x /opt/homebrew/bin/brew
-        eval (/opt/homebrew/bin/brew shellenv)
-      end
 
       ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
     '';

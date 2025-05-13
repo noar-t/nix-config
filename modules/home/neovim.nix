@@ -78,9 +78,6 @@
       # Enable todo comment highlighting
       todo-comments.enable = true;
 
-      # Autoclose brackets and parenthesis
-      autoclose.enable = true;
-
       # A popup that shows possible keybinds for commands typed
       which-key = {
         enable = true;

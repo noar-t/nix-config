@@ -1,4 +1,9 @@
-{ inputs, platform, moduleMode, ... }:
+{
+  inputs,
+  platform,
+  moduleMode,
+  ...
+}:
 let
   hmGcOption = {
     frequency = "weekly";
@@ -31,11 +36,11 @@ in
         # Hyprland
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       ];
-    } // (if moduleMode == "NixOS" then { auto-optimise-store = true; } else {});
+    } // (if moduleMode == "NixOS" then { auto-optimise-store = true; } else { });
 
     gc = {
-        automatic = true;
-        options = "--delete-older-than 1w";
+      automatic = true;
+      options = "--delete-older-than 1w";
     } // (if moduleMode == "NixOS" then nixOsGcOption else hmGcOption);
   };
 }

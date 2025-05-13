@@ -2,11 +2,6 @@
 let
   defaultProfile = (import ../common/profile.nix);
   defaultHomeManagerConfig = import ../modules/home;
-  moduleFiles = builtins.filter (file: file != "home.nix" && builtins.match ".*\\.nix$" file != null) (builtins.attrNames (builtins.readDir ../modules/home));
-  homeModules = builtins.listToAttrs (builtins.map (file: {
-    name = builtins.replaceStrings [".nix"] [""] file;
-    value = import ../modules/home/${file};
-  }) moduleFiles);
 in
 {
 
@@ -28,18 +23,21 @@ in
         ../common
         inputs.home-manager.nixosModules.home-manager
         {
-          home-manager.extraSpecialArgs = {
-            inherit
-              inputs
-              profile
-              system
-              platform
-              ;
+          home-manager = {
+            extraSpecialArgs = {
+              moduleMode = "NixOS";
+              inherit
+                inputs
+                profile
+                system
+                platform
+                ;
+            };
+            useUserPackages = true;
+            useGlobalPkgs = true;
+            backupFileExtension = "bak";
+            users.${profile.username} = defaultHomeManagerConfig;
           };
-          home-manager.useUserPackages = true;
-          home-manager.useGlobalPkgs = true;
-          home-manager.backupFileExtension = "bak";
-          home-manager.users.noah = defaultHomeManagerConfig;
         }
       ];
     };
@@ -50,7 +48,6 @@ in
       homeDirectory,
       system ? "x86_64-linux",
       platform ? "linux",
-      extraModules ? [ ],
       extraHomeModules ? [ ],
     }:
     inputs.home-manager.lib.homeManagerConfiguration {
@@ -66,13 +63,13 @@ in
         moduleMode = "HomeManager";
       };
       modules = [
-        #../common
+        ../common
         {
           home.username = profile.username;
           home.homeDirectory = homeDirectory;
         }
         (import ../modules/home/home.nix { inherit extraHomeModules; })
-      ] ++ extraModules;
+      ];
     };
 
   mkNixOnDroid =
@@ -87,22 +84,26 @@ in
     inputs.nix-on-droid.lib.nixOnDroidConfiguration {
       extraSpecialArgs = {
         inherit inputs profile platform;
-        moduleMode = "NixOS";
       };
       pkgs = import inputs.nixpkgs { inherit system; };
       modules = [
-        #../common TODO fix this module to work for nix-on-droid
         ../hosts/nix-on-droid/default/nix-on-droid.nix
         {
-          home-manager.useGlobalPkgs = true;
-          home-manager.backupFileExtension = "bak";
-          home-manager.extraSpecialArgs = {
-            inherit inputs profile platform system;
+          home-manager = {
+            useGlobalPkgs = true;
+            backupFileExtension = "bak";
+            extraSpecialArgs = {
+              inherit
+                inputs
+                profile
+                platform
+                system
+                ;
+              moduleMode = "NixOS";
+            };
+            config = defaultHomeManagerConfig;
           };
-          home-manager.config = defaultHomeManagerConfig;
         }
       ] ++ extraModules;
     };
-
-  inherit homeModules;
 }
