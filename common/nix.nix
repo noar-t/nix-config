@@ -1,7 +1,7 @@
 {
   inputs,
-  platform,
   moduleMode,
+  pkgs,
   ...
 }:
 let
@@ -15,11 +15,11 @@ let
 in
 {
   nix = {
+    package = pkgs.nix;
+
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-    optimise.automatic = true;
 
     # Perform garbage collection weekly to save disk space
-    #optimise.automatic = true;
     settings = {
       # You can also manually run nix-store --optimize
       experimental-features = [
@@ -42,5 +42,5 @@ in
       automatic = true;
       options = "--delete-older-than 1w";
     } // (if moduleMode == "NixOS" then nixOsGcOption else hmGcOption);
-  };
+  } // (if moduleMode == "NixOS" then { optimise.automatic = true; } else { });
 }
