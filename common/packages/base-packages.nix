@@ -24,7 +24,6 @@ let
     htop # process manager
     memtester # memory tester
     neofetch # terminal eye candy
-    neovim # better vim
     nix-index # search for which nix package provides a file
     stress # stress test
     silver-searcher # better grep
