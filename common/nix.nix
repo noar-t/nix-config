@@ -27,15 +27,15 @@ in
         "flakes"
       ];
 
-      substituters = [
-        # Hyprland
-        "https://hyprland.cachix.org"
-      ];
+      #substituters = [
+      #  # Hyprland
+      #  "https://hyprland.cachix.org"
+      #];
 
-      trusted-public-keys = [
-        # Hyprland
-        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      ];
+      #trusted-public-keys = [
+      #  # Hyprland
+      #  "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      #];
     } // (if moduleMode == "NixOS" then { auto-optimise-store = true; } else { });
 
     gc = {
