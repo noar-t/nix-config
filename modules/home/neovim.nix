@@ -66,8 +66,11 @@
 
       };
 
+      # Add Git status to Oil
       oil-git-status.enable = true;
 
+      # Build better habits
+      hardtime.enable = true;
 
       # Show status loading in bottom right
       fidget.enable = true;
