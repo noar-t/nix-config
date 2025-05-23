@@ -72,6 +72,9 @@
       # Build better habits
       hardtime.enable = true;
 
+      # Embed neovim into the browser
+      firenvim.enable = true;
+
       # Show status loading in bottom right
       fidget.enable = true;
 
@@ -315,7 +318,6 @@
       # PLUGINS:
       # nvim-navbuddy
       # telescope.nvim
-      # toggleterm.nvim
       # lspkind.nvim
       # rainbow-delimiters?
       # configure vim.diagnostics.config
