@@ -51,7 +51,23 @@
       toggleterm.enable = true;
 
       # File browser
-      oil.enable = true;
+      oil = {
+        enable = true;
+        settings = {
+          view_options = {
+            show_hidden = true;
+          };
+
+          # Add Git status to Oil
+          win_options = {
+            signcolumn = "yes:2";
+          };
+        };
+
+      };
+
+      oil-git-status.enable = true;
+
 
       # Show status loading in bottom right
       fidget.enable = true;
