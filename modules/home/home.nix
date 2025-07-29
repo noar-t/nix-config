@@ -41,6 +41,11 @@ in
     silver-searcher # Like grep but fast
     duf # Disk usage tool
     jq # JSON CLI tool
+    caligula # nice disk formatting tool
+    nix-output-monitor
+    # TODO requires nixos integration
+    # opensnitch # interactive firewall
+    # opensnitch-ui # interactive firewall
   ];
 
   programs.home-manager.enable = true;

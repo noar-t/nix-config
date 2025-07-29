@@ -12,11 +12,6 @@
 
     colorschemes.gruvbox.enable = true;
 
-    # Some binaries are necessary for plugins
-    extraPackages = with pkgs; [
-      jdt-language-server
-    ];
-
     plugins = {
       # Better error alerts
       notify.enable = true;
@@ -34,6 +29,7 @@
       # Quick file navigator and required icons
       telescope.enable = true;
       web-devicons.enable = true;
+      mini.enable = true;
 
       # Quick file switcher
       harpoon.enable = true;
@@ -135,6 +131,7 @@
             windows = true; # <C-w>
             z = true; # folds
           };
+          notify = false;
         };
       };
 
@@ -144,6 +141,7 @@
         settings = {
           completion.autocomplete = [ "TextChanged" ];
           sources = [
+            # TODO add snippets
             { name = "nvim_lsp"; }
             { name = "path"; }
             { name = "buffer"; }
