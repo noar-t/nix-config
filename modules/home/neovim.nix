@@ -174,11 +174,12 @@
       lsp = {
         enable = true;
         servers = {
+          docker_compose_language_service.enable = true;
+          elixirls.enable = true;
           elmls.enable = true;
           jdtls.enable = true;
-          lua_ls.enable = true;
           kotlin_language_server.enable = true;
-          elixirls.enable = true;
+          lua_ls.enable = true;
           nixd = {
             enable = true;
             settings = {
