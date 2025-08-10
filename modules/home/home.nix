@@ -46,6 +46,7 @@ in
     # TODO requires nixos integration
     # opensnitch # interactive firewall
     # opensnitch-ui # interactive firewall
+    just # Simple make like tool
   ];
 
   programs.home-manager.enable = true;
