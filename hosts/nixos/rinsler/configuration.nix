@@ -86,6 +86,7 @@
     nodejs_20
     tailscale
     wget
+    gemini-cli
   ];
 
   programs.fish.enable = true;
