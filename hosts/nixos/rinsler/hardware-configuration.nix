@@ -37,9 +37,18 @@
     options = [ "bind" ];
   };
 
+  fileSystems."/home-old" = {
+    device = "/dev/disk/by-uuid/240c5937-3064-49f4-86fd-614081e55b25";
+    fsType = "btrfs";
+  };
+
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/240c5937-3064-49f4-86fd-614081e55b25";
     fsType = "btrfs";
+    options = [
+      "defaults"
+      "subvol=/@home"
+    ];
   };
 
   fileSystems."/boot" = {
@@ -61,14 +70,6 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.br-9d823cf6d39b.useDHCP = lib.mkDefault true;
-  # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth075de8b.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth2b43c79.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth41a5822.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth8b5cee3.useDHCP = lib.mkDefault true;
-  # networking.interfaces.vethea5fc65.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
