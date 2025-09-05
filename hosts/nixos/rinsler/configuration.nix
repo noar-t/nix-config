@@ -10,6 +10,7 @@
     ./hardware-configuration.nix
     ../../nix.nix
     ./snapper.nix
+    ./btrfs.nix
   ];
 
 
@@ -80,6 +81,7 @@
     cargo
     docker
     docker-compose
+    dust
     eza
     ffmpeg
     mosh
@@ -87,6 +89,7 @@
     tailscale
     wget
     gemini-cli
+    lazydocker
   ];
 
   programs.fish.enable = true;
