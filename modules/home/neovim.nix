@@ -180,6 +180,7 @@
           jdtls.enable = true;
           kotlin_language_server.enable = true;
           lua_ls.enable = true;
+          ts_ls.enable = true;
           nixd = {
             enable = true;
             settings = {
