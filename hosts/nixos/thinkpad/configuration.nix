@@ -64,6 +64,7 @@
     ];
     packages = with pkgs; [
       firefox
+      gemini-cli
     ];
   };
 
@@ -86,6 +87,7 @@
     tmux
     vim
     wget # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default. wget
+    chromium
   ];
 
   # This value determines the NixOS release from which the default settings for stateful data, like file locations and database versions on your system were taken. It‘s perfectly fine and
