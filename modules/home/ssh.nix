@@ -4,7 +4,7 @@
 {
   # its ssh...
   programs.ssh = {
-    enable = true;
+    enable = false;
     # TODO modularize to use at work
   };
 }

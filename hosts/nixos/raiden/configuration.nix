@@ -50,8 +50,8 @@
   services.fstrim.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
   services.xserver.displayManager.setupCommands = ''
     ${pkgs.xorg.xrandr}/bin/xrandr --output DP-0 --primary --rate 119.98 --mode 3440x1440 --pos 0x272 --output DP-2 --rate 59.88 --mode 1920x1200 --pos 3440x0 --rotate right
   '';

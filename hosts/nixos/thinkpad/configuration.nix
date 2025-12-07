@@ -39,8 +39,6 @@
   # X Server SEtup
   services.xserver = {
     enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
 
     # Configure keymap in X11
     xkb = {
@@ -49,6 +47,10 @@
       variant = "";
     };
   };
+
+  # Enable desktop manager and display manager
+  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

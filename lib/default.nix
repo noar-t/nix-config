@@ -10,12 +10,11 @@ in
       hostName,
       profile ? defaultProfile,
       system ? "x86_64-linux",
-      platform ? "linux",
     }:
     inputs.nixpkgs.lib.nixosSystem {
       system = system;
       specialArgs = {
-        inherit inputs profile platform;
+        inherit inputs profile;
         moduleMode = "NixOS";
       };
       modules = [
@@ -29,7 +28,6 @@ in
               inherit
                 inputs
                 profile
-                platform
                 ;
             };
             useUserPackages = true;
@@ -46,7 +44,6 @@ in
       profile ? defaultProfile,
       homeDirectory,
       system ? "x86_64-linux",
-      platform ? "linux",
       extraHomeModules ? [ ],
       extraExtraSpecialArgs ? {},
     }:
@@ -57,7 +54,6 @@ in
           inputs
           homeDirectory
           profile
-          platform
           ;
         moduleMode = "HomeManager";
       } // extraExtraSpecialArgs;
@@ -78,11 +74,10 @@ in
     }:
     let
       system = "aarch64-linux";
-      platform = "linux";
     in
     inputs.nix-on-droid.lib.nixOnDroidConfiguration {
       extraSpecialArgs = {
-        inherit inputs profile platform;
+        inherit inputs profile;
       };
       pkgs = import inputs.nixpkgs { inherit system; };
       modules = [
@@ -95,7 +90,6 @@ in
               inherit
                 inputs
                 profile
-                platform
                 ;
               moduleMode = "NixOS";
             };
