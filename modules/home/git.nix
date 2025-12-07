@@ -30,6 +30,10 @@
 
         # nix
         "result/"
+
+        # claude
+        "CLAUDE.md"
+        ".claude/"
       ];
 
       extraConfig = {
