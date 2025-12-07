@@ -80,6 +80,8 @@
   environment.systemPackages = with pkgs; [
     borgbackup
     cargo
+    claude-code
+    claude-monitor
     docker
     docker-compose
     dust
