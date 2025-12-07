@@ -11,6 +11,7 @@
     ../../nix.nix
     ./snapper.nix
     ./btrfs.nix
+    ./ups.nix
   ];
 
 
