@@ -33,6 +33,15 @@
     firewall.allowPing = true;
   };
 
+  services.cockpit = {
+    enable = true;
+    port = 9999;
+    allowed-origins = [
+      "https://rinsler.lan:9999"
+      "https://192.168.1.3:9999"
+    ];
+  };
+
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "server";
