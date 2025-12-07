@@ -77,10 +77,6 @@
     UID = "1000";
     GID = "1000";
     DOCKERDIR = "/home/docker/";
-    TV = "/mnt/easystore/tvShows";
-    MOVIES = "/mnt/easystore/movies";
-    NZBDIR = "/mnt/easystore/nzb";
-    DOWNLOADS = "/mnt/easystore/downloads";
     TZ = "America/Los_Angeles";
   };
 
