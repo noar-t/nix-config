@@ -13,6 +13,7 @@
     ./btrfs.nix
     ./ups.nix
     ./borg.nix
+    ./auto-update.nix
   ];
 
 
