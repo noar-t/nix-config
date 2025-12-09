@@ -3,25 +3,70 @@
 {
   environment.systemPackages = [ pkgs.borgbackup ];
 
-  services.borgbackup.jobs.home-backup = {
-    startAt = "daily";
+  services.borgbackup.jobs = {
+    home-backup = {
+      startAt = "daily";
 
-    paths = [ "/home/noah" "/home/docker" "/var/lib/docker/" ];
+      paths = [ "/home/noah" "/home/docker" "/var/lib/docker/" ];
 
-    encryption.passCommand = "cat /home/noah/borg_pass";
-    encryption.mode = "repokey";
+      encryption.passCommand = "cat /home/noah/borg_pass";
+      encryption.mode = "repokey";
 
-    environment.BORG_RSH = "ssh -i /home/noah/.ssh/id_ed25519";
-    environment.BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+      environment.BORG_RSH = "ssh -i /home/noah/.ssh/id_ed25519";
+      environment.BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
 
-    repo = "ssh://noah@wyzevault:22/mnt/storage/borgbackup";
-    extraCreateArgs = "--verbose --stats";
-    compression = "auto,zstd";
+      repo = "ssh://noah@wyzevault:22/mnt/storage/borgbackup";
+      extraCreateArgs = "--verbose --stats";
+      compression = "auto,zstd";
 
-    prune.keep = {
-      daily = 7;
-      weekly = 4;
-      monthly = 6;
+      postHook = ''
+        if [ "$EXIT_STATUS" -gt "1" ]; then
+          ${pkgs.curl}/bin/curl \
+            -H "Title: Backup Failed" \
+            -H "Priority: urgent" \
+            -H "Tags: warning,backup" \
+            -d "Remote Borg backup (home-backup) failed with exit code $EXIT_STATUS on $(${pkgs.inetutils}/bin/hostname)" \
+            ntfy.sh/$(cat /home/noah/ntfy_topic)
+        fi
+      '';
+
+      prune.keep = {
+        daily = 7;
+        weekly = 4;
+        monthly = 6;
+      };
+    };
+
+    home-backup-local = {
+      startAt = "02:00";
+
+      paths = [ "/home/noah" "/home/docker" "/var/lib/docker/" ];
+
+      encryption.passCommand = "cat /home/noah/borg_pass";
+      encryption.mode = "repokey";
+
+      environment.BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+
+      repo = "/mnt/easystore/backups/borg";
+      extraCreateArgs = "--verbose --stats";
+      compression = "auto,zstd";
+
+      postHook = ''
+        if [ "$EXIT_STATUS" -gt "1" ]; then
+          ${pkgs.curl}/bin/curl \
+            -H "Title: Backup Failed" \
+            -H "Priority: urgent" \
+            -H "Tags: warning,backup" \
+            -d "Local Borg backup (home-backup-local) failed with exit code $EXIT_STATUS on $(${pkgs.inetutils}/bin/hostname)" \
+            ntfy.sh/$(cat /home/noah/ntfy_topic)
+        fi
+      '';
+
+      prune.keep = {
+        daily = 7;
+        weekly = 4;
+        monthly = 6;
+      };
     };
   };
 }
