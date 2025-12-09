@@ -105,7 +105,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    bitwarden
+    bitwarden-desktop
     bitwarden-cli
     comma
     discord
@@ -116,7 +116,7 @@
     fish
     gcc
     git
-    glxinfo
+    mesa-demos
     gnome-tweaks
     htop
     jdk17

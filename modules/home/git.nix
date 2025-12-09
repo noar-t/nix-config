@@ -8,12 +8,6 @@
     {
       enable = true;
 
-      # improved difftool
-      difftastic.enable = true;
-
-      userName = "Noah Thornton";
-      userEmail = email;
-
       ignores = [
         # vim
         "*swp"
@@ -36,7 +30,9 @@
         ".claude/"
       ];
 
-      extraConfig = {
+      settings = {
+        user.name = "Noah Thornton";
+        user.email = email;
         branch.sort = "-committerdate"; # sort branches by activity
         help.autocorrect = "1"; # fix typos in git commands
         init.defaultBranch = "master"; # default branch when repo init
@@ -47,4 +43,10 @@
         # TODO try out meld merget tool
       };
     };
+
+  # improved difftool
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
+  };
 }
