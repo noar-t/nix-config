@@ -20,12 +20,12 @@
       compression = "auto,zstd";
 
       postHook = ''
-        if [ "$EXIT_STATUS" -gt "1" ]; then
+        if [ "$exitStatus" -gt "1" ]; then
           ${pkgs.curl}/bin/curl \
             -H "Title: Backup Failed" \
             -H "Priority: urgent" \
             -H "Tags: warning,backup" \
-            -d "Remote Borg backup (home-backup) failed with exit code $EXIT_STATUS on $(${pkgs.inetutils}/bin/hostname)" \
+            -d "Remote Borg backup (home-backup) failed with exit code $exitStatus on $(${pkgs.inetutils}/bin/hostname)" \
             ntfy.sh/$(cat /home/noah/ntfy_topic)
         fi
       '';
@@ -52,12 +52,12 @@
       compression = "auto,zstd";
 
       postHook = ''
-        if [ "$EXIT_STATUS" -gt "1" ]; then
+        if [ "$exitStatus" -gt "1" ]; then
           ${pkgs.curl}/bin/curl \
             -H "Title: Backup Failed" \
             -H "Priority: urgent" \
             -H "Tags: warning,backup" \
-            -d "Local Borg backup (home-backup-local) failed with exit code $EXIT_STATUS on $(${pkgs.inetutils}/bin/hostname)" \
+            -d "Local Borg backup (home-backup-local) failed with exit code $exitStatus on $(${pkgs.inetutils}/bin/hostname)" \
             ntfy.sh/$(cat /home/noah/ntfy_topic)
         fi
       '';
