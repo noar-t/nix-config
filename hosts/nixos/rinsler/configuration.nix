@@ -14,6 +14,7 @@
     ./ups.nix
     ./borg.nix
     ./auto-update.nix
+    ../../../common/auto-apply-flake-update.nix
   ];
 
 
@@ -179,6 +180,13 @@
     };
   };
 
+
+  # Enable automatic flake update application after updates
+  services.nix-flake-auto-apply-update = {
+    enable = true;
+    # Run 30 minutes after the auto-update (which runs at 2 AM)
+    schedule = "*-*-01,15 02:30:00";
+  };
 
   system.stateVersion = "24.05";
 }
