@@ -14,7 +14,7 @@
     ./ups.nix
     ./borg.nix
     ./auto-update.nix
-    ../../../common/auto-apply-flake-update.nix
+    ../../../modules/nixos/auto-apply-flake-update.nix
   ];
 
 

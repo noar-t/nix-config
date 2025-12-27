@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   cfg = config.services.nix-flake-auto-apply-update;
@@ -46,7 +51,16 @@ in
         User = "root";
         WorkingDirectory = cfg.workingDirectory;
         Environment = [
-          "PATH=${pkgs.lib.makeBinPath [ pkgs.git pkgs.nix pkgs.curl pkgs.nettools pkgs.coreutils pkgs.openssh ]}"
+          "PATH=${
+            pkgs.lib.makeBinPath [
+              pkgs.git
+              pkgs.nix
+              pkgs.curl
+              pkgs.nettools
+              pkgs.coreutils
+              pkgs.openssh
+            ]
+          }"
         ];
       };
       script = ''
@@ -122,7 +136,13 @@ in
         User = cfg.user;
         Group = cfg.user;
         Environment = [
-          "PATH=${pkgs.lib.makeBinPath [ pkgs.curl pkgs.nettools pkgs.coreutils ]}"
+          "PATH=${
+            pkgs.lib.makeBinPath [
+              pkgs.curl
+              pkgs.nettools
+              pkgs.coreutils
+            ]
+          }"
         ];
       };
       script = ''

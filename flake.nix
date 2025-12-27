@@ -28,44 +28,23 @@
     };
 
     nix-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      nix-on-droid,
-      home-manager,
-      hyprland,
-      nixvim,
-      nixos-wsl,
-      nix-hardware,
-    }:
-    let
-      libx = (import ./lib { inherit inputs; });
-    in
-    {
-      nixosConfigurations = builtins.listToAttrs (
-        map (hostName: {
-          name = hostName;
-          value = libx.mkNixOS {
-            inherit hostName;
-          };
-        }) (builtins.attrNames (builtins.readDir ./hosts/nixos))
-      );
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
 
-      homeConfigurations.default = libx.mkStandaloneHomeManager {
-        homeDirectory = "/home/noah";
-        username = "noah";
-      };
-
-      # Galaxy Tab S8+
-      nixOnDroidConfigurations.default = libx.mkNixOnDroid { };
-
-      # Export standalone home-manager for non-nixos machines
-      lib.mkStandaloneHomeManager = libx.mkStandaloneHomeManager;
-
-      # Code formatter for flake, use command "nix fmt" to format entire repo
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+      imports = [
+        ./modules/nixos.nix
+        ./modules/home-manager.nix
+        ./modules/nix-on-droid.nix
+        ./modules/formatter.nix
+      ];
     };
 }
