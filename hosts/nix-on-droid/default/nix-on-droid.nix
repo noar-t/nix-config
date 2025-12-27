@@ -6,15 +6,12 @@
 }:
 
 {
-
-  #common.basePackages.enable = false;
-
   # Simply install just the packages
   environment.packages = with pkgs; [
     # Some common stuff that people expect to have
     diffutils
     findutils
-    utillinux
+    util-linux
     tzdata
     hostname
     gnupg
@@ -28,9 +25,7 @@
     # User added
     android-tools
 
-    elmPackages.elm
     eza
-    elixir
     fish
     gcc
     git
@@ -47,6 +42,7 @@
     which
     zip
     nerd-fonts.hack
+    claude-code
   ];
 
   terminal = {

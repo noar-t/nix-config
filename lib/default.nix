@@ -12,12 +12,12 @@ in
       system ? "x86_64-linux",
     }:
     inputs.nixpkgs.lib.nixosSystem {
-      system = system;
       specialArgs = {
         inherit inputs profile;
         moduleMode = "NixOS";
       };
       modules = [
+        { nixpkgs.hostPlatform = system; }
         ../hosts/nixos/${hostName}/configuration.nix
         ../common
         inputs.home-manager.nixosModules.home-manager
@@ -48,7 +48,10 @@ in
       extraExtraSpecialArgs ? {},
     }:
     inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = (import inputs.nixpkgs { inherit system; });
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
       extraSpecialArgs = {
         inherit
           inputs
@@ -79,7 +82,10 @@ in
       extraSpecialArgs = {
         inherit inputs profile;
       };
-      pkgs = import inputs.nixpkgs { inherit system; };
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
       modules = [
         ../hosts/nix-on-droid/default/nix-on-droid.nix
         {
