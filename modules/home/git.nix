@@ -1,12 +1,10 @@
-{ specialArgs, ... }:
+{ config, ... }:
 {
+  imports = [ ./email.nix ];
+
   # version control
-  programs.git =
-    let
-      inherit (specialArgs.profile) email;
-    in
-    {
-      enable = true;
+  programs.git = {
+    enable = true;
 
       ignores = [
         # vim
@@ -32,7 +30,7 @@
 
       settings = {
         user.name = "Noah Thornton";
-        user.email = email;
+        user.email = config.home.email;
         branch.sort = "-committerdate"; # sort branches by activity
         help.autocorrect = "1"; # fix typos in git commands
         init.defaultBranch = "master"; # default branch when repo init

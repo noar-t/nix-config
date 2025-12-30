@@ -1,22 +1,7 @@
 {
-  extraHomeModules ? [ ],
-}:
-{
   pkgs,
   ...
 }:
-let
-  moduleFiles = builtins.filter (
-    file: file != "home.nix" && builtins.match ".*\\.nix$" file != null
-  ) (builtins.attrNames (builtins.readDir ../modules/home));
-
-  homeModules = builtins.listToAttrs (
-    builtins.map (file: {
-      name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
-      value = import ../modules/home/${file};
-    }) moduleFiles
-  );
-in
 {
   imports = [
     ./alacritty.nix
@@ -29,11 +14,13 @@ in
     ./htop.nix
     ./hyprland.nix
     ./neovim.nix
+    ./nix.nix
     ./ssh.nix
     ./tealdeer.nix
     ./tmux.nix
-  ] ++ extraHomeModules;
+  ];
 
+  home.email = "noahthornton15@gmail.com";
   home.stateVersion = "24.05";
   home.packages = with pkgs; [
     erdtree # tree replacement

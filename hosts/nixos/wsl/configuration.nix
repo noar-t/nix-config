@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../../nix.nix
     inputs.nixos-wsl.nixosModules.default
   ];
 

@@ -1,15 +1,10 @@
 {
-  config,
   pkgs,
-  lib,
-  specialArgs,
   ...
 }:
-let
-  # moduleMode = "NixOS" OR "HomeManager"
-  moduleMode = specialArgs.moduleMode;
-  cfg = config.common.basePackages;
-  basePackages = with pkgs; [
+{
+  # common packages i want on all systems
+  environment.systemPackages = with pkgs; [
     bat # improved syntax aware cat
     comma # run a package without installing
     cowsay # a silly classic
@@ -32,25 +27,4 @@ let
     wget # downloader
     yazi # file manager
   ];
-in
-{
-  options.common.basePackages = {
-    enable = lib.mkOption {
-      default = true;
-      example = true;
-      description = "Whether to enable my standard cli packages";
-      type = lib.types.bool;
-    };
-  };
-
-  config = lib.mkIf cfg.enable (
-    if
-      (moduleMode == "NixOS")
-    # Used as NixOS module
-    then
-      { environment.systemPackages = basePackages; }
-    # Used as Home-Manager module
-    else
-      { home.packages = basePackages; }
-  );
 }
