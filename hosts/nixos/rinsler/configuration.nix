@@ -185,6 +185,7 @@
     enable = true;
     # Run 30 minutes after the auto-update (which runs at 2 AM)
     schedule = "*-*-01,15 02:30:00";
+    ntfyTopicFile = "/home/noah/ntfy_topic";
   };
 
   system.stateVersion = "24.05";

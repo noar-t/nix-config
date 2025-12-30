@@ -7,6 +7,7 @@
 
 let
   cfg = config.services.nix-flake-auto-apply-update;
+  ntfy = import ../../lib/ntfy.sh.nix { inherit pkgs; };
 in
 {
   options.services.nix-flake-auto-apply-update = {
@@ -36,7 +37,7 @@ in
       description = "User for notifications";
     };
 
-    ntfyTopic = lib.mkOption {
+    ntfyTopicFile = lib.mkOption {
       type = lib.types.str;
       default = "/home/noah/ntfy_topic";
       description = "Path to file containing ntfy topic";
@@ -145,14 +146,13 @@ in
           }"
         ];
       };
-      script = ''
-        ${pkgs.curl}/bin/curl \
-          -H "Title: Auto-Apply-Update Failed" \
-          -H "Priority: high" \
-          -H "Tags: warning,auto-apply-update" \
-          -d "Nix flake auto-apply-update failed on $(${pkgs.nettools}/bin/hostname)" \
-          ntfy.sh/$(cat ${cfg.ntfyTopic})
-      '';
+      script = ntfy.mkNotification {
+        title = "Auto-Apply-Update Failed";
+        priority = "high";
+        tags = "warning,auto-apply-update";
+        message = "Nix flake auto-apply-update failed on $(${pkgs.nettools}/bin/hostname)";
+        topicFile = cfg.ntfyTopicFile;
+      };
     };
   };
 }

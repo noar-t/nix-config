@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+  ntfy = import ../../../lib/ntfy.sh.nix { inherit pkgs; };
+in
 {
   systemd.services.nix-flake-auto-update = {
     description = "Automatically update nix flake and apply changes";
@@ -98,13 +101,12 @@
         "PATH=${pkgs.lib.makeBinPath [ pkgs.curl pkgs.nettools pkgs.coreutils ]}"
       ];
     };
-    script = ''
-      ${pkgs.curl}/bin/curl \
-        -H "Title: Auto-Update Failed" \
-        -H "Priority: urgent" \
-        -H "Tags: warning,auto-update" \
-        -d "Nix flake auto-update failed on $(${pkgs.nettools}/bin/hostname)" \
-        ntfy.sh/$(cat /home/noah/ntfy_topic)
-    '';
+    script = ntfy.mkNotification {
+      title = "Auto-Update Failed";
+      priority = "urgent";
+      tags = "warning,auto-update";
+      message = "Nix flake auto-update failed on $(${pkgs.nettools}/bin/hostname)";
+      topicFile = "/home/noah/ntfy_topic";
+    };
   };
 }

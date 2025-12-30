@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
+let
+  ntfy = import ../../../lib/ntfy.sh.nix { inherit pkgs; };
+in
 {
   environment.systemPackages = [ pkgs.borgbackup ];
 
@@ -21,12 +24,13 @@
 
       postHook = ''
         if [ "$exitStatus" -gt "1" ]; then
-          ${pkgs.curl}/bin/curl \
-            -H "Title: Backup Failed" \
-            -H "Priority: urgent" \
-            -H "Tags: warning,backup" \
-            -d "Remote Borg backup (home-backup) failed with exit code $exitStatus on $(${pkgs.inetutils}/bin/hostname)" \
-            ntfy.sh/$(cat /home/noah/ntfy_topic)
+          ${ntfy.mkNotification {
+            title = "Backup Failed";
+            priority = "urgent";
+            tags = "warning,backup";
+            message = "Remote Borg backup (home-backup) failed with exit code $exitStatus on $(${pkgs.inetutils}/bin/hostname)";
+            topicFile = "/home/noah/ntfy_topic";
+          }}
         fi
       '';
 
@@ -53,12 +57,13 @@
 
       postHook = ''
         if [ "$exitStatus" -gt "1" ]; then
-          ${pkgs.curl}/bin/curl \
-            -H "Title: Backup Failed" \
-            -H "Priority: urgent" \
-            -H "Tags: warning,backup" \
-            -d "Local Borg backup (home-backup-local) failed with exit code $exitStatus on $(${pkgs.inetutils}/bin/hostname)" \
-            ntfy.sh/$(cat /home/noah/ntfy_topic)
+          ${ntfy.mkNotification {
+            title = "Backup Failed";
+            priority = "urgent";
+            tags = "warning,backup";
+            message = "Local Borg backup (home-backup-local) failed with exit code $exitStatus on $(${pkgs.inetutils}/bin/hostname)";
+            topicFile = "/home/noah/ntfy_topic";
+          }}
         fi
       '';
 
