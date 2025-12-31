@@ -174,9 +174,7 @@
       lsp = {
         enable = true;
         servers = {
-          docker_compose_language_service.enable = true;
-          elixirls.enable = true;
-          elmls.enable = true;
+          fish_lsp.enable = true;
           jdtls.enable = true;
           kotlin_language_server.enable = true;
           lua_ls.enable = true;
