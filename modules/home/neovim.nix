@@ -179,23 +179,16 @@
           kotlin_language_server.enable = true;
           lua_ls.enable = true;
           ts_ls.enable = true;
-          nixd = {
+          nil_ls = {
             enable = true;
             settings = {
-              nixpkgs = {
-
-                expr = "import <nixpkgs> { }";
-              };
               formatting = {
                 command = [ "nixfmt" ];
               };
-              options = {
-                nixos = {
-                  # TODO fix hostname to be dynamic, for now will just pin to WSL
-                  expr = "(builtins.getFlake \"github:noar-t/nix-config\").nixosConfigurations.wsl.options";
-                };
-                home_manager = {
-                  expr = "(builtins.getFlake \"github:noar-t/nix-config\").homeConfigurations.default.options";
+              nix = {
+                flake = {
+                  autoArchive = true;
+                  autoEvalInputs = false;
                 };
               };
             };
