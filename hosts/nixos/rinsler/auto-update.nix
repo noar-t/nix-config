@@ -12,7 +12,16 @@ in
       Group = "noah";
       WorkingDirectory = "/home/noah/nix-config";
       Environment = [
-        "PATH=${pkgs.lib.makeBinPath [ pkgs.git pkgs.nix pkgs.curl pkgs.nettools pkgs.coreutils pkgs.openssh ]}"
+        "PATH=${
+          pkgs.lib.makeBinPath [
+            pkgs.git
+            pkgs.nix
+            pkgs.curl
+            pkgs.nettools
+            pkgs.coreutils
+            pkgs.openssh
+          ]
+        }"
       ];
     };
     script = ''
@@ -98,7 +107,13 @@ in
       Group = "noah";
       WorkingDirectory = "/home/noah/nix-config";
       Environment = [
-        "PATH=${pkgs.lib.makeBinPath [ pkgs.curl pkgs.nettools pkgs.coreutils ]}"
+        "PATH=${
+          pkgs.lib.makeBinPath [
+            pkgs.curl
+            pkgs.nettools
+            pkgs.coreutils
+          ]
+        }"
       ];
     };
     script = ntfy.mkNotification {

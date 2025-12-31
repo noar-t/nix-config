@@ -10,7 +10,11 @@ in
     home-backup = {
       startAt = "daily";
 
-      paths = [ "/home/noah" "/home/docker" "/var/lib/docker/" ];
+      paths = [
+        "/home/noah"
+        "/home/docker"
+        "/var/lib/docker/"
+      ];
 
       encryption.passCommand = "cat /home/noah/borg_pass";
       encryption.mode = "repokey";
@@ -44,7 +48,11 @@ in
     home-backup-local = {
       startAt = "02:00";
 
-      paths = [ "/home/noah" "/home/docker" "/var/lib/docker/" ];
+      paths = [
+        "/home/noah"
+        "/home/docker"
+        "/var/lib/docker/"
+      ];
 
       encryption.passCommand = "cat /home/noah/borg_pass";
       encryption.mode = "repokey";

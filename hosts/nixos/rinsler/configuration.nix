@@ -16,7 +16,6 @@
     ../../../modules/nixos/auto-apply-flake-update.nix
   ];
 
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -178,7 +177,6 @@
       enable = true;
     };
   };
-
 
   # Enable automatic flake update application after updates
   services.nix-flake-auto-apply-update = {

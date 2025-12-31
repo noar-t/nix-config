@@ -36,11 +36,26 @@
         # Notification settings
         NOTIFYCMD = "${pkgs.nut}/bin/upssched";
         NOTIFYFLAG = [
-          [ "ONLINE" "SYSLOG" ]
-          [ "ONBATT" "SYSLOG+WALL+EXEC" ]
-          [ "LOWBATT" "SYSLOG+WALL+EXEC" ]
-          [ "REPLBATT" "SYSLOG+WALL" ]
-          [ "SHUTDOWN" "SYSLOG+WALL+EXEC" ]
+          [
+            "ONLINE"
+            "SYSLOG"
+          ]
+          [
+            "ONBATT"
+            "SYSLOG+WALL+EXEC"
+          ]
+          [
+            "LOWBATT"
+            "SYSLOG+WALL+EXEC"
+          ]
+          [
+            "REPLBATT"
+            "SYSLOG+WALL"
+          ]
+          [
+            "SHUTDOWN"
+            "SYSLOG+WALL+EXEC"
+          ]
         ];
       };
     };
@@ -63,7 +78,10 @@
   systemd.services.nut-password = {
     description = "Generate NUT password";
     wantedBy = [ "multi-user.target" ];
-    before = [ "upsd.service" "upsmon.service" ];
+    before = [
+      "upsd.service"
+      "upsmon.service"
+    ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

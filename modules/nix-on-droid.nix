@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-# Galaxy Tab S8+
+  # Galaxy Tab S8+
   flake.nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
     extraSpecialArgs = {
       inherit inputs;
