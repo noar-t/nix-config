@@ -20,6 +20,7 @@
     memtester # memory tester
     neofetch # terminal eye candy
     nix-index # search for which nix package provides a file
+    opencode # open source code editor
     stress # stress test
     silver-searcher # better grep
     tmux # terminal multiplexer
