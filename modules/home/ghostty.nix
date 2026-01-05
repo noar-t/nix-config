@@ -15,7 +15,7 @@
     installVimSyntax = true;
     settings = {
       font-family = "Hack Nerd Font";
-      theme = "\"GruvboxDarkHard\"";
+      theme = "\"Gruvbox Dark Hard\"";
     };
   };
 }
