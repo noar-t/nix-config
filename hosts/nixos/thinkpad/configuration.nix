@@ -47,8 +47,8 @@
   };
 
   # Enable desktop manager and display manager
-  services.desktopManager.gnome.enable = true;
-  services.displayManager.gdm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
