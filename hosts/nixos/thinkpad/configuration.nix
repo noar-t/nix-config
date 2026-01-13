@@ -53,10 +53,12 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  programs.fish.enable = true;
+
   users.users.noah = {
     isNormalUser = true;
     description = "Noah";
+    shell = pkgs.fish;
     extraGroups = [
       "networkmanager"
       "docker"
@@ -64,16 +66,8 @@
     ];
     packages = with pkgs; [
       firefox
-      gemini-cli
     ];
   };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
 
   virtualisation.docker.enable = true;
 
@@ -82,12 +76,17 @@
   environment.systemPackages = with pkgs; [
     docker
     docker-compose
+    claude-code
+    claude-monitor
+    unzip
+    zip
     git
     htop
     tmux
     vim
     wget # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default. wget
     chromium
+    jetbrains.idea
     inputs.cytrace-kiwi-flake.packages.${pkgs.system}.default
   ];
 

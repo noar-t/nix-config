@@ -1,9 +1,5 @@
-# Edit this configuration file to define what should be installed on your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual
-# (accessible by running `nixos-help`).
-
 {
   config,
-  lib,
   pkgs,
   inputs,
   ...
@@ -33,13 +29,6 @@
   time.hardwareClockInLocalTime = true;
 
   time.timeZone = "America/Los_Angeles";
-
-  # Configure network proxy if necessary networking.proxy.default = "http://user:password@proxy:port/"; networking.proxy.noProxy =
-  # "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties. i18n.defaultLocale = "en_US.UTF-8"; console = {
-  #   font = "Lat2-Terminus16"; keyMap = "us"; useXkbConfig = true; # use xkbOptions in tty.
-  # };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -91,8 +80,6 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     shell = pkgs.fish;
-    packages = with pkgs; [
-    ];
   };
 
   programs.fish.enable = true;
@@ -137,19 +124,6 @@
     wget
     wofi
   ];
-
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "nvidia-x11"
-      "nvidia-settings"
-      "steam"
-      "steam-original"
-      "steam-run"
-      "discord"
-      "memtest86-efi"
-      "unigine-heaven"
-    ];
 
   programs.steam = {
     enable = true;
