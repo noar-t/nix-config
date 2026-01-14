@@ -70,6 +70,8 @@
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBY2D9VRvcblvSxfSWZKG59snFUoHbIuMrUohFhmjjtq0avSbiVUGRi1xIA3oUpsPkkn7qrNR5paCdYrECip3nQ= noah@nixos-laptop"
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCD8aFvjd6RhUbJzvuhnyBiTmXX+PQ0uzs2ju85EnMUm+Wq7uCZ+AC8tO9IN0YiwEpIwhtNDJC/ZwzMSuEWIy9M= u0_a290@localhost"
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDUjdiPWiGQ3o/xbdPWYtEK37tsSSu+rA8VLWneOkoEtIU1F8HyjwNKWBjn+Y/8syQUF3TghV8N2d2/HPGyltccgVfPVfdh+MKLwgVXAjnLA2IhMpLnghDSQFHNvSs/RIwi1ETHP5pdiPVLkzV2wv3sfSLiayAwXiyh0D5RKUUAlY/0LKrOOvsv/1slg6Q2pk8W4u2WCJhyVGqGmFv7X71U/aX7izvyyui/AJRS2XnIcCjgB439QRXy9yMyyFQfi9C0WV38u/grq0AUuDvVuXl1jzTTDw9M9Gk7yILnVTlsK0mtNwxR54Q2ay9EhB490sa//WFCVqoYiZHjvcwFc7qHAf+en1fr5mBRlaoAZRXaq3wKuhVynTS7w92GhKdQxjPhJxbML8yqVaYvsJ+USYIBowctaVqXoDBzM+PbAuvfQcs6Mff/BzGlzwOI5RPYIEjLKDva/mBVQWm77PdqHW4r59TPE7eY6T0KqGTvto0X+N0NiQwsLHB0p+9hpEJ/3XU= u0_a178@localhost"
+      # Pixel
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIqPyEV/cTjjVja52l9i7lkLZUYcTXwzklubvw1Xi+iH u0_a406@localhost"
     ];
   };
 
