@@ -1,8 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
+    inputs.nix-hardware.nixosModules.lenovo-thinkpad-t440s
   ];
 
   # Bootloader
