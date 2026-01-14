@@ -37,11 +37,6 @@
     options = [ "bind" ];
   };
 
-  fileSystems."/home-old" = {
-    device = "/dev/disk/by-uuid/240c5937-3064-49f4-86fd-614081e55b25";
-    fsType = "btrfs";
-  };
-
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/240c5937-3064-49f4-86fd-614081e55b25";
     fsType = "btrfs";

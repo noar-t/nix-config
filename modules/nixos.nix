@@ -17,6 +17,7 @@
             ../modules/nixos/base-packages.nix
             ../modules/nixos/gui-packages.nix
             ../modules/nixos/nix.nix
+            ../modules/nixos/disk-monitor.nix
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager = {
