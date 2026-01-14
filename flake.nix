@@ -29,6 +29,11 @@
 
     nix-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    cytrace-kiwi-flake = {
+      url = "github:noar-t/cytrace-kiwi-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
