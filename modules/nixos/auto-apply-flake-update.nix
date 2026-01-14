@@ -69,42 +69,42 @@ in
 
         echo "Starting flake auto-apply at $(date)"
 
-        # Check if we're in a clean git state
-        if ! git diff-index --quiet HEAD --; then
+        # Check if we're in a clean git state (as noah)
+        if ! sudo -u noah git diff-index --quiet HEAD --; then
           echo "Working directory not clean, skipping apply"
           exit 0
         fi
 
-        # Fetch from remote repository
+        # Fetch from remote repository (as noah)
         echo "Fetching from remote repository..."
-        git fetch origin
+        sudo -u noah git fetch origin
 
-        # Check if there are updates
-        if git diff-index --quiet HEAD -- origin/master; then
+        # Check if there are updates (as noah)
+        if sudo -u noah git diff-index --quiet HEAD -- origin/master; then
           echo "No updates available"
           exit 0
         fi
 
         echo "Updates found, pulling changes..."
-        git pull --rebase origin master
+        sudo -u noah git pull --rebase origin master
 
-        # Check that the flake builds correctly
+        # Check that the flake builds correctly (as root)
         echo "Checking flake configuration..."
         if ! nix flake check; then
           echo "Flake check failed, reverting changes"
-          git checkout HEAD~1
+          sudo -u noah git checkout HEAD~1
           exit 1
         fi
 
-        # Build the new configuration
+        # Build the new configuration (as root)
         echo "Building new configuration..."
         if ! nixos-rebuild build --flake .; then
           echo "Build failed, reverting changes"
-          git checkout HEAD~1
+          sudo -u noah git checkout HEAD~1
           exit 1
         fi
 
-        # Apply the new configuration
+        # Apply the new configuration (as root)
         echo "Applying new configuration..."
         if ! nixos-rebuild switch --flake .; then
           echo "Switch failed, but build succeeded. Manual intervention may be needed."

@@ -64,7 +64,7 @@ in
       # Commit the changes
       echo "Committing changes..."
       git add flake.lock
-      git commit -m "chore: update flake"
+      git commit -m "chore: update flake @$(hostname)"
 
       # Push the changes
       echo "Pushing changes..."
