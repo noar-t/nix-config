@@ -33,45 +33,52 @@ let
         # Use btrfs filesystem usage for accurate RAID-aware reporting
         if ! USAGE_OUTPUT=$(${pkgs.btrfs-progs}/bin/btrfs filesystem usage -b "${path}" 2>&1); then
           ERRORS="$ERRORS\nFailed to check ${path}: $USAGE_OUTPUT"
-          continue
+        else
+          # Extract used and total bytes (use -m1 to only match the Overall section, not Data/Metadata summaries)
+          USED=$(echo "$USAGE_OUTPUT" | ${pkgs.gnugrep}/bin/grep -m1 "Used:" | ${pkgs.gawk}/bin/awk '{print $2}')
+          TOTAL=$(echo "$USAGE_OUTPUT" | ${pkgs.gnugrep}/bin/grep -m1 "Device size:" | ${pkgs.gawk}/bin/awk '{print $3}')
+
+          if [[ -z "$USED" ]] || [[ -z "$TOTAL" ]] || [[ "$TOTAL" -eq 0 ]]; then
+            ERRORS="$ERRORS\nFailed to parse btrfs usage for ${path}"
+          else
+            PERCENTAGE=$((USED * 100 / TOTAL))
+
+            # Convert to human-readable
+            USED_HUMAN=$(${pkgs.coreutils}/bin/numfmt --to=iec-i --suffix=B "$USED" 2>/dev/null || echo "$USED bytes")
+            TOTAL_HUMAN=$(${pkgs.coreutils}/bin/numfmt --to=iec-i --suffix=B "$TOTAL" 2>/dev/null || echo "$TOTAL bytes")
+
+            echo "${path}: $PERCENTAGE% used ($USED_HUMAN / $TOTAL_HUMAN)"
+
+            # Check threshold
+            if [[ "$PERCENTAGE" -ge "$THRESHOLD" ]]; then
+              WARNINGS="$WARNINGS\n${path} is at $PERCENTAGE% ($USED_HUMAN / $TOTAL_HUMAN)"
+            fi
+          fi
         fi
-
-        # Extract used and total bytes
-        USED=$(echo "$USAGE_OUTPUT" | ${pkgs.gnugrep}/bin/grep "Used:" | ${pkgs.gawk}/bin/awk '{print $2}')
-        TOTAL=$(echo "$USAGE_OUTPUT" | ${pkgs.gnugrep}/bin/grep "Device size:" | ${pkgs.gawk}/bin/awk '{print $3}')
-
-        if [[ -z "$USED" ]] || [[ -z "$TOTAL" ]] || [[ "$TOTAL" -eq 0 ]]; then
-          ERRORS="$ERRORS\nFailed to parse btrfs usage for ${path}"
-          continue
-        fi
-
-        PERCENTAGE=$((USED * 100 / TOTAL))
       else
         # Use df for other filesystems
         if ! DF_OUTPUT=$(${pkgs.coreutils}/bin/df -B1 "${path}" 2>&1); then
           ERRORS="$ERRORS\nFailed to check ${path}: $DF_OUTPUT"
-          continue
+        else
+          PERCENTAGE=$(echo "$DF_OUTPUT" | ${pkgs.gawk}/bin/awk 'NR==2 {gsub(/%/,"",$5); print $5}')
+          USED=$(echo "$DF_OUTPUT" | ${pkgs.gawk}/bin/awk 'NR==2 {print $3}')
+          TOTAL=$(echo "$DF_OUTPUT" | ${pkgs.gawk}/bin/awk 'NR==2 {print $2}')
+
+          if [[ -z "$PERCENTAGE" ]]; then
+            ERRORS="$ERRORS\nFailed to parse df output for ${path}"
+          else
+            # Convert to human-readable
+            USED_HUMAN=$(${pkgs.coreutils}/bin/numfmt --to=iec-i --suffix=B "$USED" 2>/dev/null || echo "$USED bytes")
+            TOTAL_HUMAN=$(${pkgs.coreutils}/bin/numfmt --to=iec-i --suffix=B "$TOTAL" 2>/dev/null || echo "$TOTAL bytes")
+
+            echo "${path}: $PERCENTAGE% used ($USED_HUMAN / $TOTAL_HUMAN)"
+
+            # Check threshold
+            if [[ "$PERCENTAGE" -ge "$THRESHOLD" ]]; then
+              WARNINGS="$WARNINGS\n${path} is at $PERCENTAGE% ($USED_HUMAN / $TOTAL_HUMAN)"
+            fi
+          fi
         fi
-
-        PERCENTAGE=$(echo "$DF_OUTPUT" | ${pkgs.gawk}/bin/awk 'NR==2 {gsub(/%/,"",$5); print $5}')
-        USED=$(echo "$DF_OUTPUT" | ${pkgs.gawk}/bin/awk 'NR==2 {print $3}')
-        TOTAL=$(echo "$DF_OUTPUT" | ${pkgs.gawk}/bin/awk 'NR==2 {print $2}')
-
-        if [[ -z "$PERCENTAGE" ]]; then
-          ERRORS="$ERRORS\nFailed to parse df output for ${path}"
-          continue
-        fi
-      fi
-
-      # Convert to human-readable
-      USED_HUMAN=$(${pkgs.coreutils}/bin/numfmt --to=iec-i --suffix=B "$USED" 2>/dev/null || echo "$USED bytes")
-      TOTAL_HUMAN=$(${pkgs.coreutils}/bin/numfmt --to=iec-i --suffix=B "$TOTAL" 2>/dev/null || echo "$TOTAL bytes")
-
-      echo "${path}: $PERCENTAGE% used ($USED_HUMAN / $TOTAL_HUMAN)"
-
-      # Check threshold
-      if [[ "$PERCENTAGE" -ge "$THRESHOLD" ]]; then
-        WARNINGS="$WARNINGS\n${path} is at $PERCENTAGE% ($USED_HUMAN / $TOTAL_HUMAN)"
       fi
     '') (lib.attrNames cfg.monitoredPaths)}
 
