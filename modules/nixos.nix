@@ -18,6 +18,7 @@
             ../modules/nixos/gui-packages.nix
             ../modules/nixos/nix.nix
             ../modules/nixos/disk-monitor.nix
+            ../modules/nixos/failed-unit-notifier.nix
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager = {

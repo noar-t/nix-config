@@ -184,5 +184,12 @@
     ntfyTopicFile = "/home/noah/ntfy_topic";
   };
 
+  # Monitor for failed systemd units defined in this NixOS config
+  services.failed-unit-notifier = {
+    enable = true;
+    ntfyTopicFile = "/home/noah/ntfy_topic";
+    interval = "*:0/15"; # Check every 15 minutes
+  };
+
   system.stateVersion = "24.05";
 }
