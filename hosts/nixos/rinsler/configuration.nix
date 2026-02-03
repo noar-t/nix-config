@@ -22,8 +22,6 @@
     "kernel.task_delayacct" = 1;
   }; # flag for iotop
 
-  system.autoUpgrade.enable = true;
-
   networking = {
     hostName = "rinsler";
     networkmanager.enable = true;
