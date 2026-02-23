@@ -106,7 +106,7 @@
     gnome-tweaks
     htop
     jdk17
-    jetbrains.idea-community
+    jetbrains.idea
     kitty
     lm_sensors
     mako # wayland notification daemon
