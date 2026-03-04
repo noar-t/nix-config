@@ -1,4 +1,7 @@
 { pkgs, inputs, ... }:
+let
+  enable_nerd_fonts = true;
+in
 {
   imports = [
     inputs.nixvim.homeModules.nixvim
@@ -10,7 +13,74 @@
     viAlias = true;
     vimAlias = true;
 
+    globals = {
+      have_nerd_font = true;
+    };
+
     colorschemes.gruvbox.enable = true;
+
+    autoGroups = {
+      kickstart-highlight-yank = {
+        clear = true;
+      };
+    };
+
+    # [[ Basic Autocommands ]]
+    #  See `:help lua-guide-autocommands`
+    # https://nix-community.github.io/nixvim/NeovimOptions/autoCmd/index.html
+    autoCmd = [
+      # Highlight when yanking (copying) text
+      #  Try it with `yap` in normal mode
+      #  See `:help vim.hl.on_yank()`
+      {
+        event = [ "TextYankPost" ];
+        desc = "Highlight when yanking (copying) text";
+        group = "kickstart-highlight-yank";
+        callback.__raw = ''
+          function()
+            vim.hl.on_yank()
+          end
+        '';
+      }
+    ];
+
+    diagnostic = {
+      settings = {
+        severity_sort = true;
+        float = {
+          border = "rounded";
+          source = "if_many";
+        };
+        underline = {
+          severity.__raw = ''vim.diagnostic.severity.ERROR'';
+        };
+        signs.__raw = ''
+          vim.g.have_nerd_font and {
+            text = {
+              [vim.diagnostic.severity.ERROR] = '󰅚 ',
+              [vim.diagnostic.severity.WARN] = '󰀪 ',
+              [vim.diagnostic.severity.INFO] = '󰋽 ',
+              [vim.diagnostic.severity.HINT] = '󰌶 ',
+            },
+          } or {}
+        '';
+        virtual_text = {
+          source = "if_many";
+          spacing = 2;
+          format.__raw = ''
+            function(diagnostic)
+              local diagnostic_message = {
+                [vim.diagnostic.severity.ERROR] = diagnostic.message,
+                [vim.diagnostic.severity.WARN] = diagnostic.message,
+                [vim.diagnostic.severity.INFO] = diagnostic.message,
+                [vim.diagnostic.severity.HINT] = diagnostic.message,
+              }
+              return diagnostic_message[diagnostic.severity]
+            end
+          '';
+        };
+      };
+    };
 
     plugins = {
       # Better error alerts
@@ -23,12 +93,26 @@
       luasnip.enable = true;
       friendly-snippets.enable = true;
 
+      # Lua development support
+      lazydev = {
+        enable = true;
+        settings = {
+          library = [
+            {
+              path = "\${3rd}/luv/library";
+              words = [ "vim%.uv" ];
+            }
+          ];
+        };
+      };
+
       # Auto trim trailing spaces
       trim.enable = true;
 
       # Quick file navigator and required icons
       telescope.enable = true;
-      web-devicons.enable = true;
+      # Adds icons for plugins to utilize in ui
+      web-devicons.enable = enable_nerd_fonts;
       mini.enable = true;
 
       # Quick file switcher
@@ -90,8 +174,22 @@
       # Smart motion inline
       precognition.enable = true;
 
-      # Enable git status in the gutter
-      gitsigns.enable = true;
+      # Adds git related signs to the gutter, as well as utilities for managing changes
+      # See `:help gitsigns` to understand what the configuration keys do
+      # https://nix-community.github.io/nixvim/plugins/gitsigns/index.html
+      gitsigns = {
+        enable = true;
+        settings = {
+          signs = {
+            add.text = "+";
+            change.text = "~";
+            changedelete.text = "~";
+            delete.text = "_";
+            topdelete.text = "‾";
+            untracked.text = "┆";
+          };
+        };
+      };
 
       # Enable todo comment highlighting
       todo-comments.enable = true;
@@ -135,50 +233,152 @@
         };
       };
 
-      # Auto-complete engine
-      cmp = {
+      # Autocompletion
+      # See `:help cmp`
+      # https://nix-community.github.io/nixvim/plugins/blink-cmp/index.html
+      blink-cmp = {
         enable = true;
+
         settings = {
-          completion.autocomplete = [ "TextChanged" ];
-          sources = [
-            # TODO add snippets
-            { name = "nvim_lsp"; }
-            { name = "path"; }
-            { name = "buffer"; }
-            { name = "nvim_lsp_signature_help"; }
-            { name = "emoji"; }
-          ];
-          mapping = {
-            # Use default C-n/C-d with cmp
-            "<C-n>" = "cmp.mapping.select_next_item()";
-            "<C-p>" = "cmp.mapping.select_prev_item()";
-            # Scroll
-            "<C-b>" = "cmp.mapping.scroll_docs(-4)";
-            "<C-f>" = "cmp.mapping.scroll_docs(4)";
-            # Use C-space to trigger completion menu
-            "<C-Space>" = "cmp.mapping.complete()";
-            # Use C-y to accept completion
-            "<C-y>" = "cmp.mapping.confirm({ select = true })";
+
+          keymap = {
+            # 'default' (recommended) for mappings similar to built-in completions
+            #   <c-y> to accept ([y]es) the completion.
+            #    This will auto-import if your LSP supports it.
+            #    This will expand snippets if the LSP sent a snippet.
+            # 'super-tab' for tab to accept
+            # 'enter' for enter to accept
+            # 'none' for no mappings
+            #
+            # For an understanding of why the 'default' preset is recommended,
+            # you will need to read `:help ins-completion`
+            #
+            # No, but seriously. Please read `:help ins-completion`, it is really good!
+            #
+            # All presets have the following mappings:
+            # <tab>/<s-tab>: move to right/left of your snippet expansion
+            # <c-space>: Open menu or open docs if already open
+            # <c-n>/<c-p> or <up>/<down>: Select next/previous item
+            # <c-e>: Hide menu
+            # <c-k>: Toggle signature help
+            #
+            # See :h blink-cmp-config-keymap for defining your own keymap
+            preset = "default";
+
+            # For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+            #    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+          };
+
+          appearance = {
+            # 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+            # Adjusts spacing to ensure icons are aligned
+            nerd_font_variant = "mono";
+          };
+
+          completion = {
+            # By default, you may press `<c-space>` to show the documentation.
+            # Optionally, set `auto_show = true` to show the documentation after a delay.
+            documentation = {
+              auto_show = false;
+              auto_show_delay_ms = 500;
+            };
+          };
+
+          sources = {
+            default = [
+              "lsp"
+              "path"
+              "snippets"
+              "lazydev"
+            ];
+            providers = {
+              lazydev = {
+                module = "lazydev.integrations.blink";
+                score_offset = 100;
+              };
+            };
+          };
+
+          snippets = {
+            preset = "luasnip";
+          };
+
+          # Blink.cmp includes an optional, recommended rust fuzzy matcher,
+          # which automatically downloads a prebuilt binary when enabled.
+          #
+          # By default, we use the Lua implementation instead, but you may enable
+          # the rust implementation via `'prefer_rust_with_warning'`
+          #
+          # See :h blink-cmp-config-fuzzy for more information
+          fuzzy = {
+            implementation = "lua";
+          };
+
+          # Shows a signature help window while you type arguments for a function
+          signature = {
+            enabled = true;
           };
         };
       };
-      cmp-nvim-lsp.enable = true;
-      cmp-buffer.enable = true;
-      cmp-path.enable = true;
-      cmp-emoji.enable = true;
 
       ## Language server tooling
-      #lsp-format.enable = true;
       lsp-lines.enable = true;
-      lspkind.enable = true;
       lsp = {
         enable = true;
+
+        # Enable inlay hints globally
+        inlayHints = true;
+
+        # Enable inlay hints when LSP attaches to buffer
+        onAttach = ''
+          if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          end
+        '';
+
         servers = {
           fish_lsp.enable = true;
           jdtls.enable = true;
           kotlin_language_server.enable = true;
-          lua_ls.enable = true;
-          ts_ls.enable = true;
+          lua_ls = {
+            enable = true;
+            settings = {
+              Lua = {
+                hint = {
+                  enable = true;
+                  arrayIndex = "Auto";
+                  setType = true;
+                };
+              };
+            };
+          };
+          ts_ls = {
+            enable = true;
+            settings = {
+              typescript = {
+                inlayHints = {
+                  includeInlayEnumMemberValueHints = true;
+                  includeInlayFunctionLikeReturnTypeHints = true;
+                  includeInlayFunctionParameterTypeHints = true;
+                  includeInlayParameterNameHints = "all";
+                  includeInlayParameterNameHintsWhenArgumentMatchesName = true;
+                  includeInlayPropertyDeclarationTypeHints = true;
+                  includeInlayVariableTypeHints = true;
+                };
+              };
+              javascript = {
+                inlayHints = {
+                  includeInlayEnumMemberValueHints = true;
+                  includeInlayFunctionLikeReturnTypeHints = true;
+                  includeInlayFunctionParameterTypeHints = true;
+                  includeInlayParameterNameHints = "all";
+                  includeInlayParameterNameHintsWhenArgumentMatchesName = true;
+                  includeInlayPropertyDeclarationTypeHints = true;
+                  includeInlayVariableTypeHints = true;
+                };
+              };
+            };
+          };
           nil_ls = {
             enable = true;
             settings = {
@@ -193,7 +393,20 @@
               };
             };
           };
-          pyright.enable = true;
+          pyright = {
+            enable = true;
+            settings = {
+              python = {
+                analysis = {
+                  typeCheckingMode = "basic";
+                  inlayHints = {
+                    variableTypes = true;
+                    functionReturnTypes = true;
+                  };
+                };
+              };
+            };
+          };
         };
 
         keymaps = {
@@ -221,6 +434,216 @@
         action = "<C-u>zz";
         key = "<C-u>";
         mode = "n";
+      }
+
+      # Gitsigns Navigation
+      {
+        mode = "n";
+        key = "]c";
+        action.__raw = ''
+          function()
+            if vim.wo.diff then
+              vim.cmd.normal { ']c', bang = true }
+            else
+              require('gitsigns').nav_hunk 'next'
+            end
+          end
+        '';
+        options = {
+          desc = "Jump to next git [c]hange";
+        };
+      }
+      {
+        mode = "n";
+        key = "[c";
+        action.__raw = ''
+          function()
+            if vim.wo.diff then
+              vim.cmd.normal { '[c', bang = true }
+            else
+              require('gitsigns').nav_hunk 'prev'
+            end
+          end
+        '';
+        options = {
+          desc = "Jump to previous git [c]hange";
+        };
+      }
+
+      # Gitsigns Actions - visual mode
+      {
+        mode = "v";
+        key = "<leader>hs";
+        action.__raw = ''
+          function()
+            require('gitsigns').stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+          end
+        '';
+        options = {
+          desc = "git [s]tage hunk";
+        };
+      }
+      {
+        mode = "v";
+        key = "<leader>hr";
+        action.__raw = ''
+          function()
+            require('gitsigns').reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+          end
+        '';
+        options = {
+          desc = "git [r]eset hunk";
+        };
+      }
+
+      # Gitsigns Actions - normal mode
+      {
+        mode = "n";
+        key = "<leader>hs";
+        action.__raw = ''
+          function()
+            require('gitsigns').stage_hunk()
+          end
+        '';
+        options = {
+          desc = "git [s]tage hunk";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hr";
+        action.__raw = ''
+          function()
+            require('gitsigns').reset_hunk()
+          end
+        '';
+        options = {
+          desc = "git [r]eset hunk";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hS";
+        action.__raw = ''
+          function()
+            require('gitsigns').stage_buffer()
+          end
+        '';
+        options = {
+          desc = "git [S]tage buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hu";
+        action.__raw = ''
+          function()
+            require('gitsigns').undo_stage_hunk()
+          end
+        '';
+        options = {
+          desc = "git [u]ndo stage hunk";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hR";
+        action.__raw = ''
+          function()
+            require('gitsigns').reset_buffer()
+          end
+        '';
+        options = {
+          desc = "git [R]eset buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hp";
+        action.__raw = ''
+          function()
+            require('gitsigns').preview_hunk()
+          end
+        '';
+        options = {
+          desc = "git [p]review hunk";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hb";
+        action.__raw = ''
+          function()
+            require('gitsigns').blame_line({ full = true })
+          end
+        '';
+        options = {
+          desc = "git [b]lame line";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hd";
+        action.__raw = ''
+          function()
+            require('gitsigns').diffthis()
+          end
+        '';
+        options = {
+          desc = "git [d]iff against index";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hD";
+        action.__raw = ''
+          function()
+            require('gitsigns').diffthis '@'
+          end
+        '';
+        options = {
+          desc = "git [D]iff against last commit";
+        };
+      }
+
+      # Gitsigns Toggles
+      {
+        mode = "n";
+        key = "<leader>tb";
+        action.__raw = ''
+          function()
+            require('gitsigns').toggle_current_line_blame()
+          end
+        '';
+        options = {
+          desc = "[T]oggle git show [b]lame line";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>hi";
+        action.__raw = ''
+          function()
+            require('gitsigns').preview_hunk_inline()
+          end
+        '';
+        options = {
+          desc = "git preview hunk [i]nline";
+        };
+      }
+
+      # Toggle inlay hints
+      {
+        mode = "n";
+        key = "<leader>th";
+        action.__raw = ''
+          function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+          end
+        '';
+        options = {
+          desc = "[T]oggle inlay [h]ints";
+        };
       }
     ];
 

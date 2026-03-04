@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -16,6 +17,10 @@
     settings = {
       font-family = "Hack Nerd Font";
       theme = "\"Gruvbox Dark Hard\"";
+      command = "${config.programs.fish.package}/bin/fish";
+      cursor-style = "underline";
+      cursor-style-blink = true;
+      background-opacity = 0.95;
     };
   };
 }

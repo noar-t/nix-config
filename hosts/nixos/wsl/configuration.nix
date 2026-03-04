@@ -27,6 +27,7 @@
   environment.systemPackages = with pkgs; [
     borgbackup
     cargo
+    claude-code
     eza
     elixir
     ffmpeg
@@ -43,6 +44,7 @@
     stress
     tmux
     tree
+    texliveFull
     wget
   ];
 
