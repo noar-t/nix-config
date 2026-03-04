@@ -20,6 +20,7 @@
             ../modules/nixos/disk-monitor.nix
             ../modules/nixos/failed-unit-notifier.nix
             ../modules/nixos/btrfs-scrub.nix
+            inputs.determinate.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager = {
