@@ -76,8 +76,6 @@
   environment.systemPackages = with pkgs; [
     docker
     docker-compose
-    claude-code
-    claude-monitor
     unzip
     zip
     git

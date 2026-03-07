@@ -82,8 +82,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     cargo
-    claude-code
-    claude-monitor
     docker
     docker-compose
     dust

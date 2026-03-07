@@ -15,6 +15,7 @@
             { nixpkgs.hostPlatform = system; }
             ../hosts/nixos/${hostName}/configuration.nix
             ../modules/nixos/base-packages.nix
+            ../modules/nixos/claude.nix
             ../modules/nixos/gui-packages.nix
             ../modules/nixos/nix.nix
             ../modules/nixos/disk-monitor.nix
