@@ -9,6 +9,11 @@ let
   cfg = config.services.btrfs-scrub;
   ntfy = import ../../lib/ntfy.sh.nix { inherit pkgs; };
 
+  intervalToCalendar = {
+    monthly = "*-*-01 02:00:00";
+    quarterly = "*-01,04,07,10-01 02:00:00";
+  };
+
   # Escape a filesystem path for use in systemd unit names
   escapePath =
     path:
@@ -17,9 +22,54 @@ let
     in
     if stripped == "" then "root" else builtins.replaceStrings [ "/" ] [ "-" ] stripped;
 
+  fsSubmodule = lib.types.submodule {
+    options = {
+      mount = lib.mkOption {
+        type = lib.types.str;
+        description = "BTRFS filesystem mount path to scrub";
+      };
+
+      resumeTime = lib.mkOption {
+        type = lib.types.str;
+        default = cfg.defaults.resumeTime;
+        defaultText = lib.literalExpression "config.services.btrfs-scrub.defaults.resumeTime";
+        description = "Systemd OnCalendar expression for when to resume scrubs";
+      };
+
+      pauseTime = lib.mkOption {
+        type = lib.types.str;
+        default = cfg.defaults.pauseTime;
+        defaultText = lib.literalExpression "config.services.btrfs-scrub.defaults.pauseTime";
+        description = "Systemd OnCalendar expression for when to pause scrubs";
+      };
+
+      startInterval = lib.mkOption {
+        type = lib.types.enum [ "monthly" "quarterly" ];
+        default = cfg.defaults.startInterval;
+        defaultText = lib.literalExpression "config.services.btrfs-scrub.defaults.startInterval";
+        description = "How often to start fresh scrubs";
+      };
+
+      ioSchedulingClass = lib.mkOption {
+        type = lib.types.str;
+        default = cfg.defaults.ioSchedulingClass;
+        defaultText = lib.literalExpression "config.services.btrfs-scrub.defaults.ioSchedulingClass";
+        description = "I/O scheduling class for scrub processes";
+      };
+
+      cpuSchedulingPolicy = lib.mkOption {
+        type = lib.types.str;
+        default = cfg.defaults.cpuSchedulingPolicy;
+        defaultText = lib.literalExpression "config.services.btrfs-scrub.defaults.cpuSchedulingPolicy";
+        description = "CPU scheduling policy for scrub processes";
+      };
+    };
+  };
+
   mkScrubUnits =
-    fs:
+    fsCfg:
     let
+      fs = fsCfg.mount;
       name = escapePath fs;
       btrfs = "${pkgs.btrfs-progs}/bin/btrfs";
     in
@@ -29,8 +79,8 @@ let
           description = "BTRFS scrub start for ${fs}";
           serviceConfig = {
             Type = "oneshot";
-            IOSchedulingClass = cfg.ioSchedulingClass;
-            CPUSchedulingPolicy = cfg.cpuSchedulingPolicy;
+            IOSchedulingClass = fsCfg.ioSchedulingClass;
+            CPUSchedulingPolicy = fsCfg.cpuSchedulingPolicy;
             Nice = 19;
           };
           script = ''
@@ -61,8 +111,8 @@ let
           description = "BTRFS scrub resume for ${fs}";
           serviceConfig = {
             Type = "oneshot";
-            IOSchedulingClass = cfg.ioSchedulingClass;
-            CPUSchedulingPolicy = cfg.cpuSchedulingPolicy;
+            IOSchedulingClass = fsCfg.ioSchedulingClass;
+            CPUSchedulingPolicy = fsCfg.cpuSchedulingPolicy;
             Nice = 19;
           };
           script = ''
@@ -120,7 +170,8 @@ let
             fi
           '';
         };
-      } // lib.optionalAttrs (cfg.ntfyTopicFile != null) {
+      }
+      // lib.optionalAttrs (cfg.ntfyTopicFile != null) {
         "btrfs-scrub-notify-failure-${name}" = {
           description = "Send notification when BTRFS scrub fails on ${fs}";
           serviceConfig = {
@@ -150,7 +201,7 @@ let
           description = "Timer for BTRFS scrub start on ${fs}";
           wantedBy = [ "timers.target" ];
           timerConfig = {
-            OnCalendar = cfg.startInterval;
+            OnCalendar = intervalToCalendar.${fsCfg.startInterval};
             Persistent = true;
           };
         };
@@ -159,7 +210,7 @@ let
           description = "Timer for BTRFS scrub resume on ${fs}";
           wantedBy = [ "timers.target" ];
           timerConfig = {
-            OnCalendar = cfg.resumeTime;
+            OnCalendar = fsCfg.resumeTime;
             Persistent = false;
           };
         };
@@ -168,7 +219,7 @@ let
           description = "Timer for BTRFS scrub pause on ${fs}";
           wantedBy = [ "timers.target" ];
           timerConfig = {
-            OnCalendar = cfg.pauseTime;
+            OnCalendar = fsCfg.pauseTime;
             Persistent = false;
           };
         };
@@ -176,55 +227,29 @@ let
     };
 
   # Merge all per-filesystem units
-  allUnits = lib.foldl' (
-    acc: fs:
+  mergeUnits =
+    acc: fsCfg:
     let
-      units = mkScrubUnits fs;
+      units = mkScrubUnits fsCfg;
     in
     {
       services = acc.services // (units.services or { });
       timers = acc.timers // (units.timers or { });
-    }
-  ) { services = { }; timers = { }; } cfg.fileSystems;
+    };
+
+  allUnits = lib.foldl' mergeUnits {
+    services = { };
+    timers = { };
+  } cfg.fileSystems;
 in
 {
   options.services.btrfs-scrub = {
     enable = lib.mkEnableOption "BTRFS scrub with day/night scheduling";
 
     fileSystems = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ "/" ];
-      description = "List of BTRFS filesystem paths to scrub";
-    };
-
-    resumeTime = lib.mkOption {
-      type = lib.types.str;
-      default = "*-*-* 22:00:00";
-      description = "Systemd OnCalendar expression for when to resume scrubs (evening)";
-    };
-
-    pauseTime = lib.mkOption {
-      type = lib.types.str;
-      default = "*-*-* 08:00:00";
-      description = "Systemd OnCalendar expression for when to pause scrubs (morning)";
-    };
-
-    startInterval = lib.mkOption {
-      type = lib.types.str;
-      default = "monthly";
-      description = "Systemd OnCalendar expression for when to start fresh scrubs";
-    };
-
-    ioSchedulingClass = lib.mkOption {
-      type = lib.types.str;
-      default = "idle";
-      description = "I/O scheduling class for scrub processes";
-    };
-
-    cpuSchedulingPolicy = lib.mkOption {
-      type = lib.types.str;
-      default = "idle";
-      description = "CPU scheduling policy for scrub processes";
+      type = lib.types.listOf fsSubmodule;
+      default = [ ];
+      description = "List of BTRFS filesystems to scrub, each with its own schedule options";
     };
 
     ntfyTopicFile = lib.mkOption {
@@ -232,9 +257,48 @@ in
       default = null;
       description = "Path to file containing ntfy topic for failure notifications";
     };
+
+    defaults = {
+      resumeTime = lib.mkOption {
+        type = lib.types.str;
+        default = "*-*-* 02:00:00";
+        description = "Default systemd OnCalendar expression for when to resume scrubs";
+      };
+
+      pauseTime = lib.mkOption {
+        type = lib.types.str;
+        default = "*-*-* 08:00:00";
+        description = "Default systemd OnCalendar expression for when to pause scrubs";
+      };
+
+      startInterval = lib.mkOption {
+        type = lib.types.enum [ "monthly" "quarterly" ];
+        default = "monthly";
+        description = "Default scrub frequency";
+      };
+
+      ioSchedulingClass = lib.mkOption {
+        type = lib.types.str;
+        default = "idle";
+        description = "Default I/O scheduling class for scrub processes";
+      };
+
+      cpuSchedulingPolicy = lib.mkOption {
+        type = lib.types.str;
+        default = "idle";
+        description = "Default CPU scheduling policy for scrub processes";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = !config.services.btrfs.autoScrub.enable;
+        message = "services.btrfs.autoScrub.enable must be false when using services.btrfs-scrub, as they would conflict.";
+      }
+    ];
+
     systemd.services = allUnits.services;
     systemd.timers = allUnits.timers;
   };
