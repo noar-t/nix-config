@@ -18,7 +18,7 @@
     gotop # fancy resource viewer
     htop # process manager
     memtester # memory tester
-    neofetch # terminal eye candy
+    fastfetch # terminal eye candy
     nix-index # search for which nix package provides a file
     opencode # open source code editor
     stress # stress test

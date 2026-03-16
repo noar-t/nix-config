@@ -111,7 +111,6 @@
     lm_sensors
     mako # wayland notification daemon
     memtester
-    neofetch
     neovim
     nix-index
     piper
