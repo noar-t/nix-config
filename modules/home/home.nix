@@ -34,6 +34,7 @@
     # opensnitch # interactive firewall
     # opensnitch-ui # interactive firewall
     just # Simple make like tool
+    devenv # Developer environments for flakes
   ];
 
   programs.home-manager.enable = true;
